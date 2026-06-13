@@ -1,0 +1,75 @@
+import CompleteInfoModal from "@/components/auth/CompleteInfoModal";
+import LeftSidebar from "@/components/main/LeftSidebar";
+import RightSidebar from "@/components/main/RightSidebar";
+import ActiveAuthorNotify from "@/components/ui/ActiveAuthorNotify/ActiveAuthorNotiy";
+import connectToDB from "@/config/db";
+import hashtagModel from "@/models/hashtag";
+import notifyModel from "@/models/notifications";
+import postsModel from "@/models/posts";
+import usersModel from "@/models/users";
+import { generateToken, verifyToken } from "@/utils/auth";
+import { shuffle } from "lodash-es";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
+import { NextResponse } from "next/server";
+
+const MainLayout = async ({ children }) => {
+  await connectToDB();
+  // validate token
+  const token = (await cookies()).get("token");
+  const refreshToken = (await cookies()).get("refreshToken");
+  let validToken = null;
+  if (token?.value) {
+    validToken = verifyToken(token?.value);
+  }
+  if (!validToken && refreshToken?.value) {
+    const validRefreshToken = verifyToken(refreshToken?.value);
+    if (!validRefreshToken) {
+      validToken = null;
+      redirect("/");
+    }
+
+    validToken = validRefreshToken;
+  }
+  // validate user
+  const user = await usersModel
+    .findOne(
+      { email: validToken?.email },
+      " -provider -password -emailVerified -updatedAt ",
+    )
+    .lean();
+  if (!user) {
+    redirect("/auth");
+  }
+
+  const userId = JSON.parse(JSON.stringify(user));
+  const notificationsCount = await notifyModel.countDocuments({
+    recipientId: user?._id,
+    actorIds: { $exists: true, $not: { $size: 0 } },
+    isRead: false,
+  }).lean();
+
+  return (
+    <div className="grid grid-cols-[325px_1fr_400px] gap-x-7 w-10/12 mx-auto h-full relative">
+      <RightSidebar
+        username={user?.username}
+        name={
+          user?.firstName && user.lastName
+            ? `${user.firstName} ${user.lastName}`
+            : user?.organizationName
+        }
+        avatar={user?.avatar}
+        notificationCount={notificationsCount}
+      />
+      <div className=" border border-x-[#34344E]">{children}</div>
+      <LeftSidebar />
+
+      {!user.organizationName && (!user.firstName || !user.lastName) && (
+        <CompleteInfoModal />
+      )}
+      <ActiveAuthorNotify userId={userId._id} />
+    </div>
+  );
+};
+
+export default MainLayout;
