@@ -13,7 +13,7 @@ const TrendPage = async () => {
     .lean();
   return (
     <div>
-      <PageHeader />
+      <PageHeader title="موضوعات داغ"/>
 
       <ScrollShadow className="mt-4">
         {hashtags.map((trend) => (

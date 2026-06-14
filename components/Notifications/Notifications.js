@@ -133,7 +133,7 @@ const Notifications = () => {
           </Tabs.List>
         </Tabs.ListContainer>
         <div className="relative h-[calc(100vh-150px)]">
-          {isFetching && <Loader />}
+        isFetching
 
           {!isFetching ? (
             <Virtuoso

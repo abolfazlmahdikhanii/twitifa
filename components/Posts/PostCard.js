@@ -1,56 +1,24 @@
 "use client";
-import { Card, CardContent, CardFooter, CardHeader } from "@heroui/react";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useAuth } from "@/context/AuthContext";
-import PostFooter from "./PostFooter";
-import PostContent from "./PostContent";
-import PostHeader from "./PostHeader";
-import PostDialogs from "./PostDialogs";
 import usePostAction from "@/hooks/usePostAction";
+import { Card, CardContent, CardFooter, CardHeader } from "@heroui/react";
+import { useCallback, useMemo } from "react";
 import QuoteCard from "../ui/QuoteCard/QuoteCard";
 import ReplyModal from "../ui/ReplyModal/ReplyModal";
-import { useQuery } from "@tanstack/react-query";
+import PostContent from "./PostContent";
+import PostDialogs from "./PostDialogs";
+import PostFooter from "./PostFooter";
+import PostHeader from "./PostHeader";
 
+import usePostDialogs from "@/hooks/usePostDialogs";
 import usePostInfo from "@/hooks/usePostInfo";
 import { usePostView } from "@/hooks/usePostView";
 import { getAuthorName } from "@/utils/post";
 import TrackingPixel from "../ui/TrackingPixel/TrackingPixel";
-import usePostDialogs from "@/hooks/usePostDialogs";
+import { useRouter } from "next/navigation";
 // import Image from "next/image";
 
 const PostCard = ({
-  // textContent,
-  // author,
-  // poll,
-  // media,
-  // hasVote,
-  // isOwner,
-  // isUserLogin,
-  // totalVote,
-  // isExpired,
-  // updatedAt,
-  // votedOption,
-  // replySettings,
-  // likesCount,
-  // isLiked,
-  // isReposted,
-  // isQuoteRepost,
-  // retweetedFrom,
-  // quoteContent,
-  // repostsCount,
-  // isUserReposted,
-  // isReply,
-  // ReplyCount,
-  // isFirstReply,
-  // _id,
-  // isPin,
-  // isUserPage = false,
-  // currentPage = "",
-  // viewCount,
-  // lastReply = false,
-  // replyHeader,
-  // isShowReplyHeader,
-  // repliedUser,
   post,
   isReply = false,
   isFirstReply = false,
@@ -62,10 +30,11 @@ const PostCard = ({
   onReplyClick,
   isReplyModal = false,
   replyLevel = 1,
+  isPostDetail = false,
 }) => {
   const { likes, reposts, replies, pin, replySetting, views, replyCount } =
     usePostInfo(post?._id);
-
+  const router = useRouter();
   const { showChangeReply, setShowChangeReply } = usePostAction(
     post?._id,
     null,
@@ -108,12 +77,18 @@ const PostCard = ({
         ))
     : false;
 
+  const gotoPostInfo = () => {
+    router.push(`/${post.author.username}/status/${post._id}`);
+  };
   return (
     <>
       <Card
-        className={`bg-transparent px-8   ${!isReply ? "pb-4.5  pt-3.5  border-b" : `pb-11.5 ${isFirstReply ? "pt-3.5" : "-mt-6"} `} ${isReply && lastReply && !isReplyModal ? "border-b" : ""}  rounded-none`}
+        className={`bg-transparent px-8 ${!isReplyModal?"transition-all duration-200 hover:bg-[#121225]":""}  ${!isReply ? "pb-4.5  pt-3.5  border-b" : `pb-11.5 ${isFirstReply ? "pt-3.5" : "-mt-6"} `} ${isReply && lastReply && !isReplyModal ? "border-b" : ""}  rounded-none`}
         ref={postRef}
-        onClick={trackClick}
+        onClick={()=>{
+          trackClick()
+          gotoPostInfo()
+        }}
       >
         <TrackingPixel postId={post._id} />
 
@@ -132,6 +107,7 @@ const PostCard = ({
             selfReply={selfReply}
             replyLevel={replyLevel}
             isReplyModal={isReplyModal}
+            isPostDetail={isPostDetail}
           />
         </CardHeader>
         <CardContent className=" pr-18 ">

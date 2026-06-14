@@ -1,11 +1,9 @@
 import connectToDB from "@/config/db";
 import hashtagModel from "@/models/hashtag";
 import notifyModel from "@/models/notifications";
-import pollModel from "@/models/polls";
-import postLikesModel from "@/models/postLikes";
 import postsModel from "@/models/posts";
-import postViews from "@/models/postViews";
 import usersModel from "@/models/users";
+import { getPostInfo } from "@/services/postInfoService";
 import { verifyToken } from "@/utils/auth";
 import { isValidObjectId } from "mongoose";
 import { cookies } from "next/headers";
@@ -206,6 +204,61 @@ export const PUT = async (req, { params }) => {
     }
     return Response.json(
       { message: "پست با موفقیت ویرایش شد", post: newPost },
+      { status: 200 },
+    );
+  } catch (error) {
+    console.log(error);
+    return Response.json(
+      { message: "خطایی در سرور رخ داده است" },
+      { status: 500 },
+    );
+  }
+};
+export const GET = async (req, { params }) => {
+  try {
+    await connectToDB();
+
+    const { postId } = await params;
+    await connectToDB();
+    const token = (await cookies()).get("token");
+    const searchParams = req.nextUrl.searchParams;
+    const cursor = searchParams.get("cursor");
+    const limit = searchParams.get("limit");
+
+    // check user is login
+    let currentUser = null;
+    if (token && token.value) {
+      const validToken = verifyToken(token?.value);
+      if (!validToken) currentUser = null;
+
+      if (validToken) {
+        currentUser = await usersModel
+          .findOne(
+            { email: validToken.email },
+            "-provider -password -emailVerified -updatedAt",
+          )
+          .lean();
+      }
+    }
+
+    // validate postId
+    if (!isValidObjectId(postId)) {
+      return Response.json(
+        {
+          message: "شناسه پست نامعتبر است!",
+        },
+        { status: 404 },
+      );
+    }
+    const result = await getPostInfo(postId, currentUser, cursor, limit);
+
+    return Response.json(
+      {
+        postInfo: result.postInfo,
+        posts: result.posts,
+        hasMore: result.hasMore,
+        nextCursor: result.nextCursor,
+      },
       { status: 200 },
     );
   } catch (error) {

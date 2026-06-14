@@ -1,12 +1,12 @@
 "use client";
-import React, { useCallback, useEffect, useRef, useState } from "react";
-import HoverProfile from "../ui/Profile/HoverProfile";
-import { Avatar, Button, Dropdown, Label } from "@heroui/react";
-import Image from "next/image";
+import { useAuth } from "@/context/AuthContext";
+import useFollow from "@/hooks/useFollow";
+import usePostAction from "@/hooks/usePostAction";
+import { getAuthorName, getHighlightedHTML } from "@/utils/post";
+import { Button, Dropdown, Label } from "@heroui/react";
 import DOMPurify from "isomorphic-dompurify";
 import {
   Ban,
-  Dot,
   Ellipsis,
   Flag,
   MessageCircle,
@@ -16,15 +16,10 @@ import {
   UserMinus,
   UserPlus,
 } from "lucide-react";
-import usePostAction from "@/hooks/usePostAction";
-import {
-  formatTimeCreated,
-  getAuthorName,
-  getHighlightedHTML,
-} from "@/utils/post";
-import Link from "next/link";
-import useFollow from "@/hooks/useFollow";
-import { useAuth } from "@/context/AuthContext";
+import { useCallback, useEffect, useRef, useState } from "react";
+import AuthorInfo from "../ui/AuthorInfo/AuthorInfo";
+import AuthorPostInfo from "../ui/AuthorPostInfo/AuthorPostInfo";
+import HoverProfile from "../ui/Profile/HoverProfile";
 import RepliedUsers from "../ui/RepliedUsers/RepliedUsers";
 
 const PostHeader = ({
@@ -40,8 +35,9 @@ const PostHeader = ({
   pin,
   isQuote,
   selfReply = false,
-  isReplyModal=false,
+  isReplyModal = false,
   replyLevel = 1,
+  isPostDetail = false,
 }) => {
   const { postPinHandler } = usePostAction(
     post._id,
@@ -128,7 +124,7 @@ const PostHeader = ({
     <div className=" flex items-center gap-x-4.5 w-full">
       <div className="w-full">
         <div className="flex items-center justify-between w-full mt-2">
-          <div>
+          <div className="w-full">
             {post.isReposted && post.retweetedFrom && !post.isQuoteRepost && (
               <RepostHeader
                 author={displayUser}
@@ -163,25 +159,29 @@ const PostHeader = ({
               </div>
             )}
             {/* Author Info */}
-            <AuthorInfo
-              displayUser={displayUser}
-              displayName={displayName}
-              username={username}
-              updatedAt={
-                post.isReposted || post.isQuoteRepost
-                  ? post.retweetedFrom.updatedAt
-                  : post.updatedAt
-              }
-              author={post.author}
-              selfReply={selfReply}
-            />
+            {!isPostDetail ? (
+              <AuthorInfo
+                displayUser={displayUser}
+                displayName={displayName}
+                username={username}
+                updatedAt={
+                  post.isReposted || post.isQuoteRepost
+                    ? post.retweetedFrom.updatedAt
+                    : post.updatedAt
+                }
+                author={post.author}
+                selfReply={selfReply}
+              />
+            ) : (
+              <AuthorPostInfo {...post.author} />
+            )}
             {post.isReply && !selfReply && repliedUser && (
               <RepliedUsers repliedUser={repliedUser} selfReply={selfReply} />
             )}
           </div>
           {/* dropdown */}
-          {!isQuote&&!isReplyModal && (
-            <div ref={btnRef}>
+          {!isQuote && !isReplyModal && (
+            <div ref={btnRef} className="mr-2">
               {isPostOwner ? (
                 <Dropdown key={dialog || showChangeReply ? "active" : "normal"}>
                   <Button variant="ghost" isIconOnly>
@@ -258,7 +258,7 @@ const PostHeader = ({
         {/* content */}
         {/* text */}
 
-        {post.isReply  && !post.lastReply && (
+        {post.isReply && !post.lastReply && (
           <div
             className={`w-0.5 h-full bg-[#34344E] grow absolute ${selfReply ? "top-11" : "top-20"} right-15 bottom-0 last-of-type:hidden`}
           ></div>
@@ -316,67 +316,5 @@ const RepostHeader = ({ author, retweetedFrom, authorName }) => {
         </p>
       </HoverProfile>
     </div>
-  );
-};
-
-const AuthorInfo = ({
-  displayUser,
-  displayName,
-  username,
-  updatedAt,
-  selfReply,
-}) => {
-  return (
-    <HoverProfile userInfo={displayUser}>
-      <div className="flex items-center cursor-pointer relative">
-        <div
-          className={`self-start ml-4.5 ${selfReply ? "mr-11" : " "} relative`}
-        >
-          <Avatar className="size-14 relative z-1">
-            <Avatar.Image
-              src={
-                displayUser?.avatar ||
-                "https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/blue.jpg"
-              }
-              alt={displayName}
-            />
-            <Avatar.Fallback className="uppercase">
-              {username?.charAt(0)}
-            </Avatar.Fallback>
-          </Avatar>
-          {selfReply && (
-            <div className="absolute w-0.5 -top-6 -right-4 bg-[#34344E] h-8 ">
-              <div className="rounded-b-[20px] border-s-2 -bottom-8 absolute border-s-[#34344E] w-22 h-22 right-0"></div>
-            </div>
-          )}
-        </div>
-        <Link className="flex items-center" href={`/${username}`}>
-          <span className="text-lg font-bold truncate">{displayName}</span>
-          {!displayUser?.isVerified && (
-            <Image
-              src="/images/verified-business.png"
-              alt="verified"
-              width={20}
-              height={20}
-              className="object-cover size-5 shrink-0 mr-1.5 -mt-1.5"
-            />
-          )}
-        </Link>
-        <Link href={`/${username}`}>
-          <span
-            className="dark:text-neutral-400 text-neutral-500 mr-2.25  text-[16px] inline-block"
-            dir="auto"
-          >
-            @{username}
-          </span>
-        </Link>
-        <span className="mx-1 dark:text-neutral-400 text-neutral-500">
-          <Dot size={16} />
-        </span>
-        <span className="dark:text-neutral-400 text-neutral-500  text-[15px]">
-          {formatTimeCreated(updatedAt)}
-        </span>
-      </div>
-    </HoverProfile>
   );
 };
