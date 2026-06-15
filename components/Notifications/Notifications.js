@@ -78,14 +78,6 @@ const Notifications = () => {
     );
   }, [allNotifications]);
 
-  const Footer = () => {
-    return isFetchingNextPage ? (
-      <div className="py-4 flex justify-center">
-        <Loader />
-      </div>
-    ) : null;
-  };
-
   return (
     <>
       <header>
@@ -133,8 +125,6 @@ const Notifications = () => {
           </Tabs.List>
         </Tabs.ListContainer>
         <div className="relative h-[calc(100vh-150px)]">
-        isFetching
-
           {!isFetching ? (
             <Virtuoso
               data={displayedData}
@@ -162,7 +152,7 @@ const Notifications = () => {
                 ),
               }}
             />
-          ) : null}
+          ) : <Loader/>}
         </div>
       </Tabs>
     </>

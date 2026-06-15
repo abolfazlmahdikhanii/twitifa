@@ -1,67 +1,66 @@
 "use client";
+import { Button, Dropdown, Label } from "@heroui/react";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { useEffect, useMemo, useState } from "react";
+import { ChevronDown, ChevronRight } from "lucide-react";
+import Link from "next/link";
+import { useMemo, useState } from "react";
 import { Virtuoso } from "react-virtuoso";
+import PostBox from "../main/PostBox";
 import PostCard from "../Posts/PostCard";
 import Loader from "../ui/Loader/Loader";
+import RepliedUsers from "../ui/RepliedUsers/RepliedUsers";
 
-const PostInfoPage = ({ postId, initialPosts }) => {
-  const [isMounted, setIsMounted] = useState(false);
+const PostInfoPage = ({ postId, mainPost, initialPosts }) => {
+  const [sort, setSort] = useState("new");
+  const {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    isLoading,
+    isFetching,
+  } = useInfiniteQuery({
+    queryKey: ["post-detail", postId, sort],
+    queryFn: async ({ pageParam = null }) => {
+      const res = await fetch(
+        `/api/posts/${postId}?sort=${sort}&cursor=${pageParam ?? ""}`,
+      );
+      if (!res.ok) throw new Error("Network error");
+      return res.json();
+    },
+    getNextPageParam: (lastPage) =>
+      lastPage.hasMore ? lastPage.nextCursor : undefined,
+    initialPageParam: null,
+    staleTime: 1000 * 30,
+    initialData:
+      sort === "new"
+        ? {
+            pages: [
+              {
+                posts: initialPosts?.posts ?? [],
+                hasMore: initialPosts?.hasMore,
+                nextCursor: initialPosts?.nextCursor,
+              },
+            ],
+            pageParams: [null],
+          }
+        : undefined,
+  });
 
-  useEffect(() => {
-    const time = setTimeout(() => setIsMounted(true), 0);
-    return () => clearTimeout(time);
-  }, []);
-
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isFetching } =
-    useInfiniteQuery({
-      queryKey: ["post-detail", postId],
-      queryFn: async ({ pageParam = null }) => {
-        const res = await fetch(
-          `/api/posts/${postId}?cursor=${pageParam ?? ""}`,
-        );
-        if (!res.ok) throw new Error("Network error");
-        return res.json();
-      },
-      getNextPageParam: (lastPage) =>
-        lastPage.hasMore ? lastPage.nextCursor : undefined,
-      initialPageParam: null,
-      staleTime: 1000 * 30,
-      initialData: {
-        pages: [
-          {
-            postInfo: initialPosts.postInfo,
-            posts: initialPosts.posts ?? [],
-            hasMore: initialPosts.hasMore,
-            nextCursor: initialPosts.nextCursor,
-          },
-        ],
-        pageParams: [null],
-      },
-    });
-
-  const mainPost = useMemo(() => data?.pages?.[0]?.postInfo, [data]);
   const replies = useMemo(
     () => data?.pages?.flatMap((page) => page.posts ?? []) ?? [],
     [data],
   );
 
-  if (!isMounted) {
-    return (
-      <div className="h-[calc(100vh-90px)]">
-        <Loader />
-      </div>
-    );
-  }
+  const sortToPersian = (key) => {
+   
+     if (key === "old") return "قدیمی ترین";
+    else return "جدید ترین";
+  };
 
   return (
-    <div className="relative h-[calc(100vh-90px)] overflow-auto">
-      {mainPost && (
-        <PostCard post={{ ...mainPost, isPostDetail: true }} isPostDetail />
-      )}
-
+    <div className="h-[calc(100vh-90px)]">
       <Virtuoso
-        useWindowScroll
         data={replies}
         endReached={() => {
           if (hasNextPage && !isFetchingNextPage) fetchNextPage();
@@ -69,20 +68,83 @@ const PostInfoPage = ({ postId, initialPosts }) => {
         computeItemKey={(index, item) =>
           item?._id ? String(item._id) : `item-${index}`
         }
-        itemContent={(_, item) => <PostCard post={item} />}
+        itemContent={(_, item) => {
+          if (isLoading) return <Loader />;
+          return <PostCard post={item} />;
+        }}
         components={{
+          Header: () => (
+            <div>
+              {mainPost && (
+                <>
+                  <PostCard
+                    post={{ ...mainPost, isPostDetail: true }}
+                    isPostDetail
+                  />
+                  <div>
+                    <div className="flex item-center justify-between w-full pr-10 pl-5 py-3.75 border-b border-b-[#34344e]">
+                      <Link
+                        className="flex items-center gap-x-0.5 text-[15px] transition-all border-b border-b-transparent duration-200 hover:border-b-muted text-muted"
+                        href="#"
+                      >
+                        <ChevronRight size={16} />
+                        نقل قول ها
+                      </Link>
+                      <div>
+                        <Dropdown>
+                          <Button aria-label="Menu" variant="outline">
+                            {sortToPersian(sort)}
+                            <ChevronDown size={16} />
+                          </Button>
+                          <Dropdown.Popover
+                            className={"min-w-42.5 shadow-none"}
+                          >
+                            <Dropdown.Menu onAction={(key) => setSort(key)}>
+                               <Dropdown.Item id="new" textValue="new">
+                                <Label>جدید ترین</Label>
+                              </Dropdown.Item>
+                              <Dropdown.Item id="old" textValue="old">
+                                <Label>قدیمی ترین</Label>
+                              </Dropdown.Item>
+                             
+                            
+                            </Dropdown.Menu>
+                          </Dropdown.Popover>
+                        </Dropdown>
+                      </div>
+                    </div>
+                    <div className="pr-23 pt-4 pb-2">
+                      <RepliedUsers
+                        repliedUser={{ users: [mainPost.author] }}
+                      />
+                    </div>
+                    <PostBox isReply={true} pId={postId} />
+                  </div>
+                </>
+              )}
+            </div>
+          ),
+
           Footer: () =>
             isFetchingNextPage ? (
               <div className="py-4 flex justify-center">
                 <Loader />
               </div>
             ) : null,
-          EmptyPlaceholder: () =>
-            replies.length === 0 ? (
+          EmptyPlaceholder: () => {
+            if (isFetching && !isFetchingNextPage) {
+              return (
+                <div className="py-10 flex justify-center">
+                  <Loader />
+                </div>
+              );
+            }
+            return (
               <div className="text-center text-gray-500 py-10">
                 هیچ ریپلایی یافت نشد
               </div>
-            ) : null,
+            );
+          },
         }}
       />
     </div>

@@ -1,132 +1,148 @@
 "use client";
-import { useInfiniteQuery } from "@tanstack/react-query";
 import { Tabs } from "@heroui/react";
+import { useInfiniteQuery } from "@tanstack/react-query";
+import { useEffect, useMemo, useState, useTransition } from "react";
+import { Virtuoso } from "react-virtuoso";
 import PostCard from "../Posts/PostCard";
 import Loader from "../ui/Loader/Loader";
-import EmptyData from "../ui/EmptyData/EmptyData";
-import { useMemo, useState } from "react";
-import { Virtuoso } from "react-virtuoso";
+
+const TABS = [
+  { id: "newest", label: "تازه ها" },
+  { id: "pictures", label: "تصاویر" },
+  { id: "videos", label: "ویدئوها" },
+];
+
+const TAB_CLASS =
+  "w-full py-7 text-base text-neutral-500 dark:text-neutral-400 dark:data-[selected=true]:text-white border-b-4 border-transparent data-[selected=true]:border-[#1111D4] rounded-none data-[selected=true]:font-bold before:hidden";
+
+const filterPosts = (posts, tab) => {
+  const nonReplies = posts.filter((p) => !p.replyToPost);
+  if (tab === "pictures")
+    return nonReplies.filter((p) => p.media?.some((m) => m.mediaType === "image"));
+  if (tab === "videos")
+    return nonReplies.filter((p) => p.media?.some((m) => m.mediaType === "video"));
+  return nonReplies;
+};
 
 const HashtagPage = ({ initialPosts, hashtagName }) => {
   const [activeTab, setActiveTab] = useState("newest");
+  const [isTabPending, startTabTransition] = useTransition();
+  const [isMounted, setIsMounted] = useState(false);
 
-  const { data, isPending, fetchNextPage, hasNextPage, isFetchingNextPage } =
-    useInfiniteQuery({
-      queryKey: ["hashtag", hashtagName],
-      queryFn: async ({ pageParam = null }) => {
-        const res = await fetch(
-          `/api/hashtags/${hashtagName}?cursor=${pageParam || ""}`,
-        );
-        if (!res.ok) throw new Error("Network error");
-        return await res.json();
-      },
-      getNextPageParam: (lastPage) =>
-        lastPage.hasMore ? lastPage.nextCursor : undefined,
-      initialPageParam: null,
-      initialData: initialPosts
-        ? {
-            pages: [
-              {
-                posts: initialPosts.posts,
-                hasMore: initialPosts.hasMore,
-                nextCursor: initialPosts.nextCursor,
-              },
-            ],
-            pageParams: [null],
-          }
-        : undefined,
-    });
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
-  const allPosts = useMemo(() => {
-    if (!data?.pages) return [];
-    return data.pages.flatMap((page) => page.posts);
-  }, [data]);
-
-  const filteredData = useMemo(() => {
-    if (!allPosts) return [];
-
-    if (activeTab === "pictures") {
-      return allPosts.filter(
-        (post) =>
-          !post.replyToPost &&
-          Array.isArray(post.media) &&
-          post.media.some((item) => item.mediaType === "image"),
+  const {
+    data,
+    isPending: isQueryPending,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    isFetching,
+  } = useInfiniteQuery({
+    queryKey: ["hashtag", hashtagName],
+    queryFn: async ({ pageParam = null }) => {
+      const res = await fetch(
+        `/api/hashtags/${hashtagName}?cursor=${pageParam ?? ""}`,
       );
-    }
+      if (!res.ok) throw new Error("Network error");
+      return res.json();
+    },
+    getNextPageParam: (lastPage) =>
+      lastPage.hasMore ? lastPage.nextCursor : undefined,
+    initialPageParam: null,
+    staleTime: 1000 * 30,
+    initialData: {
+      pages: [
+        {
+          posts: initialPosts?.posts ?? [],
+          hasMore: initialPosts?.hasMore,
+          nextCursor: initialPosts?.nextCursor,
+        },
+      ],
+      pageParams: [null],
+    },
+  });
 
-    if (activeTab === "videos") {
-      return allPosts.filter(
-        (post) =>
-          !post.replyToPost &&
-          Array.isArray(post.media) &&
-          post.media.some((item) => item.mediaType === "video"),
-      );
-    }
+  const allPosts = useMemo(
+    () => data?.pages.flatMap((page) => page.posts) ?? [],
+    [data],
+  );
 
-    return allPosts.filter((post) => !post.replyToPost);
-  }, [allPosts, activeTab]);
+  const filteredData = useMemo(
+    () => filterPosts(allPosts, activeTab),
+    [allPosts, activeTab],
+  );
 
-  const Footer = () => {
-    return isFetchingNextPage ? (
-      <div className="py-4 flex justify-center">
-        <Loader />
-      </div>
-    ) : null;
+  const handleTabChange = (key) => {
+    startTabTransition(() => setActiveTab(key));
   };
 
-  if (isPending) return <Loader />;
+  const showLoader = !isMounted || isQueryPending || isTabPending;
+  const showBackgroundRefetch = isFetching && !isFetchingNextPage && !showLoader;
 
   return (
-    <Tabs
-      selectedKey={activeTab}
-      onSelectionChange={(key) => setActiveTab(key)}
-      className="w-full mt-2"
-      orientation="horizontal"
-    >
-      <Tabs.ListContainer>
-        <Tabs.List
-          aria-label="Hashtag Tabs"
-          className="gap-2 w-full relative rounded-none p-0 border-b border-[#34344E] bg-transparent px-12"
-        >
-          <Tabs.Tab
-            id="newest"
-            className="w-full py-7 text-base text-neutral-500 dark:text-neutral-400 dark:data-[selected=true]:text-white border-b-4 border-transparent data-[selected=true]:border-[#1111D4] rounded-none data-[selected=true]:font-bold before:hidden"
+    <div className="flex flex-col h-full">
+      <Tabs
+        selectedKey={activeTab}
+        onSelectionChange={handleTabChange}
+        className="w-full mt-2 shrink-0"
+        orientation="horizontal"
+      >
+        <Tabs.ListContainer>
+          <Tabs.List
+            aria-label="Hashtag Tabs"
+            className="gap-2 w-full relative rounded-none p-0 border-b border-[#34344E] bg-transparent px-12"
           >
-            تازه ها
-          </Tabs.Tab>
-          <Tabs.Tab
-            id="pictures"
-            className="w-full py-7 text-base text-neutral-500 dark:text-neutral-400 dark:data-[selected=true]:text-white border-b-4 border-transparent data-[selected=true]:border-[#1111D4] rounded-none data-[selected=true]:font-bold before:hidden"
-          >
-            تصاویر
-          </Tabs.Tab>
-          <Tabs.Tab
-            id="videos"
-            className="w-full py-7 text-base text-neutral-500 dark:text-neutral-400 dark:data-[selected=true]:text-white border-b-4 border-transparent data-[selected=true]:border-[#1111D4] rounded-none data-[selected=true]:font-bold before:hidden"
-          >
-            ویدئوها
-          </Tabs.Tab>
-        </Tabs.List>
-      </Tabs.ListContainer>
+            {TABS.map((tab) => (
+              <Tabs.Tab key={tab.id} id={tab.id} className={TAB_CLASS}>
+                {tab.label}
+              </Tabs.Tab>
+            ))}
+          </Tabs.List>
+        </Tabs.ListContainer>
+      </Tabs>
 
-      <div className="relative h-[calc(100vh-90px)">
-        {filteredData.length === 0 && !isFetchingNextPage ? (
-          <EmptyData text="پستی یافت نشد" />
+      <div className="flex-1 min-h-0 relative">
+        {showLoader ? (
+          <div className="h-full flex items-center justify-center">
+            <Loader />
+          </div>
         ) : (
-          <Virtuoso
-            data={filteredData}
-            endReached={() => {
-              if (hasNextPage && !isFetchingNextPage) {
-                fetchNextPage();
-              }
-            }}
-            computeItemKey={(index, post) => post._id}
-            itemContent={(index, post) => <PostCard post={post} />}
-            components={{ Footer }}
-          />
+          <>
+            {showBackgroundRefetch && (
+              <div className="absolute top-2 left-0 right-0 flex justify-center z-10">
+                <Loader />
+              </div>
+            )}
+
+            <Virtuoso
+              key={activeTab}
+              data={filteredData}
+              endReached={() => {
+                if (hasNextPage && !isFetchingNextPage) fetchNextPage();
+              }}
+              computeItemKey={(index, post) => post?._id ?? `item-${index}`}
+              itemContent={(_, post) => <PostCard post={post} />}
+              components={{
+                Footer: () =>
+                  isFetchingNextPage ? (
+                    <div className="py-4 flex justify-center">
+                      <Loader />
+                    </div>
+                  ) : null,
+                EmptyPlaceholder: () => (
+                  <div className="text-center text-gray-500 py-10">
+                    پستی یافت نشد
+                  </div>
+                ),
+              }}
+            />
+          </>
         )}
       </div>
-    </Tabs>
+    </div>
   );
 };
 

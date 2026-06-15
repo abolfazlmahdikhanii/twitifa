@@ -224,6 +224,7 @@ export const GET = async (req, { params }) => {
     const searchParams = req.nextUrl.searchParams;
     const cursor = searchParams.get("cursor");
     const limit = searchParams.get("limit");
+    const sort = searchParams.get("sort");
 
     // check user is login
     let currentUser = null;
@@ -250,11 +251,10 @@ export const GET = async (req, { params }) => {
         { status: 404 },
       );
     }
-    const result = await getPostInfo(postId, currentUser, cursor, limit);
+    const result = await getPostInfo(postId, currentUser, cursor, limit,sort);
 
     return Response.json(
       {
-        postInfo: result.postInfo,
         posts: result.posts,
         hasMore: result.hasMore,
         nextCursor: result.nextCursor,

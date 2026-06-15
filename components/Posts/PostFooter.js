@@ -1,6 +1,7 @@
 "use client";
 import { useAuth } from "@/context/AuthContext";
 import usePostAction from "@/hooks/usePostAction";
+import { formatPostViewNumber } from "@/utils/post";
 import { Button, Dropdown, Label } from "@heroui/react";
 import React from "react";
 
@@ -166,7 +167,7 @@ const PostFooter = ({
             </svg>
           </Button>
           <span className=" text-sm group-hover:text-[#1d9bf0] transition-all duration-300 mt-1">
-            {views ?? 0}
+            {views ?formatPostViewNumber(views): 0}
           </span>
         </div>
       </div>

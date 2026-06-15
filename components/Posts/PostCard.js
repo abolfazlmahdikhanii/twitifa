@@ -16,6 +16,7 @@ import { usePostView } from "@/hooks/usePostView";
 import { getAuthorName } from "@/utils/post";
 import TrackingPixel from "../ui/TrackingPixel/TrackingPixel";
 import { useRouter } from "next/navigation";
+import PostInfoDate from "../ui/PostInfoDate/PostInfoDate";
 // import Image from "next/image";
 
 const PostCard = ({
@@ -121,8 +122,11 @@ const PostCard = ({
             />
           </div>
         )}
+        {
+          isPostDetail&& <PostInfoDate time={post.updatedAt} views={views?.viewsCount || post.viewCount}/>
+        }
         {!isReplyModal ? (
-          <CardFooter className={`${selfReply ? "pr-28" : "pr-16"} mt-8 `}>
+          <CardFooter className={`${selfReply ? "pr-28" : "pr-16"} ${isPostDetail?"mt-2.5":"mt-8"} `}>
             <PostFooter
               post={postData}
               dialog={dialog}
