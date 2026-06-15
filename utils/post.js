@@ -235,3 +235,13 @@ export const formatFileSize = (bytes, locale = "fa-IR") => {
 
   return `${formatter.format(value)} ${sizes[locale]?.[i] || sizes["fa-IR"][i]}`;
 };
+
+
+export const formatPostViewNumber=(view)=>{
+  if(!view)return
+  return new Intl.NumberFormat("en",{
+    compactDisplay:"short",
+    maximumFractionDigits:1,
+    notation:"compact"
+  }).format(view)
+}

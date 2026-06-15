@@ -1,3 +1,4 @@
+import { format } from "date-fns-jalali";
 
 
 export const formatPersianDate = (date) => {
@@ -7,4 +8,13 @@ export const formatPersianDate = (date) => {
    month: "2-digit",
    day: "2-digit",
   }).format(new Date(date));
+};
+
+export const formatDate = (date) => {
+  if (!date) return "";
+  return format(date,"dd MMMM yyyy")
+};
+export const formatTime = (time) => {
+  if (!time) return "";
+  return format(time,"HH:MM")
 };
