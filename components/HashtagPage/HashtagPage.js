@@ -18,9 +18,13 @@ const TAB_CLASS =
 const filterPosts = (posts, tab) => {
   const nonReplies = posts.filter((p) => !p.replyToPost);
   if (tab === "pictures")
-    return nonReplies.filter((p) => p.media?.some((m) => m.mediaType === "image"));
+    return nonReplies.filter((p) =>
+      p.media?.some((m) => m.mediaType === "image"),
+    );
   if (tab === "videos")
-    return nonReplies.filter((p) => p.media?.some((m) => m.mediaType === "video"));
+    return nonReplies.filter((p) =>
+      p.media?.some((m) => m.mediaType === "video"),
+    );
   return nonReplies;
 };
 
@@ -30,7 +34,10 @@ const HashtagPage = ({ initialPosts, hashtagName }) => {
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
-    setIsMounted(true);
+    const time = setTimeout(() => {
+      setIsMounted(true);
+    }, 0);
+    return () => clearTimeout(time);
   }, []);
 
   const {
@@ -80,7 +87,8 @@ const HashtagPage = ({ initialPosts, hashtagName }) => {
   };
 
   const showLoader = !isMounted || isQueryPending || isTabPending;
-  const showBackgroundRefetch = isFetching && !isFetchingNextPage && !showLoader;
+  const showBackgroundRefetch =
+    isFetching && !isFetchingNextPage && !showLoader;
 
   return (
     <div className="flex flex-col h-full">
@@ -106,13 +114,13 @@ const HashtagPage = ({ initialPosts, hashtagName }) => {
 
       <div className="flex-1 min-h-0 relative">
         {showLoader ? (
-          <div className="h-full flex items-center justify-center">
+          <div className="h-full ">
             <Loader />
           </div>
         ) : (
           <>
             {showBackgroundRefetch && (
-              <div className="absolute top-2 left-0 right-0 flex justify-center z-10">
+              <div className="absolute top-2 left-0 right-0  z-10">
                 <Loader />
               </div>
             )}
