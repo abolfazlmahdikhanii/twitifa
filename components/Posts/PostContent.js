@@ -17,6 +17,7 @@ const PostContent = ({
   author,
   isReplyModal=false
 }) => {
+  
   if (poll) {
     if (!hasVote && isUserLogin && !isExpired && !isOwner) {
       return (

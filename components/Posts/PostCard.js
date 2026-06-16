@@ -14,9 +14,9 @@ import usePostDialogs from "@/hooks/usePostDialogs";
 import usePostInfo from "@/hooks/usePostInfo";
 import { usePostView } from "@/hooks/usePostView";
 import { getAuthorName } from "@/utils/post";
-import TrackingPixel from "../ui/TrackingPixel/TrackingPixel";
 import { useRouter } from "next/navigation";
 import PostInfoDate from "../ui/PostInfoDate/PostInfoDate";
+import TrackingPixel from "../ui/TrackingPixel/TrackingPixel";
 // import Image from "next/image";
 
 const PostCard = ({
@@ -58,7 +58,7 @@ const PostCard = ({
       isFirstReply,
       lastReply,
       isUserPage,
-      media: post.media || [],
+      media: post.media?.length ? post.media : post.retweetedFrom?.media || [],
     }),
     [post, currentPage, isReply, isFirstReply, lastReply, isUserPage],
   );
@@ -81,14 +81,15 @@ const PostCard = ({
   const gotoPostInfo = () => {
     router.push(`/${post.author.username}/status/${post._id}`);
   };
+
   return (
     <>
       <Card
-        className={`bg-transparent px-8 ${!isReplyModal?"transition-all duration-200 hover:bg-[#121225]":""}  ${!isReply ? "pb-4.5  pt-3.5  border-b" : `pb-11.5 ${isFirstReply ? "pt-3.5" : "-mt-6"} `} ${isReply && lastReply && !isReplyModal ? "border-b" : ""}  rounded-none`}
+        className={`bg-transparent px-8 ${!isReplyModal ? "transition-all duration-200 hover:bg-[#121225]" : ""}  ${!isReply ? "pb-4.5  pt-3.5  border-b" : `pb-11.5 ${isFirstReply ? "pt-3.5" : "-mt-6"} `} ${isReply && lastReply && !isReplyModal ? "border-b" : ""}  rounded-none`}
         ref={postRef}
-        onClick={()=>{
-          trackClick()
-          gotoPostInfo()
+        onClick={() => {
+          trackClick();
+          gotoPostInfo();
         }}
       >
         <TrackingPixel postId={post._id} />
@@ -112,7 +113,13 @@ const PostCard = ({
           />
         </CardHeader>
         <CardContent className=" pr-18 ">
-          <PostContent {...postData} isReplyModal={isReplyModal} />
+          <PostContent
+            {...postData}
+            poll={
+              !post.isQuoteRepost ? post.poll || post.retweetedFrom?.poll : null
+            }
+            isReplyModal={isReplyModal}
+          />
         </CardContent>
         {post.isQuoteRepost && (
           <div className="pr-18 pl-4">
@@ -122,11 +129,16 @@ const PostCard = ({
             />
           </div>
         )}
-        {
-          isPostDetail&& <PostInfoDate time={post.updatedAt} views={views?.viewsCount || post.viewCount}/>
-        }
+        {isPostDetail && (
+          <PostInfoDate
+            time={post.updatedAt}
+            views={views?.viewsCount || post.viewCount}
+          />
+        )}
         {!isReplyModal ? (
-          <CardFooter className={`${selfReply ? "pr-28" : "pr-16"} ${isPostDetail?"mt-2.5":"mt-8"} `}>
+          <CardFooter
+            className={`${selfReply ? "pr-28" : "pr-16"} ${isPostDetail ? "mt-2.5" : "mt-8"} `}
+          >
             <PostFooter
               post={postData}
               dialog={dialog}
