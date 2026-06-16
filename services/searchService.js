@@ -129,6 +129,7 @@ export const getSearchResult = async (
               "_id username firstName lastName email accountType organizationName",
           },
           { path: "media", select: "-mediaId -userId" },
+             {path:"poll"}
         ],
       })
       .sort(sortCriteria)
@@ -190,7 +191,7 @@ export const getSearchResult = async (
       postLikes: undefined,
     }));
 
-    const nextCursor = posts.length > 0 ? posts[posts.length - 1]._id : null;
+    const nextCursor = posts.length > 0 ? String(posts[posts.length - 1]._id) : null;
 
     const topMatchedUsers = await usersModel
       .find(userSearchQuery)

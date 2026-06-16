@@ -9,7 +9,7 @@ const PostInfoDate = ({time,views}) => {
       <Dot size={16} />
       <p>{formatDate(time)}</p>
       <Dot size={16} />
-      <p ><span className="text-white font-semibold">{formatPostViewNumber("10000")}</span> بازدید</p>
+      <p ><span className="text-white font-semibold">{formatPostViewNumber(views)}</span> بازدید</p>
     </div>
   );
 };

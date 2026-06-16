@@ -3,11 +3,11 @@ import { Button } from "@heroui/react";
 import { useRouter } from "next/navigation";
 import React from "react";
 
-const PageHeader = ({title}) => {
+const PageHeader = ({title,noBorder=false}) => {
     const router=useRouter()
   return (
     <header>
-      <div className="py-4 px-7 border-b border-[#34344E] flex items-center justify-between">
+      <div className={`py-4 px-7 ${!noBorder?"border-b border-[#34344E]":""} flex items-center justify-between`}>
         <div>
           <h2 className="text-xl font-bold">{title}</h2>
         </div>

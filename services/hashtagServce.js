@@ -54,6 +54,7 @@ export const getHashtagPosts = async (
               "username firstName lastName email accountType organizationName",
           },
           { path: "media", select: "-mediaId -userId" },
+             {path:"poll"}
         ],
       })
       .limit(limits + 1) 
@@ -123,7 +124,7 @@ export const getHashtagPosts = async (
 
     const nextCursor =
       postWithVote.length > 0
-        ? postWithVote[postWithVote.length - 1]._id
+        ? String(postWithVote[postWithVote.length - 1]._id)
         : null;
 
     return {

@@ -52,6 +52,7 @@ export const getPostInfo = async (
               "_id username firstName lastName email accountType organizationName",
           },
           { path: "media", select: "-mediaId -userId" },
+             {path:"poll"}
         ],
       })
 
@@ -129,7 +130,7 @@ export const getPostInfo = async (
 
     const nextCursor =
       threadedPosts.length > 0
-        ? threadedPosts[threadedPosts.length - 1]._id
+        ? String(threadedPosts[threadedPosts.length - 1]._id)
         : null;
 
     return {

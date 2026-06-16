@@ -74,6 +74,7 @@ export const getUserReply = async (
         populate: [
           { path: "author", select: "username firstName lastName email accountType organizationName" },
           { path: "media", select: "-mediaId -userId" },
+             {path:"poll"}
         ],
       })
       .sort({ _id: -1 })

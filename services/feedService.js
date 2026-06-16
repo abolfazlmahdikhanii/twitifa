@@ -57,6 +57,7 @@ export const getFeed = async (
               "_id username firstName lastName email accountType organizationName",
           },
           { path: "media", select: "-mediaId -userId" },
+        {path:"poll"}
         ],
       })
       .limit(limits+1)
@@ -131,7 +132,7 @@ export const getFeed = async (
     const threadedPosts = posts.map(buildMeta);
     const nextCursor =
       threadedPosts.length > 0
-        ? threadedPosts[threadedPosts.length - 1]._id
+        ? String(threadedPosts[threadedPosts.length - 1]._id)
         : null;
     return {
       posts: threadedPosts,

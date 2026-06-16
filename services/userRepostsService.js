@@ -49,6 +49,7 @@ export const getUserRePosts = async (
           { path: "ReplyCount" },
           { path: "viewCount" },
           { path: "postLikes", select: "userId" },
+          { path: "poll" },
         ],
       })
       .limit(limits + 1)
@@ -130,7 +131,8 @@ export const getUserRePosts = async (
       };
     });
 
-    const nextCursor = posts.length > 0 ? posts[posts.length - 1]._id : null;
+    const nextCursor =
+      posts.length > 0 ? String(posts[posts.length - 1]._id) : null;
 
     return {
       posts: posts,

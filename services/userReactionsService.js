@@ -52,6 +52,7 @@ export const getUserLikedPosts = async (
         populate: [
           { path: "author", select: "_id username firstName lastName email accountType organizationName" },
           { path: "media", select: "-mediaId -userId" },
+             {path:"poll"}
         ],
       })
       .lean({ virtuals: true });
@@ -108,7 +109,7 @@ export const getUserLikedPosts = async (
     }));
 
     
-    const nextCursor = userLikes.length > 0 ? userLikes[userLikes.length - 1]._id : null;
+    const nextCursor = userLikes.length > 0 ? String(userLikes[userLikes.length - 1]._id) : null;
 
     return {
       posts: posts,
