@@ -219,7 +219,7 @@ export const GET = async (req, { params }) => {
     await connectToDB();
 
     const { postId } = await params;
-    await connectToDB();
+   
     const token = (await cookies()).get("token");
     const searchParams = req.nextUrl.searchParams;
     const cursor = searchParams.get("cursor");

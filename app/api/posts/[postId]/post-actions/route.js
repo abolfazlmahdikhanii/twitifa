@@ -6,54 +6,57 @@ import usersModel from "@/models/users";
 import { verifyToken } from "@/utils/auth";
 import { isValidObjectId } from "mongoose";
 import { cookies } from "next/headers";
+
 export const GET = async (req, { params }) => {
   try {
     await connectToDB();
     const token = (await cookies()).get("token");
-    const { postId } = await params;
+    const { postId } = await params; 
 
     // check user is login
     let currentUser = null;
     if (token && token.value) {
       const validToken = verifyToken(token?.value);
-      if (!validToken) currentUser = null;
-      currentUser = await usersModel
-        .findOne(
-          { email: validToken.email },
-          " -provider -password -emailVerified -updatedAt",
-        )
-        .lean();
+      
+      if (validToken) {
+        currentUser = await usersModel
+          .findOne(
+            { email: validToken.email },
+            "-provider -password -emailVerified -updatedAt",
+          )
+          .lean();
+      }
     }
+
     // validate postId
     if (!isValidObjectId(postId)) {
       return Response.json(
-        {
-          message: "شناسه پست نامعتبر است!",
-        },
+        { message: "شناسه پست نامعتبر است!" },
         { status: 404 },
       );
     }
+    
     // valid post
     const post = await postsModel.findOne({ _id: postId, isDeleted: false });
     if (!post) {
       return Response.json(
-        {
-          message: "چنین پستی وجود ندارد!",
-        },
+        { message: "چنین پستی وجود ندارد!" },
         { status: 404 },
       );
     }
 
+    
     const [repostCount, likeCount, viewsCount, replyCount] = await Promise.all([
       postsModel.countDocuments({
         retweetedFrom: postId,
         isDeleted: false,
+      
       }),
       postLikesModel.countDocuments({ postId }),
       postViews.countDocuments({ post: postId }),
       postsModel.countDocuments({
         replyToPost: postId,
-        retweetedFrom: null,
+        retweetedFrom: null, 
       }),
     ]);
 
@@ -65,6 +68,7 @@ export const GET = async (req, { params }) => {
         postLikesModel.findOne({ postId, userId: currentUser._id }),
         postsModel.findOne({
           retweetedFrom: postId,
+          quoteContent: null, 
           author: currentUser._id,
           isDeleted: false,
         }),
