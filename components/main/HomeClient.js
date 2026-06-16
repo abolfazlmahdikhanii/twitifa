@@ -1,87 +1,69 @@
 "use client";
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { useFeedQuery } from "@/hooks/useFeedQuery";
 import { Tabs } from "@heroui/react";
-import PostCard from "../Posts/PostCard";
-import PostBox from "./PostBox";
-import Loader from "../ui/Loader/Loader";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Virtuoso } from "react-virtuoso";
+import PostCard from "../Posts/PostCard";
+import Loader from "../ui/Loader/Loader";
+import PostBox from "./PostBox";
+
+const TABS = [
+  { id: "following", label: "دنبال می کنید" },
+  { id: "for-you", label: "برای شما" },
+];
+
+const TAB_CLASS =
+  "w-full py-7 text-base text-neutral-500 dark:text-neutral-400 dark:data-[selected=true]:text-white border-b-4 border-transparent data-[selected=true]:border-[#1111D4] rounded-none data-[selected=true]:font-bold";
+
+const Feed = ({ query, isMounted }) => {
+  const posts = query.data?.pages?.flatMap((page) => page.posts) ?? [];
+  const showLoader = !isMounted || query.isPending;
+
+  if (showLoader) {
+    return (
+      <div className=" h-full">
+        <Loader />
+      </div>
+    );
+  }
+
+  return (
+    <Virtuoso
+      data={posts}
+      style={{ height: "100%" }}
+      endReached={() => {
+        if (query.hasNextPage && !query.isFetchingNextPage) {
+          query.fetchNextPage();
+        }
+      }}
+      computeItemKey={(_, post) => post._id}
+      itemContent={(_, post) => <PostCard post={post} />}
+      components={{
+        Footer: () =>
+          query.isFetchingNextPage ? (
+            <div className="py-4 flex justify-center">
+              <Loader />
+            </div>
+          ) : null,
+        Header: () => <PostBox refetch={query.refetch} />,
+      }}
+    />
+  );
+};
 
 const HomeClient = ({ initialPosts }) => {
   const [activeTab, setActiveTab] = useState("following");
+  const [isMounted, setIsMounted] = useState(false);
 
-  const followingQuery = useInfiniteQuery({
-    queryKey: ["posts", "following"],
-    queryFn: async ({ pageParam = null }) => {
-      const res = await fetch(
-        `/api/posts?cursor=${pageParam || ""}&tab=following`,
-      );
-      return await res.json();
-    },
-    getNextPageParam: (lastPage) =>
-      lastPage.hasMore ? lastPage.nextCursor : undefined,
-    initialPageParam: null,
-    initialData: {
-      pages: [
-        {
-          posts: initialPosts.posts,
-          hasMore: initialPosts.hasMore,
-          nextCursor: initialPosts.nextCursor,
-        },
-      ],
-      pageParams: [null],
-    },
-    staleTime: 1000 * 60 * 2,
-  });
+  useEffect(() => {
+    const time = setTimeout(() => {
+      setIsMounted(true);
+    }, 0);
+    return () => clearTimeout(time);
+  }, []);
 
-  const forYouQuery = useInfiniteQuery({
-    queryKey: ["posts", "for-you"],
-    queryFn: async ({ pageParam = null }) => {
-      const res = await fetch(
-        `/api/posts?cursor=${pageParam || ""}&tab=for-you`,
-      );
-      return await res.json();
-    },
-    getNextPageParam: (lastPage) =>
-      lastPage.hasMore ? lastPage.nextCursor : undefined,
-    initialPageParam: null,
-    staleTime: 1000 * 60 * 2,
-  });
-
-  const renderFeed = (query) => {
-    const posts = query.data?.pages?.flatMap((page) => page.posts) || [];
-
-    if (query.isPending) {
-      return (
-        <div className="flex justify-center items-center h-full">
-          <Loader />
-        </div>
-      );
-    }
-
-    return (
-      <Virtuoso
-        data={posts}
-        style={{ height: "100%" }}
-        endReached={() => {
-          if (query.hasNextPage && !query.isFetchingNextPage) {
-            query.fetchNextPage();
-          }
-        }}
-        computeItemKey={(index, post) => post._id}
-        itemContent={(index, post) => <PostCard post={post} />}
-        components={{
-          Footer: () =>
-            query.isFetchingNextPage ? (
-              <div className="py-4 flex justify-center">
-                <Loader />
-              </div>
-            ) : null,
-          Header: () => <PostBox refetch={query.refetch} />,
-        }}
-      />
-    );
-  };
+  const followingQuery = useFeedQuery("following", initialPosts);
+  const forYouQuery = useFeedQuery("for-you", null);
 
   return (
     <Tabs
@@ -95,31 +77,30 @@ const HomeClient = ({ initialPosts }) => {
           aria-label="Feed Tabs"
           className="gap-2 w-full relative rounded-none p-0 border-b border-[#34344E] bg-transparent px-12"
         >
-          <Tabs.Tab
-            id="following"
-            className="w-full py-7 text-base text-neutral-500 dark:text-neutral-400 dark:data-[selected=true]:text-white border-b-4 border-transparent data-[selected=true]:border-[#1111D4] rounded-none data-[selected=true]:font-bold"
-          >
-            دنبال می کنید
-          </Tabs.Tab>
-          <Tabs.Tab
-            id="for-you"
-            className="w-full py-7 text-base text-neutral-500 dark:text-neutral-400 dark:data-[selected=true]:text-white border-b-4 border-transparent data-[selected=true]:border-[#1111D4] rounded-none data-[selected=true]:font-bold "
-          >
-            برای شما
-          </Tabs.Tab>
+          {TABS.map((tab) => (
+            <Tabs.Tab key={tab.id} id={tab.id} className={TAB_CLASS}>
+              {tab.label}
+            </Tabs.Tab>
+          ))}
         </Tabs.List>
       </Tabs.ListContainer>
 
       <div className="relative h-[calc(100vh-90px)]">
         <div
-          className={`${activeTab === "following" ? "relative visible z-2" : "absolute hidden"} z-0 w-full h-full top-0 left-0`}
+          className={`${
+            activeTab === "following"
+              ? "relative visible z-2"
+              : "absolute hidden"
+          } z-0 w-full h-full top-0 left-0`}
         >
-          {renderFeed(followingQuery)}
+          <Feed query={followingQuery} isMounted={isMounted} />
         </div>
         <div
-          className={`${activeTab === "for-you" ? "relative visible z-2" : "absolute hidden"} z-0 w-full h-full top-0 left-0`}
+          className={`${
+            activeTab === "for-you" ? "relative visible z-2" : "absolute hidden"
+          } z-0 w-full h-full top-0 left-0`}
         >
-          {renderFeed(forYouQuery)}
+          <Feed query={forYouQuery} isMounted={isMounted} />
         </div>
       </div>
     </Tabs>

@@ -85,7 +85,7 @@ const PostInfoPage = ({ postId, mainPost, initialPosts }) => {
                     <div className="flex item-center justify-between w-full pr-10 pl-5 py-3.75 border-b border-b-[#34344e]">
                       <Link
                         className="flex items-center gap-x-0.5 text-[15px] transition-all border-b border-b-transparent duration-200 hover:border-b-muted text-muted"
-                        href="#"
+                        href={`/${mainPost.author.username}/status/${postId}/quotes`}
                       >
                         <ChevronRight size={16} />
                         نقل قول ها
@@ -97,7 +97,7 @@ const PostInfoPage = ({ postId, mainPost, initialPosts }) => {
                             <ChevronDown size={16} />
                           </Button>
                           <Dropdown.Popover
-                            className={"min-w-42.5 shadow-none"}
+                            className={"min-w-42.5 shadow-none bg-[#1A1A31]"}
                           >
                             <Dropdown.Menu onAction={(key) => setSort(key)}>
                                <Dropdown.Item id="new" textValue="new">
