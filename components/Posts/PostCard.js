@@ -154,6 +154,7 @@ const PostCard = ({
               replyCount={replyCount}
               views={views?.viewsCount || post.viewCount}
               onReplyClick={onReplyClick}
+              isOwner={post.isOwner}
             />
           </CardFooter>
         ) : null}
@@ -172,6 +173,10 @@ const PostCard = ({
         isReply={isReply}
         textContent={() => getContent()}
         replySettings={replySetting?.replySettings || post.replySettings}
+        likeCount={likes?.likeCount || post.likesCount}
+        repostCount={reposts?.repostCount || post.repostsCount}
+        replyCount={replyCount}
+        viewCount={views?.viewsCount || post.viewCount}
       />
       {dialog === "reply" && (
         <ReplyModal

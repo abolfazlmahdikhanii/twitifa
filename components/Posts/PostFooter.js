@@ -3,7 +3,6 @@ import { useAuth } from "@/context/AuthContext";
 import usePostAction from "@/hooks/usePostAction";
 import { formatPostViewNumber } from "@/utils/post";
 import { Button, Dropdown, Label } from "@heroui/react";
-import React from "react";
 
 const PostFooter = ({
   post,
@@ -14,6 +13,7 @@ const PostFooter = ({
   replyCount,
   views,
   onReplyClick,
+  isOwner,
 }) => {
   const { postLikeHandler, isLoading, repostHandler } = usePostAction(
     post._id,
@@ -158,6 +158,9 @@ const PostFooter = ({
               "[&>svg]:size-5 text-muted group-hover:text-[#1d9bf0] group-hover:bg-[#1d9bf0]/20 transition-all duration-300"
             }
             isIconOnly
+            onClick={() => {
+              if (isOwner) setDialog("activity");
+            }}
           >
             <svg fill="none" viewBox="0 0 20 20">
               <path
@@ -167,7 +170,7 @@ const PostFooter = ({
             </svg>
           </Button>
           <span className=" text-sm group-hover:text-[#1d9bf0] transition-all duration-300 mt-1">
-            {views ?formatPostViewNumber(views): 0}
+            {views ? formatPostViewNumber(views) : 0}
           </span>
         </div>
       </div>

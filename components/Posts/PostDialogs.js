@@ -1,12 +1,13 @@
 "use client";
-import React, { useState } from "react";
-import PostModal from "./PostModal";
+import { useAuth } from "@/context/AuthContext";
+import usePostAction from "@/hooks/usePostAction";
+import { useState } from "react";
 import PostBox from "../main/PostBox";
 import ReplyTypeModal from "../main/ReplyTypeModal";
+import Analytics from "../ui/Analytics/Analytics";
 import DeleteDialog from "../ui/DeleteDialog/DeleteDialog";
-import usePostAction from "@/hooks/usePostAction";
 import QuoteCard from "../ui/QuoteCard/QuoteCard";
-import { useAuth } from "@/context/AuthContext";
+import PostModal from "./PostModal";
 
 const PostDialogs = ({
   dialog,
@@ -21,6 +22,10 @@ const PostDialogs = ({
   isReply,
   textContent,
   replySettings,
+  likeCount,
+  repostCount,
+  replyCount,
+  viewCount,
 }) => {
   const { updateReplyType } = usePostAction(
     post._id,
@@ -29,11 +34,11 @@ const PostDialogs = ({
     post.currentPage,
     isReply,
   );
-  const {user}=useAuth()
+  const { user } = useAuth();
   const [replyType, setReplyType] = useState(replySettings || "all");
 
   const content = textContent();
-const isPostOwner=user?.username === post.author.username || post.isOwner;
+  const isPostOwner = user?.username === post.author.username || post.isOwner;
   return (
     <>
       {isAuthenticated && isPostOwner && dialog === "delete" && (
@@ -66,7 +71,7 @@ const isPostOwner=user?.username === post.author.username || post.isOwner;
                 textContent: content,
                 _id: post._id,
                 media: post.media,
-                isOwner:isPostOwner,
+                isOwner: isPostOwner,
               }}
               onClose={setDialog}
             />
@@ -81,6 +86,19 @@ const isPostOwner=user?.username === post.author.username || post.isOwner;
             onUpdate={() => updateReplyType(replyType)}
             isOpen={showChangeReply}
             setIsOpen={setShowChangeReply}
+            isEdit
+          />
+        </div>
+      )}
+      {isAuthenticated && isPostOwner && dialog === "activity" && (
+        <div>
+          <Analytics
+            likeCount={likeCount}
+            repostCount={repostCount}
+            replyCount={replyCount}
+            viewCount={viewCount}
+            isOpen={true}
+            setIsOpen={setDialog}
             isEdit
           />
         </div>
