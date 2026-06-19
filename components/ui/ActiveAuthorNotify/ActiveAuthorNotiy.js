@@ -1,19 +1,9 @@
 "use client";
 
-import { ArrowRight, Bell, ChevronDown, Users } from "lucide-react";
-import Link from "next/link";
 import useActiveAuthor from "@/hooks/useActiveAuthor";
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-  Button,
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@heroui/react";
+import { Avatar, AvatarFallback, AvatarImage, Button } from "@heroui/react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { ArrowUp } from "lucide-react";
 import { useEffect, useState } from "react";
 
 export default function ActiveAuthorNotify({ userId }) {
@@ -56,7 +46,7 @@ export default function ActiveAuthorNotify({ userId }) {
                   duration: 0.3,
                 }
           }
-          className={`flex items-center justify-between fixed top-2 left-1/2 -translate-x-1/2 bg-[#1A1A31] w-[320px] rounded-xl py-3 z-10 px-3 transition-transform slide-in-from-top-5`}
+          className={`flex items-center justify-between fixed top-12 left-1/2 border border-[#34344E] -translate-x-1/2 bg-[#1A1A31]   w-[320px] rounded-2xl py-3 z-10 px-3 transition-transform slide-in-from-top-5`}
         >
           <div className="flex items-center gap-x-4">
             <div className="flex items-center">
@@ -75,10 +65,10 @@ export default function ActiveAuthorNotify({ userId }) {
                 </Avatar>
               ))}
             </div>
-            <p>پست جدید</p>
+            <p>پست های جدید</p>
           </div>
-          <Button variant="tertiary" isIconOnly size="sm">
-            <ChevronDown />
+          <Button variant="ghost" isIconOnly size="sm">
+            <ArrowUp />
           </Button>
         </motion.div>
       )}
