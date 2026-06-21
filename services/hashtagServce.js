@@ -36,7 +36,7 @@ export const getHashtagPosts = async (
       .find(query)
       .populate(
         "author",
-        "username email accountType organizationName firstName lastName",
+        "username email accountType organizationName firstName lastName avatar",
       )
       .populate("media", "-mediaId -userId")
       .populate("poll")
@@ -51,7 +51,7 @@ export const getHashtagPosts = async (
           {
             path: "author",
             select:
-              "username firstName lastName email accountType organizationName",
+              "username firstName lastName email accountType organizationName avatar",
           },
           { path: "media", select: "-mediaId -userId" },
              {path:"poll"}

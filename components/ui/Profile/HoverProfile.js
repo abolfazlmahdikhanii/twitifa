@@ -43,8 +43,8 @@ const HoverProfile = ({ userInfo, children }) => {
           <div className="flex items-center gap-x-2 w-full justify-between">
             <Avatar className="size-14">
               <Avatar.Image
-                alt="Blue"
-                src="https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/blue.jpg"
+                alt={`${userInfo?.username} avatar image`}
+                src={userInfo?.avatar||"https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/blue.jpg"}
               />
               <Avatar.Fallback className="uppercase">
                 {userInfo?.username?.charAt(0)}

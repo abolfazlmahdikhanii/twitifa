@@ -28,7 +28,7 @@ export const getRepostUsers = async (
       .select("author _id") 
       .populate(
         "author",
-        "_id username firstName lastName accountType organizationName profileImage" 
+        "_id username firstName lastName accountType organizationName avatar" 
       )
       .sort({ _id: -1 })
       .limit(limits + 1)

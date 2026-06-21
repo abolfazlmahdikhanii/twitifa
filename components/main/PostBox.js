@@ -1,39 +1,26 @@
 "use client";
-import { Avatar, Button, Input, Label, Spinner, TextArea } from "@heroui/react";
-import {
-  AtSign,
-  Clapperboard,
-  Earth,
-  Image,
-  ListTodo,
-  Loader2,
-  Smile,
-  UserCheck,
-  X,
-} from "lucide-react";
+import { Avatar, Button, Spinner } from "@heroui/react";
+import { Clapperboard, Image, ListTodo, Loader2, Smile } from "lucide-react";
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import ReplyTypeModal from "./ReplyTypeModal";
 import { toast } from "sonner";
-import DOMPurify from "dompurify";
+import ReplyTypeModal from "./ReplyTypeModal";
 
+import usePostAction from "@/hooks/usePostAction";
 import {
   checkMediaType,
   generatePosterFromVideo,
-  getHighlightedHTML,
   getVideoDuration,
 } from "@/utils/post";
-import PollForm from "../Polls/PollForm";
 import { useQueryClient } from "@tanstack/react-query";
-import { useEditor, EditorContent } from "@tiptap/react";
-import StarterKit from "@tiptap/starter-kit";
-import Placeholder from "@tiptap/extension-placeholder";
 import { Extension } from "@tiptap/core";
+import Placeholder from "@tiptap/extension-placeholder";
 import { Plugin, PluginKey } from "@tiptap/pm/state";
 import { Decoration, DecorationSet } from "@tiptap/pm/view";
-import usePostAction from "@/hooks/usePostAction";
-import HoverProfile from "../ui/Profile/HoverProfile";
-import Link from "next/link";
+import { EditorContent, useEditor } from "@tiptap/react";
+import StarterKit from "@tiptap/starter-kit";
+import PollForm from "../Polls/PollForm";
 
+import { useAuth } from "@/context/AuthContext";
 import MediaGallery from "../ui/Media/MediaGallery/MediaGallery";
 const MediaGalleryMemo = React.memo(MediaGallery);
 
@@ -92,6 +79,7 @@ const PostBox = ({
   );
 
   const queryClient = useQueryClient();
+  const { user } = useAuth();
   const textareaRef = useRef(null);
   const imgRef = useRef(null);
   const videoRef = useRef(null);
@@ -443,7 +431,7 @@ const PostBox = ({
     }
   };
   const getBtnText = () => {
-    if (isReply ) return "پاسخ";
+    if (isReply) return "پاسخ";
     else if (isEdit) return "ویرایش";
     else return "ثبت";
   };
@@ -508,18 +496,20 @@ const PostBox = ({
         <div className="self-start relative">
           <Avatar size="md">
             <Avatar.Image
-              alt="Blue"
-              src="https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/blue.jpg"
+              alt={`${user?.username} avatar`}
+              src={
+                user?.avatar ||
+                "https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/blue.jpg"
+              }
             />
-            <Avatar.Fallback>B</Avatar.Fallback>
+            <Avatar.Fallback className="uppercase">
+              {user?.username.charAt(0)}
+            </Avatar.Fallback>
           </Avatar>
-
-      
         </div>
         <div
           className={`${!isModal ? "border-b border-neutral-200 dark:border-[#374151] " : ""} pb-4 flex-1`}
         >
-      
           <div className={`${!isEdit || !isReply ? "mb-3" : ""}`}>
             <div
               className={`${!isEdit || !isReply ? "min-h-12" : "min-h-26"} relative`}

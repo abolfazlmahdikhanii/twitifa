@@ -1,14 +1,11 @@
 "use client";
-import { getBlurFromUrl } from "@/utils/post";
 import { Button } from "@heroui/react";
 import { EllipsisVertical, X } from "lucide-react";
 import Image from "next/image";
-import React, { memo, useMemo, useState } from "react";
+import { memo, useMemo } from "react";
 
 const MediaImageItem = memo(
   ({ img, index, totalImages, onRemove, isPreview = false, blurUrl }) => {
-    const [isLoading, setLoading] = useState(true);
-
     const objectUrl = useMemo(
       () => (isPreview ? URL.createObjectURL(img.file) : img),
       [img, isPreview],
@@ -26,43 +23,42 @@ const MediaImageItem = memo(
 
     return (
       <div
-        className={`relative group  aspect-video ${layoutClass}`}
-        key={isPreview && imageKey}
+        className={`relative group aspect-video ${layoutClass}`}
+        key={isPreview ? imageKey : index}
       >
         {!isPreview ? (
           <Image
-            src={objectUrl}
+            src={`${objectUrl}?tr=w-900,q-95,f-webp`}
             alt={`تصویر ${index + 1}`}
-            className={`w-full h-full object-cover rounded-3xl min-h-63 max-h-145.5 cursor-pointer overflow-hidden duration-700 ease-in-out`}
-            width={450}
-            height={450}
-            placeholder="blur"
+            className="w-full h-full object-cover rounded-3xl min-h-63 max-h-145.5 cursor-pointer overflow-hidden duration-700 ease-in-out"
+            width={500}
+            height={500}
+            placeholder={blurUrl ? "blur" : "empty"}
+            blurDataURL={blurUrl}
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             loading="lazy"
-            // onLoadingComplete={() => setLoading(false)}
-            blurDataURL={blurUrl}
           />
         ) : (
           <Image
             src={objectUrl}
             alt={`تصویر ${index + 1}`}
-            className={`w-full h-full object-cover rounded-3xl min-h-63 max-h-122.5 cursor-pointer overflow-hidden `}
+            className="w-full h-full object-cover rounded-3xl min-h-63 max-h-122.5 cursor-pointer overflow-hidden"
             width={300}
             height={300}
             loading="lazy"
-            unoptimized={isPreview}
+            unoptimized
           />
         )}
 
         {isPreview && (
           <div className="absolute flex items-center justify-between left-0 px-3 top-3.25 w-full">
-            <Button isIconOnly size="sm" className={"bg-gray-600/80"}>
+            <Button isIconOnly size="sm" className="bg-gray-600/80">
               <EllipsisVertical />
             </Button>
             <Button
               isIconOnly
               size="sm"
-              className={"bg-gray-600/80"}
+              className="bg-gray-600/80"
               onPress={onRemove}
             >
               <X />
@@ -73,5 +69,6 @@ const MediaImageItem = memo(
     );
   },
 );
+
 MediaImageItem.displayName = "MediaImageItem";
 export default MediaImageItem;

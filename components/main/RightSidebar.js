@@ -1,6 +1,6 @@
 "use client";
 import { useAuth } from "@/context/AuthContext";
-import { Avatar, Button, Popover, Separator, Chip } from "@heroui/react";
+import { Avatar, Button, Popover } from "@heroui/react";
 import {
   Bell,
   Ellipsis,
@@ -11,9 +11,9 @@ import {
   User,
   UserPen,
 } from "lucide-react";
-import Link from "next/link";
-import React, { useState } from "react";
 import dynamic from "next/dynamic";
+import Link from "next/link";
+import { useState } from "react";
 const PostModal = dynamic(() => import("../Posts/PostModal"), { ssr: false });
 const PostBox = dynamic(() => import("./PostBox"), { ssr: false });
 
@@ -96,10 +96,15 @@ const RightSidebar = ({ username, name, avatar, notificationCount }) => {
               <div>
                 <Avatar>
                   <Avatar.Image
-                    alt="Blue"
-                    src="https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/blue.jpg"
+                    alt="profile image"
+                    src={avatar||
+                      user?.avatar ||
+                      "https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/blue.jpg"
+                    }
                   />
-                  <Avatar.Fallback>B</Avatar.Fallback>
+                  <Avatar.Fallback className="uppercase">
+                    {username?.charAt(0)}
+                  </Avatar.Fallback>
                 </Avatar>
               </div>
               <div className="flex items-center justify-between w-full">

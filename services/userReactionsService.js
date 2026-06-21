@@ -39,7 +39,7 @@ export const getUserLikedPosts = async (
         replyToPost: null, 
         isDeleted: false,
       })
-      .populate("author", "_id username email accountType organizationName firstName lastName")
+      .populate("author", "_id username email accountType organizationName firstName lastName avatar")
       .populate("media", "-mediaId -userId")
       .populate("poll")
       .populate("likesCount")
@@ -50,7 +50,7 @@ export const getUserLikedPosts = async (
       .populate({
         path: "retweetedFrom",
         populate: [
-          { path: "author", select: "_id username firstName lastName email accountType organizationName" },
+          { path: "author", select: "_id username firstName lastName email accountType organizationName avatar" },
           { path: "media", select: "-mediaId -userId" },
              {path:"poll"}
         ],

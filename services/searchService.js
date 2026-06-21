@@ -39,7 +39,7 @@ export const getSearchResult = async (
       const matchedUsers = await usersModel
         .find(userQuery)
         .select(
-          "_id username email accountType organizationName firstName lastName",
+          "_id username email accountType organizationName firstName lastName avatar",
         )
         .sort({ _id: -1 })
         .limit(limits + 1)

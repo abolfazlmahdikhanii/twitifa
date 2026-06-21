@@ -26,6 +26,8 @@ const ProfileHeader = ({
   organizationName,
   isFollow,
   sharedFollowers = [],
+  avatar,
+  profileBg
 }) => {
   const { push } = useRouter();
   return (
@@ -34,10 +36,11 @@ const ProfileHeader = ({
       <div className="relative">
         <div className="h-50">
           <Image
-            src={"/images/profile-bg.webp"}
+            src={profileBg||"/images/profile-bg.webp"}
             alt="profile-bg"
             fill
             className="object-cover"
+            
           />
         </div>
       </div>
@@ -45,8 +48,8 @@ const ProfileHeader = ({
         <div className="absolute -top-5 -translate-y-1/2 right-5.5 flex flex-row-reverse items-center ">
           <Avatar className="w-20 h-20 ">
             <Avatar.Image
-              alt="Blue"
-              src="https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/blue.jpg"
+              alt={`${username} avatar`}
+              src={avatar||"https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/blue.jpg"}
             />
             <Avatar.Fallback className="text-2xl capitalize">
               {username?.charAt(0)}

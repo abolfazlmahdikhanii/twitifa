@@ -58,10 +58,10 @@ export const getUserReply = async (
 
     const parentPosts = await postsModel
       .find({ _id: { $in: parentIdsArray }})
-      .populate("author", "_id username email accountType organizationName firstName lastName")
+      .populate("author", "_id username email accountType organizationName firstName lastName avatar")
       .populate("media", "-mediaId -userId")
       .populate("poll")
-      .populate("replyToUser", "_id username firstName lastName email accountType organizationName")
+      .populate("replyToUser", "_id username firstName lastName email accountType organizationName avatar")
       .populate([
         { path: "likesCount" },
         { path: "repostsCount" },
@@ -72,7 +72,7 @@ export const getUserReply = async (
       .populate({
         path: "retweetedFrom",
         populate: [
-          { path: "author", select: "username firstName lastName email accountType organizationName" },
+          { path: "author", select: "username firstName lastName email accountType organizationName avatar" },
           { path: "media", select: "-mediaId -userId" },
              {path:"poll"}
         ],

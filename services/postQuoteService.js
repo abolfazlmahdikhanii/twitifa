@@ -29,7 +29,7 @@ export const getQuotes = async (
       .find(query)
       .populate(
         "author",
-        "_id username email accountType organizationName firstName lastName",
+        "_id username email accountType organizationName firstName lastName avatar",
       )
       .populate("media", "-mediaId -userId")
       .populate("poll")
@@ -44,7 +44,7 @@ export const getQuotes = async (
           {
             path: "author",
             select:
-              "_id username firstName lastName email accountType organizationName",
+              "_id username firstName lastName email accountType organizationName avatar",
           },
           { path: "media", select: "-mediaId -userId" },
           { path: "poll" },

@@ -32,13 +32,13 @@ const FollowCard = ({
           }}
         >
           <div className="flex items-center cursor-pointer  relative">
-            <Link className="" href={`#`}>
+            <Link className="" href={`/${username}`}>
               <div className="flex items-center gap-2.5">
                 <div className="self-start  ">
                   <Avatar className="size-14 relative z-1">
                     <Avatar.Image
-                      alt="Blue"
-                      src="https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/blue.jpg"
+                      alt={`${username} avatar image`}
+                      src={avatar||"https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/blue.jpg"}
                     />
                     <Avatar.Fallback className="uppercase">
                       {username?.charAt(0)}
