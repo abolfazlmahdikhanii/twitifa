@@ -1,8 +1,14 @@
-import { Label,Autocomplete, SearchField, ListBox, useFilter } from "@heroui/react";
-import { Earth } from "lucide-react";
-import countryFlagEmoji from "country-flag-emoji"
-const UserNation = ({setSelectedNation,setHasChange,selectedNation}) => {
-     const { contains } = useFilter({ sensitivity: "base" });
+import {
+  Autocomplete,
+  Label,
+  ListBox,
+  SearchField,
+  useFilter,
+} from "@heroui/react";
+import countryFlagEmoji from "country-flag-emoji";
+import Icon from "../ui/Icon/Icon";
+const UserNation = ({ setSelectedNation, setHasChange, selectedNation }) => {
+  const { contains } = useFilter({ sensitivity: "base" });
   return (
     <Autocomplete
       className="w-full text-right h-full flex flex-col gap-3 "
@@ -23,7 +29,7 @@ const UserNation = ({setSelectedNation,setHasChange,selectedNation}) => {
         >
           <span>{countryFlagEmoji.get(selectedNation)?.name}</span>
         </Autocomplete.Value>
-        <Earth size={23} className="input-icon" />
+        <Icon name="globe-cursor" className="input-icon" size={23} />
       </Autocomplete.Trigger>
       <Autocomplete.Popover
         className={"bg-[#191933] border border-[#34344E] relative "}

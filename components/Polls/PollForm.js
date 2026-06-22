@@ -7,8 +7,9 @@ import {
   CardHeader,
   Input,
 } from "@heroui/react";
-import { ListTodo, PlusCircle, Trash, X } from "lucide-react";
-import React, { useState } from "react";
+import { X } from "lucide-react";
+import { useState } from "react";
+import Icon from "../ui/Icon/Icon";
 
 const PollForm = ({ onPollDataChange, onRemovePoll }) => {
   const durations = [
@@ -86,7 +87,8 @@ const PollForm = ({ onPollDataChange, onRemovePoll }) => {
     <Card className="bg-[#1A1A31] border border-[#34344E] mt-9 mb-8 pb-5.5 pt-7 px-9">
       <CardHeader>
         <div className="flex items-center gap-x-2.5 opacity-70">
-          <ListTodo size={20} />
+          <Icon name="checklist" className="w-5 h-5" />
+
           <p className="font-semibold ">تنظیمات نظرسنجی</p>
         </div>
       </CardHeader>
@@ -121,11 +123,11 @@ const PollForm = ({ onPollDataChange, onRemovePoll }) => {
             <Button
               variant="ghost"
               className={
-                "my-1 py-5.5 px-5.5 text-[#6366F1] gap-x-2.5 font-semibold text-base"
+                "my-1 py-5.5 px-5.5 text-[#6366F1] gap-x-2.5 font-semibold text-base [&>svg]:size-5"
               }
               onPress={addOption}
             >
-              <PlusCircle />
+              <Icon name="plus-circle" className="w-6 h-6" />
               افزودن گزینه جدید
             </Button>
           )}
@@ -149,11 +151,12 @@ const PollForm = ({ onPollDataChange, onRemovePoll }) => {
       <CardFooter>
         <Button
           variant="danger-soft"
-          className={"mt-2 py-6.5 "}
+          className={"mt-2 py-6.5 [&>svg]:size-5 "}
           fullWidth
           onPress={handleRemovePoll}
         >
-          <Trash /> حذف نظرسنجی
+          <Icon name="trash" className="w-6 h-6" />
+          حذف نظرسنجی
         </Button>
       </CardFooter>
     </Card>

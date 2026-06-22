@@ -1,18 +1,12 @@
 "use client";
+import { formatDate } from "@/utils/date";
 import { Avatar, Button } from "@heroui/react";
-import {
-  Calendar,
-  Ellipsis,
-  Flag,
-  LampCeiling,
-  Link2,
-  MapPin,
-} from "lucide-react";
+import countryFlagEmoji from "country-flag-emoji";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React from "react";
 import BtnFollow from "../ui/BtnFollow/BtnFollow";
+import Icon from "../ui/Icon/Icon";
 import SharedFollower from "../ui/SharedFollower/SharedFollower";
 
 const ProfileHeader = ({
@@ -24,10 +18,18 @@ const ProfileHeader = ({
   followingCount,
   isMe,
   organizationName,
+  bio,
+  nationality,
+  birthDate,
+  createdAt,
+  address,
+  location,
+  website,
   isFollow,
   sharedFollowers = [],
   avatar,
-  profileBg
+  profileBg,
+  occupation,
 }) => {
   const { push } = useRouter();
   return (
@@ -36,11 +38,10 @@ const ProfileHeader = ({
       <div className="relative">
         <div className="h-50">
           <Image
-            src={profileBg||"/images/profile-bg.webp"}
+            src={profileBg || "/images/profile-bg.webp"}
             alt="profile-bg"
             fill
             className="object-cover"
-            
           />
         </div>
       </div>
@@ -49,7 +50,10 @@ const ProfileHeader = ({
           <Avatar className="w-20 h-20 ">
             <Avatar.Image
               alt={`${username} avatar`}
-              src={avatar||"https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/blue.jpg"}
+              src={
+                avatar ||
+                "https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/blue.jpg"
+              }
             />
             <Avatar.Fallback className="text-2xl capitalize">
               {username?.charAt(0)}
@@ -73,7 +77,7 @@ const ProfileHeader = ({
             isIconOnly
             className={"h-11.5 w-11.5 border-1.5 border-[#34344E]"}
           >
-            <Ellipsis />
+            <Icon name="more-horizontal" />
           </Button>
         </div>
       </div>
@@ -93,49 +97,80 @@ const ProfileHeader = ({
       </div>
       {/* extra info */}
       <div className="mt-4 mx-6">
-        <div className="mb-6.5 whitespace-pre-wrap">
-          <span
-            dir="auto"
-            className="block min-h-3.5 text-[17px] text-[rgb(225,226,226)] leading-loose max-w-3xl font-light"
-          >
-            برنامه تلویزیونی بدون توقف شبکه ۳ سیما | بررسی چالشی شبهات روز جامعه
-            | از شنبه تا چهارشنبه | حوالی ساعت ۱۸ | لایک و بازنشر به معنای تایید
-            نیست، صرفا تشکر است
-          </span>
-        </div>
-        {/* general info */}
-        <div className="flex items-center gap-x-7.5 gap-y-3.5 flex-wrap max-w-2xl">
-          <div className="flex items-center gap-x-1.5 dark:text-neutral-400 text-neutral-500">
-            <MapPin size={18} />
-            <span className="text-[17px] leading-7">تهران</span>
-          </div>
-          <div className="flex items-center gap-x-1.5 dark:text-neutral-400 text-neutral-500">
-            <Link2 size={18} className="-rotate-45" />
-            <Link
-              href="https://virasty.com/"
-              className="text-[17px] leading-7 text-blue-500"
-              target="_blank"
+        {bio && (
+          <div className="mb-6.5 whitespace-pre-wrap">
+            <span
+              dir="auto"
+              className="block min-h-3.5 text-[17px] text-[rgb(225,226,226)] leading-loose max-w-3xl font-light"
             >
-              http://www.a.com
-            </Link>
-          </div>
-          <div className="flex items-center gap-x-1.5 dark:text-neutral-400 text-neutral-500">
-            <Calendar size={16} />
-            <span className="text-[17px] leading-7">
-              تاریخ پیوستن: مرداد 1402
+              برنامه تلویزیونی بدون توقف شبکه ۳ سیما | بررسی چالشی شبهات روز
+              جامعه | از شنبه تا چهارشنبه | حوالی ساعت ۱۸ | لایک و بازنشر به
+              معنای تایید نیست، صرفا تشکر است
             </span>
           </div>
+        )}
+        {/* general info */}
+        <div className="flex items-center gap-x-7.5 gap-y-4.5 flex-wrap max-w-2xl">
+          {location && (
+            <div className="flex items-center gap-x-1.5 dark:text-neutral-400 text-neutral-500">
+              <Icon name="location-pin" size={18} />
+
+              <span className="text-[16px] leading-7">{location}</span>
+            </div>
+          )}
+          {website && (
+            <div className="flex items-center gap-x-1.5 dark:text-neutral-400 text-neutral-500">
+              <Icon name="url-link" className="-rotate-45"size={18}  />
+
+              <Link
+                href={website}
+                className="text-[17px] leading-7 text-blue-500"
+                target="_blank"
+              >
+                {website}
+              </Link>
+            </div>
+          )}
           <div className="flex items-center gap-x-1.5 dark:text-neutral-400 text-neutral-500">
-            <LampCeiling size={18} />
-            <span className="text-[17px] leading-7"> متولد: 25 مرداد</span>
+              <Icon name="calendar" size={18} />
+
+            <span className="text-[16px] leading-3">
+              تاریخ پیوستن: {createdAt && formatDate(createdAt)}
+            </span>
           </div>
-          <div className="flex items-center gap-x-1.5 dark:text-neutral-400 text-neutral-500">
-            <Flag size={16} />
-            <span className="text-[17px] leading-7">IRI</span>
-          </div>
+          {birthDate && (
+            <div className="flex items-center gap-x-1.5 dark:text-neutral-400 text-neutral-500">
+              <Icon name="birthday-cake" size={18} />
+
+              <span className="text-[16px] leading-3">
+                {" "}
+                متولد: {formatDate(birthDate)}
+              </span>
+            </div>
+          )}
+          {occupation && (
+            <div className="flex items-center gap-x-1.5 dark:text-neutral-400 text-neutral-500">
+              <Icon name="briefcase" size={18} />
+
+              <span className="text-[16px] leading-6">{occupation}</span>
+            </div>
+          )}
+
+          {nationality && (
+            <div className="flex items-center gap-x-1.5 dark:text-neutral-400 text-neutral-500">
+              <Icon name="flag-pole" size={19} />
+
+              <span className="text-[16px] leading-6">
+                {nationality}{" "}
+                <span className="text-sm ">
+                  {countryFlagEmoji.get(nationality)?.emoji}
+                </span>
+              </span>
+            </div>
+          )}
         </div>
         {/* follower info */}
-        <div className="mt-9 flex items-center gap-x-8.5 pr-2">
+        <div className="mt-11 flex items-center gap-x-8.5 pr-2">
           <p className="font-semibold text-[17px] ">
             {followingCount ?? 0}{" "}
             <span className="dark:text-neutral-400 text-neutral-500 mr-px">

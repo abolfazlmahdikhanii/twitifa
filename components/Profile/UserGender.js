@@ -1,7 +1,7 @@
-import { Label,ListBox,Select } from "@heroui/react";
-import { Users } from "lucide-react";
+import { Label, ListBox, Select } from "@heroui/react";
+import Icon from "../ui/Icon/Icon";
 
-const UserGender = ({setGender,setHasChange,gender}) => {
+const UserGender = ({ setGender, setHasChange, gender }) => {
   return (
     <Select
       className="w-full text-right h-full flex flex-col gap-3 "
@@ -16,7 +16,7 @@ const UserGender = ({setGender,setHasChange,gender}) => {
       <Label className="dark:text-neutral-400 text-neutral-500">جنسیت</Label>
       <Select.Trigger className="input-lg flex items-center justify-between text-right">
         <Select.Value className={"text-right text-[15px]"} />
-        <Users size={23} className="input-icon" />
+        <Icon name="gender" className="input-icon"  size={23} />
       </Select.Trigger>
       <Select.Popover className={"bg-[#191933] border border-[#34344E] "}>
         <ListBox>

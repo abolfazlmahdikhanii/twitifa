@@ -1,24 +1,22 @@
 "use client";
 import { Description, Label, Radio, RadioGroup } from "@heroui/react";
-import { DynamicIcon } from "lucide-react/dynamic";
-import React, { useId } from "react";
+import Icon from "../Icon/Icon";
 
+const deliveryOptions = [
+  {
+    description: "استفاده شخصی",
+    icon: `simple-user`,
+    title: "حساب حقیقی",
+    value: "personal",
+  },
+  {
+    description: "شرکت ها و سازمان ها",
+    icon: "building",
+    title: "حساب حقوقی",
+    value: "legal",
+  },
+];
 const AccountType = ({ setType, defaultType }) => {
-  const deliveryOptions = [
-    {
-      description: "استفاده شخصی",
-      icon: "user-round",
-      title: "حساب حقیقی",
-      value: "personal",
-    },
-    {
-      description: "شرکت ها و سازمان ها",
-      icon: "building",
-      title: "حساب حقوقی",
-      value: "legal",
-    },
-  ];
- 
   return (
     <section className="flex w-full  flex-col gap-4">
       <RadioGroup
@@ -26,7 +24,7 @@ const AccountType = ({ setType, defaultType }) => {
         name="account"
         variant="secondary"
         onChange={(value) => setType(value)}
-       value={defaultType}
+        value={defaultType}
       >
         <Label>نوع حساب کاربری خود را انتخاب کنید</Label>
         <div className="grid gap-x-6 md:grid-cols-2 mt-1">
@@ -43,7 +41,8 @@ const AccountType = ({ setType, defaultType }) => {
               </Radio.Control>
               <Radio.Content className="flex flex-col gap-4 items-center justify-center w-full pb-1 ">
                 <div className="mt-1 w-14 h-14 bg-accent-soft-hover rounded-full grid place-items-center">
-                  <DynamicIcon name={option.icon} size={24} color="#2B2BEE" />
+                
+                  <Icon name={option.icon} size={28}/>
                 </div>
                 <div className="flex flex-col gap-1.5  justify-center items-center">
                   <Label className="text-base">{option.title}</Label>

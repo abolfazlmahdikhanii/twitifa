@@ -1,10 +1,11 @@
 "use client";
 import { useAuth } from "@/context/AuthContext";
 import { formatTimeLeft } from "@/utils/post";
-import { Button, Description, Label, Radio, RadioGroup } from "@heroui/react";
-import { Clock4, Dot } from "lucide-react";
-import React, { useState } from "react";
+import { Label, Radio, RadioGroup } from "@heroui/react";
+import { Dot } from "lucide-react";
+import { useState } from "react";
 import { toast } from "sonner";
+import Icon from "../ui/Icon/Icon";
 
 const PollVote = ({
   options,
@@ -17,11 +18,10 @@ const PollVote = ({
   postId,
 }) => {
   const [selectedVote, setSelectedVote] = useState(options[0]?._id);
-  const {user}=useAuth()
+  const { user } = useAuth();
 
   const voteHandler = async (optionId) => {
-  
-    if (!isUserLogin&&!user) {
+    if (!isUserLogin && !user) {
       toast.error("برای نطرسنجی باید لاگین کنید");
       return;
     }
@@ -47,7 +47,7 @@ const PollVote = ({
         body: JSON.stringify(newVote),
       });
       const voteData = await voteRes.json();
-      
+
       if (voteRes.status === 200) {
         toast.success(" رای با موفقیت ثبت شد");
         // reset form
@@ -97,7 +97,7 @@ const PollVote = ({
             </span>
             <Dot size={24} />
             <div className="flex items-center gap-1.5">
-              <Clock4 size={16} />
+              <Icon name="clock" className="w-4.25 h-4.25" />
               <span>{duration && formatTimeLeft(duration)}</span>
             </div>
           </section>

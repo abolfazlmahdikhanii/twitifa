@@ -1,8 +1,13 @@
-import { ChevronLeft } from "lucide-react";
 import Link from "next/link";
-import React from "react";
+import Icon from "../Icon/Icon";
 
-const TrendItem = ({ hashtag,hashtagCount, name, count, isTrendPage = false }) => {
+const TrendItem = ({
+  hashtag,
+  hashtagCount,
+  name,
+  count,
+  isTrendPage = false,
+}) => {
   return (
     <Link
       href={`/hashtag/${name}`}
@@ -10,13 +15,19 @@ const TrendItem = ({ hashtag,hashtagCount, name, count, isTrendPage = false }) =
     >
       <div>
         <div className="mb-1.25">
-          <p className={`font-bold truncate block ${isTrendPage?"text-[18px]":""}`}>{hashtag}</p>
+          <p
+            className={`font-bold truncate block ${isTrendPage ? "text-[18px]" : ""}`}
+          >
+            {hashtag}
+          </p>
         </div>
-        <p className={`dark:text-neutral-400 text-neutral-500 mr-0.5 ${isTrendPage?"text-[15px] mt-1":""}`}>
+        <p
+          className={`dark:text-neutral-400 text-neutral-500 mr-0.5 ${isTrendPage ? "text-[15px] mt-1" : ""}`}
+        >
           {hashtagCount} پست
         </p>
       </div>
-      <ChevronLeft size={20} className="text-muted" />
+      <Icon name="chevron-left" className="w-5 h-5 text-muted" />
     </Link>
   );
 };

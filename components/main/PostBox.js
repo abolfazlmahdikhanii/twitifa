@@ -1,6 +1,6 @@
 "use client";
 import { Avatar, Button, Spinner } from "@heroui/react";
-import { Clapperboard, Image, ListTodo, Loader2, Smile } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import ReplyTypeModal from "./ReplyTypeModal";
@@ -21,6 +21,7 @@ import StarterKit from "@tiptap/starter-kit";
 import PollForm from "../Polls/PollForm";
 
 import { useAuth } from "@/context/AuthContext";
+import Icon from '../ui/Icon/Icon';
 import MediaGallery from "../ui/Media/MediaGallery/MediaGallery";
 const MediaGalleryMemo = React.memo(MediaGallery);
 
@@ -557,7 +558,11 @@ const PostBox = ({
             }
             isPending={isImageLoading}
           >
-            {isImageLoading ? <Loader2 className=" animate-spin" /> : <Image />}
+            {isImageLoading ? (
+              <Loader2 className=" animate-spin" />
+            ) : (
+              <Icon name="image" strokeWidth={2.25}/>
+            )}
           </Button>
           <input
             ref={imgRef}
@@ -580,7 +585,7 @@ const PostBox = ({
             {isVideoLoading ? (
               <Loader2 className=" animate-spin" />
             ) : (
-              <Clapperboard />
+              <Icon name="globe" strokeWidth={2.25}/>
             )}{" "}
           </Button>
           <input
@@ -598,14 +603,14 @@ const PostBox = ({
             isDisabled={hasPoll}
             onPress={() => setHasPoll(true)}
           >
-            <ListTodo />
+            <Icon name="checklist"  strokeWidth={2.25}/>
           </Button>
           <Button
             isIconOnly
             variant="ghost"
             className="text-[#6366F1] mt-3 [&>svg]:w-6.5 [&>svg]:h-6.5 px-5.5 py-5.5"
           >
-            <Smile />
+            <Icon name="emoji-happy" strokeWidth={2.25}/>
           </Button>
         </div>
 

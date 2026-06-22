@@ -1,19 +1,10 @@
 "use client";
 import { useAuth } from "@/context/AuthContext";
 import { Avatar, Button, Popover } from "@heroui/react";
-import {
-  Bell,
-  Ellipsis,
-  Home,
-  LogOut,
-  Mail,
-  Search,
-  User,
-  UserPen,
-} from "lucide-react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useState } from "react";
+import Icon from "../ui/Icon/Icon";
 const PostModal = dynamic(() => import("../Posts/PostModal"), { ssr: false });
 const PostBox = dynamic(() => import("./PostBox"), { ssr: false });
 
@@ -26,31 +17,23 @@ const RightSidebar = ({ username, name, avatar, notificationCount }) => {
       <div className="flex flex-col justify-between h-full gap-5">
         <div className="flex flex-col gap-y-4.5">
           <div className="flex items-center gap-2.5 py-3.5 ">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              height="44"
-              viewBox="0 -960 960 960"
-              width="44"
-              fill="currentColor"
-              className="text-[#6366F1]"
-            >
-              <path d="m334-80-74-30 58-141q-106-28-172-114T80-560v-160q0-66 47-113t113-47q22 0 42 7.5t40 15.5l238 97-160 60v60l440 280 40 200h-80l-40-80H560v160h-80v-160h-80L334-80Zm66-240h353l-63-40H400q-66 0-113-47t-47-113h80q0 33 23.5 56.5T400-440h165L320-596v-124q0-33-23.5-56.5T240-800q-33 0-56.5 23.5T160-720v160q0 100 70 170t170 70ZM240-680q-17 0-28.5-11.5T200-720q0-17 11.5-28.5T240-760q17 0 28.5 11.5T280-720q0 17-11.5 28.5T240-680Zm160 320Z" />
-            </svg>
+            <Icon name="app-logo" className="text-[#6366F1]" size={44} />
             <h1 className="text-[26px] font-bold">تویتیفای</h1>
           </div>
           <div>
             <nav className="flex flex-col gap-y-4.5">
               <Link href={"/feed"} className="menu-item">
-                <Home size={26} />
+                <Icon name="home" size={26} />
                 خانه
               </Link>
               <Link href={"#"} className="menu-item">
-                <Search size={26} />
+                <Icon name="search" size={26} />
                 کاوش
               </Link>
               <Link href={"/notifications"} className="menu-item">
                 <div className="relative">
-                  <Bell size={26} />
+                  <Icon name="bell" size={26} />
+
                   {notificationCount > 0 && (
                     <span className="absolute -top-2 -left-1.5 leading-none flex h-5 w-5 items-center justify-center rounded-full bg-accent text-[10px] font-bold text-white">
                       {notificationCount > 99 ? "99+" : notificationCount}
@@ -60,11 +43,11 @@ const RightSidebar = ({ username, name, avatar, notificationCount }) => {
                 اعلان ها
               </Link>
               <Link href={"#"} className="menu-item">
-                <Mail size={26} />
+                <Icon name="inbox" size={26} />
                 پیام ها
               </Link>
               <Link href={`/${username}`} className="menu-item">
-                <User size={26} />
+                <Icon name="profile" size={28}/>
                 پروفایل
               </Link>
             </nav>
@@ -97,7 +80,8 @@ const RightSidebar = ({ username, name, avatar, notificationCount }) => {
                 <Avatar>
                   <Avatar.Image
                     alt="profile image"
-                    src={avatar||
+                    src={
+                      avatar ||
                       user?.avatar ||
                       "https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/blue.jpg"
                     }
@@ -119,20 +103,20 @@ const RightSidebar = ({ username, name, avatar, notificationCount }) => {
                   </p>
                 </div>
                 <Button variant="ghost" isIconOnly>
-                  <Ellipsis />
+                  <Icon name="more-horizontal" />
                 </Button>
               </div>
             </div>
           </Popover.Trigger>
           <Popover.Content className="w-68 bg-[#1A1A31]   shadow-none">
-            <Popover.Dialog>
+            <Popover.Dialog dir="rtl">
               <div className={"user-popup__item mb-2"}>
-                <UserPen size={22} />
+                <Icon name="user-circle" size={24}/>
                 ویرایش پروفایل
               </div>
 
               <div className={"user-popup__item text-red-500"}>
-                <LogOut size={22} />
+                <Icon name="logout" size={22}/>
                 خروج از حساب کاربری
               </div>
             </Popover.Dialog>

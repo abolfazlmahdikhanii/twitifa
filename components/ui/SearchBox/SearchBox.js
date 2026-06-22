@@ -2,9 +2,9 @@ import { useClickOutside } from "@/hooks/useClickOutside";
 import { Input } from "@heroui/react";
 import { useQuery } from "@tanstack/react-query";
 import { debounce } from "lodash";
-import { Search } from "lucide-react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import SearchModal from "../SearchModal/SearchModal";
+import Icon from "../Icon/Icon";
 
 const SearchBox = ({ isSearchPage = false, query }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -30,11 +30,11 @@ const SearchBox = ({ isSearchPage = false, query }) => {
     },
     [debouncedSearch],
   );
-useEffect(() => {
-  if (!query) return;
-  const id = setTimeout(() => searchHandler(query), 0);
-  return () => clearTimeout(id);
-}, [searchHandler, query]);
+  useEffect(() => {
+    if (!query) return;
+    const id = setTimeout(() => searchHandler(query), 0);
+    return () => clearTimeout(id);
+  }, [searchHandler, query]);
   const searchRef = useRef(null);
 
   useClickOutside(searchRef, () => {
@@ -56,11 +56,12 @@ useEffect(() => {
   return (
     <div className="relative flex-1 w-full" ref={searchRef}>
       <div className="relative">
-        <Search size={22} className="input-icon--search" />
+        <Icon name="search" className="input-icon--search w-[22px] h-[22px]" />
+
         <Input
           placeholder="جستجو در تویتیفای"
           type="text"
-          className={isSearchPage?"input-sm--search":"input-lg--search"}
+          className={isSearchPage ? "input-sm--search" : "input-lg--search"}
           value={searchQuery}
           onChange={(e) => {
             searchHandler(e.target.value);

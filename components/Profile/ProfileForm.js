@@ -1,16 +1,6 @@
 import { formatPersianDate } from "@/utils/date";
 import { Input, Label, TextArea } from "@heroui/react";
-import {
-  BriefcaseBusiness,
-  Building,
-  Calendar,
-  FileText,
-  IdCard,
-  Link2,
-  MapPin,
-  MapPinHouse,
-  User,
-} from "lucide-react";
+import Icon from "../ui/Icon/Icon";
 import PersianDatePicker from "../ui/DatePicker";
 import UserGender from "./UserGender";
 import UserNation from "./UserNation";
@@ -40,7 +30,7 @@ const ProfileForm = (props) => {
                   props.setHasChange(true);
                 }}
               />
-              <User size={23} className="input-icon" />
+              <Icon name="name-icon" className="input-icon" size={22}  />
             </div>
           </div>
           {/* last-name */}
@@ -63,7 +53,7 @@ const ProfileForm = (props) => {
                   props.setHasChange(true);
                 }}
               />
-              <IdCard size={23} className="input-icon" />
+              <Icon name="id-card" className="input-icon" size={23}  />
             </div>
           </div>
         </>
@@ -87,7 +77,7 @@ const ProfileForm = (props) => {
                 props.setHasChange(true);
               }}
             />
-            <Building size={23} className="input-icon" />
+              <Icon name="building" className="input-icon" size={23}  />
           </div>
         </div>
       )}
@@ -111,7 +101,7 @@ const ProfileForm = (props) => {
             }}
             maxLength={350}
           />
-          <FileText size={23} className="textarea-icon " />
+          <Icon name="text-document" className="textarea-icon" size={23}  />
         </div>
       </div>
       {/* location */}
@@ -134,7 +124,7 @@ const ProfileForm = (props) => {
               props.setHasChange(true);
             }}
           />
-          <MapPin size={23} className="input-icon" />
+          <Icon name="location-pin" className="input-icon" size={23} />
         </div>
       </div>
 
@@ -165,7 +155,7 @@ const ProfileForm = (props) => {
             readOnly
             value={formatPersianDate(props.selectedDate) || ""}
           />
-          <Calendar size={23} className="input-icon" />
+          <Icon name="calendar" className="input-icon" size={23} />
         </div>
 
         <PersianDatePicker
@@ -209,7 +199,7 @@ const ProfileForm = (props) => {
               props.setHasChange(true);
             }}
           />
-          <BriefcaseBusiness size={23} className="input-icon" />
+          <Icon name="briefcase" className="input-icon" size={23} />
         </div>
       </div>
       {/* site */}
@@ -233,7 +223,7 @@ const ProfileForm = (props) => {
               props.setHasChange(true);
             }}
           />
-          <Link2 size={23} className="input-icon " />
+          <Icon name="url-link" className="input-icon" size={22}  />
         </div>
       </div>
       {/* address */}
@@ -255,7 +245,7 @@ const ProfileForm = (props) => {
               props.setHasChange(true);
             }}
           />
-          <MapPinHouse size={23} className="textarea-icon " />
+          <Icon name="address-pin" className="textarea-icon" size={23} />
         </div>
       </div>
     </section>

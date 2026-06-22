@@ -1,15 +1,15 @@
 "use client";
-import React, { Activity, useState } from "react";
 import { Button, Description, Input, Label, Modal } from "@heroui/react";
+import { useState } from "react";
 
-import AccountType from "../ui/main/AccountType";
-import { toast } from "sonner";
-import userProfileSchema from "@/validators/profile";
-import z from "zod";
-import { ArrowLeft, ArrowRight } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
+import userProfileSchema from "@/validators/profile";
+import { toast } from "sonner";
+import z from "zod";
+import AccountType from "../ui/main/AccountType";
+import Icon from "../ui/Icon/Icon";
 const CompleteInfoModal = () => {
-  const {refetch}=useAuth()
+  const { refetch } = useAuth();
   const [accountType, setAccountType] = useState("personal");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -77,7 +77,7 @@ const CompleteInfoModal = () => {
     <Modal isOpen={isShowModal}>
       <Modal.Backdrop variant="blur">
         <Modal.Container>
-          <Modal.Dialog className="sm:max-w-xl bg-[#101022] border border-[#34344E]">
+          <Modal.Dialog className="sm:max-w-xl bg-body] border border-[#34344E]">
             <Modal.Header className="mt-2">
               <Modal.Heading className="text-xl font-bold text-center">
                 به تویتیفای خوش آمدید
@@ -145,12 +145,13 @@ const CompleteInfoModal = () => {
                 className={"px-7 h-13 w-full "}
                 onClick={submitUserInfo}
               >
-                ثبت و ادامه <ArrowLeft size={28} className="inline-block" />
+                ثبت و ادامه{" "}
+                <Icon name="chevron-left" className="inline-block w-6 h-6" />
               </Button>
               <Description className="text-center">
                 با ثبت اطلاعات شما با{" "}
-                <span className="text-[#6366F1]">قوانین و مقررات </span>  
-                 تویتیفای موافقت میکنید.
+                <span className="text-[#6366F1]">قوانین و مقررات </span>
+                تویتیفای موافقت میکنید.
               </Description>
             </Modal.Footer>
           </Modal.Dialog>

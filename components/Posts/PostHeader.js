@@ -5,22 +5,12 @@ import usePostAction from "@/hooks/usePostAction";
 import { getAuthorName, getHighlightedHTML } from "@/utils/post";
 import { Button, Dropdown, Label } from "@heroui/react";
 import DOMPurify from "isomorphic-dompurify";
-import {
-  Ban,
-  Ellipsis,
-  Flag,
-  MessageCircle,
-  PenLine,
-  Pin,
-  Trash2,
-  UserMinus,
-  UserPlus,
-} from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import AuthorInfo from "../ui/AuthorInfo/AuthorInfo";
 import AuthorPostInfo from "../ui/AuthorPostInfo/AuthorPostInfo";
 import HoverProfile from "../ui/Profile/HoverProfile";
 import RepliedUsers from "../ui/RepliedUsers/RepliedUsers";
+import Icon from "../ui/Icon/Icon";
 
 const PostHeader = ({
   post,
@@ -124,7 +114,7 @@ const PostHeader = ({
     <div className=" flex items-center gap-x-4.5 w-full">
       <div className="w-full">
         <div className="flex items-center justify-between w-full mt-2">
-          <div className="w-full">
+          <div className="">
             {post.isReposted && post.retweetedFrom && !post.isQuoteRepost && (
               <RepostHeader
                 author={displayUser}
@@ -138,23 +128,14 @@ const PostHeader = ({
               <div
                 className={`flex items-center gap-x-1.5 text-muted text-sm ${selfReply ? "pr-28" : "pr-16"} font-bold ${replyHeader ? "mb-3" : "mb-0.5"}`}
               >
-                <Pin className="size-4 shrink-0 fill-muted" />
+                <Icon name="pin" className="size-4 shrink-0 fill-muted" />
                 <p>سنجاق شد</p>
               </div>
             )}
             {/* reply header */}
             {isShowReplyHeader && replyHeader && (
               <div className="flex items-center gap-x-2 text-muted text-sm pr-16 mb-0.5 font-bold ">
-                <svg
-                  className="size-4 shrink-0 fill-muted"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    fill="currentColor"
-                    d="m14.046 2.242-4.148-.01h-.002c-4.374 0-7.8 3.427-7.8 7.802 0 4.098 3.186 7.206 7.465 7.37v3.828a.85.85 0 0 0 .12.403.744.744 0 0 0 1.034.23c.264-.169 6.473-4.14 8.088-5.507 1.902-1.61 3.04-3.97 3.043-6.312v-.017c-.006-4.367-3.43-7.787-7.8-7.788z"
-                  ></path>
-                </svg>
+                <Icon name="reply-header" className="size-4 shrink-0 fill-muted" />
                 <p>{replyHeader}</p>
               </div>
             )}
@@ -184,32 +165,36 @@ const PostHeader = ({
             <div ref={btnRef} className="mr-2">
               {isPostOwner ? (
                 <Dropdown key={dialog || showChangeReply ? "active" : "normal"}>
-                  <Button variant="ghost" isIconOnly>
-                    <Ellipsis />
-                  </Button>
-                  <Dropdown.Popover className="border-none shadow-none bg-[#1A1A31] rounded-[24px] w-60">
-                    <Dropdown.Menu onAction={handleDropdownAction}>
-                      <Dropdown.Item
-                        id={`delete-post`}
+                   <Button variant="ghost" isIconOnly>
+                     <Icon name="more-horizontal" className="size-4.5" />
+                   </Button>
+                   <Dropdown.Popover className="border-none shadow-none bg-[#1A1A31] rounded-[24px] w-60">
+                     <Dropdown.Menu dir="rtl" onAction={handleDropdownAction}>
+                       <Dropdown.Item
+                         id={`delete-post`}
                         textValue="Delete post"
                         variant="danger"
                       >
-                        <Trash2 className="size-4 shrink-0 text-danger" />
+                        <Icon name="delete-fill" className="size-5 shrink-0 text-danger" />
+
                         <Label>حذف پست</Label>
                       </Dropdown.Item>
                       <Dropdown.Item id="edit-post" textValue="edit post">
-                        <PenLine className="size-4 shrink-0 text-muted" />
+                        <Icon name="edit" className="size-5 shrink-0 text-muted" />
+
                         <Label>ویرایش</Label>
                       </Dropdown.Item>
                       <Dropdown.Item
                         id="change-replies"
                         textValue="Change reply"
                       >
-                        <MessageCircle className="size-4 shrink-0 text-muted" />
+                        <Icon name="reply-permission" className="size-4.5 shrink-0 text-muted" />
+
                         <Label>تغییر افراد پاسخ دهنده</Label>
                       </Dropdown.Item>
                       <Dropdown.Item id="pin-post" textValue="pin post">
-                        <Pin className="size-4 shrink-0 text-muted" />
+                        <Icon name="pin" className="size-4.5 shrink-0 text-muted" />
+
                         <Label>{!pin ? "سنجاق کردن" : "برداشتن سنجاق"}</Label>
                       </Dropdown.Item>
                     </Dropdown.Menu>
@@ -217,20 +202,20 @@ const PostHeader = ({
                 </Dropdown>
               ) : (
                 <Dropdown>
-                  <Button variant="ghost" isIconOnly>
-                    <Ellipsis />
-                  </Button>
-                  <Dropdown.Popover className="border-none shadow-none bg-[#1A1A31] rounded-[24px] w-60">
-                    <Dropdown.Menu onAction={handleDropdownAction}>
-                      <Dropdown.Item
-                        id="follow-user"
+                   <Button variant="ghost" isIconOnly>
+                     <Icon name="more-horizontal" className="size-6" />
+                   </Button>
+                   <Dropdown.Popover className="border-none shadow-none bg-[#1A1A31] rounded-[24px] w-60">
+                     <Dropdown.Menu dir="rtl" onAction={handleDropdownAction}>
+                       <Dropdown.Item
+                         id="follow-user"
                         textValue="follow"
                         isDisabled={followLoading}
                       >
                         {!follow?.isFollow ? (
-                          <UserPlus className="size-4 shrink-0 text-muted" />
+                          <Icon name="follow" className="size-5 shrink-0 text-muted" />
                         ) : (
-                          <UserMinus className="size-4 shrink-0 text-muted" />
+                          <Icon name="unfollow" className="size-5 shrink-0 text-muted" />
                         )}
                         <Label>
                           {follow?.isFollow ? "لغو" : ""} دنبال کردن{" "}
@@ -238,14 +223,16 @@ const PostHeader = ({
                         </Label>
                       </Dropdown.Item>
                       <Dropdown.Item id="block-user" textValue="block">
-                        <Ban className="size-4 shrink-0 text-muted" />
+                        <Icon name="block" className="size-4.75 shrink-0 text-muted" />
+
                         <Label>
                           مسدود سازی{" "}
                           <span dir="ltr">@{post.author?.username}</span>
                         </Label>
                       </Dropdown.Item>
                       <Dropdown.Item id="report-post" textValue="report post">
-                        <Flag className="size-4 shrink-0 text-muted" />
+                        <Icon name="report" className="size-5 shrink-0 text-muted" />
+
                         <Label>گزارش تخلف در محتوا</Label>
                       </Dropdown.Item>
                     </Dropdown.Menu>
@@ -284,7 +271,8 @@ const PostHeader = ({
               className={"mt-3.5 px-5 mr-2 "}
               onClick={() => setIsMore(true)}
             >
-              نمایش بیشتر <Ellipsis />
+              نمایش بیشتر{" "}
+              <Icon name="more-horizontal" className="size-6" />
             </Button>
           )}
         </div>
@@ -298,12 +286,7 @@ export default PostHeader;
 const RepostHeader = ({ author, retweetedFrom, authorName }) => {
   return (
     <div className="flex items-center gap-x-2 text-muted text-sm pr-18 mb-0.5">
-      <svg fill="none" viewBox="0 0 24 24" className="size-4.5">
-        <path
-          fill="currentColor"
-          d="m4.5 3.88 4.432 4.14-1.364 1.46L5.5 7.55V16c0 1.1.896 2 2 2H13v2H7.5a4 4 0 0 1-4-4V7.55L1.432 9.48.068 8.02zM16.5 6H11V4h5.5a4 4 0 0 1 4 4v8.45l2.068-1.93 1.364 1.46-4.432 4.14-4.432-4.14 1.364-1.46 2.068 1.93V8c0-1.1-.896-2-2-2"
-        ></path>
-      </svg>
+      <Icon name="repost" className="size-4.5" />
       <HoverProfile userInfo={author}>
         <p className="cursor-pointer">
           {" "}

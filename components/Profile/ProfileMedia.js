@@ -1,6 +1,6 @@
 import { Avatar, Button } from "@heroui/react";
-import { Camera } from "lucide-react";
 import Image from "next/image";
+import Icon from "../ui/Icon/Icon";
 
 const ProfileMedia = ({
   handleCoverClick,
@@ -34,7 +34,8 @@ const ProfileMedia = ({
           variant="tertiary"
           onClick={handleCoverClick}
         >
-          <Camera className="size-5 ml-1" /> تغییر عکس کاور
+          <Icon name="camera" className="size-5 ml-1" />
+          تغییر عکس کاور
         </Button>
 
         <input
@@ -69,7 +70,7 @@ const ProfileMedia = ({
             onClick={handleImageClick}
             isDisabled={isLoading}
           >
-            <Camera size={18} />
+            <Icon name="camera" />
           </Button>
 
           <input

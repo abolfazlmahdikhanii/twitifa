@@ -8,6 +8,7 @@ import PostCard from "../Posts/PostCard";
 import FollowCard from "../ui/FollowCard/FollowCard";
 import Loader from "../ui/Loader/Loader";
 import SearchBox from "../ui/SearchBox/SearchBox";
+import Icon from "../ui/Icon/Icon";
 
 const SearchResultPage = ({ initialResult, searchQuery }) => {
   const searchParams = useSearchParams();
@@ -95,20 +96,7 @@ const SearchResultPage = ({ initialResult, searchQuery }) => {
           className="text-base h-10 w-10"
           onClick={() => router.back()}
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-            className="size-4"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18"
-            />
-          </svg>
+          <Icon name="arrow-left" className="size-4" />
         </Button>
       </header>
 
