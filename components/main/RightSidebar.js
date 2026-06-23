@@ -42,12 +42,16 @@ const RightSidebar = ({ username, name, avatar, notificationCount }) => {
                 </div>
                 اعلان ها
               </Link>
+              <Link href={"/twit-tv"} className="menu-item">
+                <Icon name="twit-tv" size={26} />
+                 تویتیوی
+              </Link>
               <Link href={"#"} className="menu-item">
                 <Icon name="inbox" size={26} />
                 پیام ها
               </Link>
               <Link href={`/${username}`} className="menu-item">
-                <Icon name="profile" size={28}/>
+                <Icon name="profile" size={28} />
                 پروفایل
               </Link>
             </nav>
@@ -111,12 +115,12 @@ const RightSidebar = ({ username, name, avatar, notificationCount }) => {
           <Popover.Content className="w-68 bg-[#1A1A31]   shadow-none">
             <Popover.Dialog dir="rtl">
               <div className={"user-popup__item mb-2"}>
-                <Icon name="user-circle" size={24}/>
+                <Icon name="user-circle" size={24} />
                 ویرایش پروفایل
               </div>
 
               <div className={"user-popup__item text-red-500"}>
-                <Icon name="logout" size={22}/>
+                <Icon name="logout" size={22} />
                 خروج از حساب کاربری
               </div>
             </Popover.Dialog>

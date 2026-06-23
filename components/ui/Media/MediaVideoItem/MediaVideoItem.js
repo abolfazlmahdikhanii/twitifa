@@ -1,6 +1,10 @@
 "use client";
 import { getIKPoster, getIKVideo } from "@/utils/imagekit";
-import { formatFileSize, formatVideoDuration, getVideoType } from "@/utils/post";
+import {
+  formatFileSize,
+  formatVideoDuration,
+  getVideoType,
+} from "@/utils/post";
 import { Button, Modal } from "@heroui/react";
 import {
   ArrowRight,
@@ -27,6 +31,7 @@ const MediaVideoItem = memo(
     author,
     time,
     size,
+    isGrid = false,
   }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [isPip, setIsPip] = useState(false);
@@ -85,21 +90,30 @@ const MediaVideoItem = memo(
 
     return (
       <div
-        className={`relative group ${layoutClass}`}
+        className={`relative group ${isGrid ? "h-full" : ""} ${layoutClass}`}
         key={isPreview ? `${author}-${index}` : index}
       >
         {!isPreview ? (
           <>
             <div
-              className="relative aspect-auto cursor-pointer"
+              className={`relative cursor-pointer ${isGrid ? "w-full h-full" : "aspect-auto"}`}
               onClick={() => setIsOpen(true)}
             >
               <Image
                 src={optimizedPoster}
                 alt={`ویدیو ${index + 1}`}
-                className="w-full h-full object-cover bg-no-repeat rounded-3xl min-h-63 max-h-149 overflow-hidden duration-700 ease-in-out"
-                width={600}
-                height={600}
+                {...(isGrid
+                  ? {
+                      fill: true,
+                      className:
+                        "w-full h-full object-cover bg-no-repeat rounded-3xl overflow-hidden duration-700 ease-in-out",
+                    }
+                  : {
+                      width: 600,
+                      height: 600,
+                      className:
+                        "w-full h-full object-cover bg-no-repeat rounded-3xl min-h-63 max-h-149 overflow-hidden duration-700 ease-in-out",
+                    })}
                 placeholder={blurUrl ? "blur" : "empty"}
                 blurDataURL={blurUrl}
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
@@ -115,82 +129,38 @@ const MediaVideoItem = memo(
                 <Play />
               </Button>
 
-              <div className="absolute bottom-4 left-3 bg-[rgba(0,0,0,0.3)] backdrop-blur-xl text-sm py-1.25 px-2.75 rounded-lg">
-                {formatVideoDuration(time)}
-              </div>
-
-              <div className="absolute top-4 right-3 bg-[rgba(0,0,0,0.3)] backdrop-blur-xl text-sm py-1.25 px-2.75 rounded-lg">
-                {formatFileSize(size)}
-              </div>
-            </div>
-
-            <Modal isOpen={isOpen && !isPip} onOpenChange={setIsOpen}>
-              <Modal.Backdrop isDismissable={false} variant="blur">
-                <Modal.Container className="pointer-events-auto">
-                  <div className="self-start w-full flex items-center justify-between">
-                    <Button
-                      isIconOnly
-                      variant="tertiary"
-                      size="lg"
-                      className="[&>svg]:size-5 w-12 h-12"
-                      onPress={closePip}
-                    >
-                      <ArrowRight />
-                    </Button>
-
-                    <div className="flex items-center gap-x-4">
-                      {isPlayerReady && (
-                        <Button
-                          isIconOnly
-                          variant="tertiary"
-                          size="lg"
-                          className="[&>svg]:size-5 w-12 h-12"
-                          onPress={() => {
-                            setIsPip(true);
-                            setIsOpen(false);
-                          }}
-                        >
-                          <PictureInPicture2 />
-                        </Button>
-                      )}
-                      <Button
-                        isIconOnly
-                        variant="tertiary"
-                        size="lg"
-                        className="[&>svg]:size-5 w-12 h-12"
-                        onPress={() => window.open(objectUrl, "_blank")}
-                      >
-                        <Download />
-                      </Button>
-                    </div>
+              {!isGrid ? (
+                <>
+                  <div className="absolute bottom-4 left-3 bg-[rgba(0,0,0,0.3)] backdrop-blur-xl text-sm py-1.25 px-2.75 rounded-lg">
+                    {formatVideoDuration(time)}
                   </div>
 
-                  <Modal.Dialog className="sm:max-w-2xl h-full bg-[#1E1E2E] p-1.5 pb-0">
-                    <Modal.Body>
-                      <VideoPlayer
-                        options={videoOptions}
-                        fullHeight
-                        onTimeUpdate={handleTimeUpdate}
-                        setPlayerReady={setIsPlayerReady}
-                        syncTime={pipTime}
-                        onEnded={onEndVideo}
-                      />
-                    </Modal.Body>
-                  </Modal.Dialog>
-                </Modal.Container>
-              </Modal.Backdrop>
-            </Modal>
+                  <div className="absolute top-4 right-3 bg-[rgba(0,0,0,0.3)] backdrop-blur-xl text-sm py-1.25 px-2.75 rounded-lg">
+                    {formatFileSize(size)}
+                  </div>
+                </>
+              ) : null}
 
-            {isPip && (
-              <PipVideo
-                backToFullScreen={backToFullScreen}
-                syncTime={currentTime}
-                options={videoOptions}
+              <PostVideoItem
+                isPip={isPip}
+                setIsOpen={setIsOpen}
+                isOpen={isOpen}
                 closePip={closePip}
-                displayUser={author}
-                setSyncTime={setPipTime}
+                isPlayerReady={isPlayerReady}
+                setIsPip={setIsPip}
+                objectUrl={objectUrl}
+                videoOptions={videoOptions}
+                handleTimeUpdate={handleTimeUpdate}
+                setIsPlayerReady={setIsPlayerReady}
+                pipTime={pipTime}
+                onEndVideo={onEndVideo}
+                backToFullScreen={backToFullScreen}
+                currentTime={currentTime}
+                author={author}
+                setPipTime={setPipTime}
+                isGrid={isGrid}
               />
-            )}
+            </div>
           </>
         ) : (
           <>
@@ -217,3 +187,101 @@ const MediaVideoItem = memo(
 
 MediaVideoItem.displayName = "MediaVideoItem";
 export default MediaVideoItem;
+
+const PostVideoItem = ({
+  isPip,
+  setIsOpen,
+  isOpen,
+  closePip,
+  isPlayerReady,
+  setIsPip,
+  objectUrl,
+  videoOptions,
+  handleTimeUpdate,
+  setIsPlayerReady,
+  pipTime,
+  onEndVideo,
+  backToFullScreen,
+  currentTime,
+  author,
+  setPipTime,
+  isGrid=false
+}) => {
+  return (
+    <>
+      <Modal isOpen={isOpen && !isPip} onOpenChange={setIsOpen}>
+        <Modal.Backdrop isDismissable={false} variant="blur">
+          <Modal.Container className="pointer-events-auto">
+            <div className="self-start w-full flex items-center justify-between">
+              <Button
+                isIconOnly
+                variant="tertiary"
+                size="lg"
+                className="[&>svg]:size-5 w-12 h-12"
+                onPress={closePip}
+              >
+                <ArrowRight />
+              </Button>
+
+              {!isGrid ? (
+                <div className="flex items-center gap-x-4">
+                  {isPlayerReady && (
+                    <Button
+                      isIconOnly
+                      variant="tertiary"
+                      size="lg"
+                      className="[&>svg]:size-5 w-12 h-12"
+                      onPress={() => {
+                        setIsPip(true);
+                        setIsOpen(false);
+                      }}
+                    >
+                      <PictureInPicture2 />
+                    </Button>
+                  )}
+                  <Button
+                    isIconOnly
+                    variant="tertiary"
+                    size="lg"
+                    className="[&>svg]:size-5 w-12 h-12"
+                    onPress={() => window.open(objectUrl, "_blank")}
+                  >
+                    <Download />
+                  </Button>
+                </div>
+              ) : (
+                <div>
+                  <Button className={"h-11 px-6"}>مشاهده پست</Button>
+                </div>
+              )}
+            </div>
+
+            <Modal.Dialog className="sm:max-w-2xl h-full bg-[#1E1E2E] p-1.5 pb-0">
+              <Modal.Body>
+                <VideoPlayer
+                  options={videoOptions}
+                  fullHeight
+                  onTimeUpdate={handleTimeUpdate}
+                  setPlayerReady={setIsPlayerReady}
+                  syncTime={pipTime}
+                  onEnded={onEndVideo}
+                />
+              </Modal.Body>
+            </Modal.Dialog>
+          </Modal.Container>
+        </Modal.Backdrop>
+      </Modal>
+
+      {!isGrid && isPip && (
+        <PipVideo
+          backToFullScreen={backToFullScreen}
+          syncTime={currentTime}
+          options={videoOptions}
+          closePip={closePip}
+          displayUser={author}
+          setSyncTime={setPipTime}
+        />
+      )}
+    </>
+  );
+};
