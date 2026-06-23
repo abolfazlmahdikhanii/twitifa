@@ -47,6 +47,7 @@ const MediaGrid = ({ row }) => {
                 index={idx}
                 totalVideo={row.items.length}
                 author={item.author}
+                postId={item.postId}
                 isGrid
               />
             )}

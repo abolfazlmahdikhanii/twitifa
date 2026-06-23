@@ -18,6 +18,7 @@ import Image from "next/image";
 import { memo, useCallback, useMemo, useState } from "react";
 import PipVideo from "../../PipVideo/PipVideo";
 import VideoPlayer from "../../VideoPlayer/VideoPlayer";
+import { useRouter } from "next/navigation";
 
 const MediaVideoItem = memo(
   ({
@@ -32,6 +33,7 @@ const MediaVideoItem = memo(
     time,
     size,
     isGrid = false,
+    postId
   }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [isPip, setIsPip] = useState(false);
@@ -159,6 +161,7 @@ const MediaVideoItem = memo(
                 author={author}
                 setPipTime={setPipTime}
                 isGrid={isGrid}
+                postId={postId}
               />
             </div>
           </>
@@ -205,8 +208,9 @@ const PostVideoItem = ({
   currentTime,
   author,
   setPipTime,
-  isGrid=false
+  isGrid=false,postId
 }) => {
+  const {push}=useRouter()
   return (
     <>
       <Modal isOpen={isOpen && !isPip} onOpenChange={setIsOpen}>
@@ -251,7 +255,7 @@ const PostVideoItem = ({
                 </div>
               ) : (
                 <div>
-                  <Button className={"h-11 px-6"}>مشاهده پست</Button>
+                  <Button className={"h-11 px-6"} onClick={()=>push(`/${author.username}/status/${postId}`)}>مشاهده پست</Button>
                 </div>
               )}
             </div>
