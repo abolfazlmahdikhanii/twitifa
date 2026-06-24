@@ -1,0 +1,376 @@
+@import "tailwindcss";
+@import "@heroui/styles";
+
+/* @custom-variant dark (&:is(.dark *)); */
+/* base style for tab */
+
+:root {
+  /* Override any color variable */
+  --accent: #1111d4;
+  --body: #101022;
+}
+@theme {
+  --color-body: #101022;
+}
+html {
+  font-feature-settings: "ss01";
+}
+body {
+  @apply h-svh;
+}
+.en {
+  font-feature-settings: normal;
+  direction: ltr;
+}
+.n-scroll {
+  scrollbar-width: none;
+}
+.n-scroll::-webkit-scrollbar {
+  display: none;
+}
+.menu-item {
+  @apply flex items-center gap-x-3 py-3.25 text-lg font-semibold transition-all duration-200 dark:hover:bg-white/10 hover:bg-slate-200 px-4;
+}
+
+.user-popup__item {
+  @apply flex items-center gap-x-3.5 py-3.25 rounded-xl cursor-pointer text-[15px] font-semibold transition-all duration-200 dark:hover:bg-white/10 hover:bg-slate-200 px-3;
+}
+.tabs-tab::before {
+  @apply w-0;
+}
+.input-lg {
+  @apply bg-[#191933] border border-[#34344E] h-12.5 md:h-14.5 rounded-[32px] pr-5 pl-11.5 w-full ltr:pl-12 text-[15px];
+}
+.input-poll {
+  @apply bg-[#26263B] border border-[#34344E] h-12.5 md:h-14.5 rounded-[20px] pl-11.5  w-full text-[16px] pr-4;
+}
+.poll-item {
+  @apply border border-white/5 h-12.5 md:h-15.5 rounded-[22px]  w-full text-[16px] px-4.5;
+}
+.input-icon {
+  @apply absolute top-1/2 -translate-y-1/2 left-4.5 text-gray-400 pointer-events-none;
+}
+.input-lg--search {
+  @apply bg-[#1A1A31]/80  h-12.5 md:h-14 rounded-[32px] pl-5 pr-12.5 w-full ltr:pr-12 text-[16px];
+}
+.input-sm--search {
+  @apply bg-[#1A1A31]/80  h-10.5 md:h-12 rounded-[32px] pl-5 pr-12.5 w-full ltr:pr-12 text-[14px];
+}
+.input-icon--search {
+  @apply absolute top-1/2 -translate-y-1/2 right-4.5 text-gray-400 pointer-events-none;
+}
+.textarea-icon {
+  @apply absolute top-5 left-5 text-gray-400 pointer-events-none;
+}
+/* custom scrollbars like shadcn */
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent; /* یا رنگ زمینه دلخواه */
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: rgb(148 163 184); /* رنگ آیکون مثل shadcn */
+  border-radius: 8px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgb(148 163 184) transparent;
+}
+*::-webkit-scrollbar-thumb:hover {
+  background-color: rgb(100 116 139);
+}
+*::-webkit-scrollbar-thumb:active {
+  background-color: rgb(71 85 105);
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-motion],
+  [data-framer],
+  [data-hero-ui],
+  * {
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
+  }
+}
+.tab-box{
+  @apply w-full py-6 text-sm before:hidden sm:text-base whitespace-nowrap  text-neutral-500 dark:text-neutral-400 dark:data-[selected=true]:text-white border-b-4 border-transparent data-[selected=true]:border-[#1111D4] rounded-none data-[selected=true]:font-bold
+}
+/* Custom styles for Persian Date Picker */
+/* Persian Date Picker with react-multi-date-picker */
+
+.custom-calendar .rmdp-wrapper {
+  background: transparent;
+  box-shadow: none;
+  border: none;
+  width: 100%;
+}
+
+.custom-calendar .rmdp-calendar {
+  background: transparent;
+  padding: 0;
+  width: 100%;
+}
+
+.custom-calendar .rmdp-day-picker {
+  padding: 0;
+  padding-top: 0;
+  width: 100%;
+}
+
+/* Header - hide it */
+.custom-calendar .rmdp-header {
+  display: none !important;
+}
+
+/* Week container */
+.custom-calendar .rmdp-week {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  gap: 4px;
+}
+
+/* Week day headers */
+.custom-calendar .rmdp-week-day {
+  color: #9ca3af;
+  font-weight: 400;
+  font-size: 0.875rem;
+  padding: 0.75rem 0;
+  flex: 1;
+  text-align: center;
+}
+
+/* Day cells */
+.custom-calendar .rmdp-day {
+  color: #e2e8f0;
+  font-size: 0.9375rem;
+  height: 48px;
+  flex: 1;
+  margin: 2px 0;
+}
+
+.custom-calendar .rmdp-day span {
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  transition: all 0.2s;
+}
+
+/* Hover effect */
+.custom-calendar
+  .rmdp-day:not(.rmdp-disabled):not(.rmdp-day-hidden):hover
+  span {
+  background: #374151 !important;
+}
+
+/* Selected day */
+.custom-calendar .rmdp-day.rmdp-selected span {
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%) !important;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+  color: white !important;
+}
+
+/* Today */
+.custom-calendar .rmdp-day.rmdp-today span {
+  background: transparent;
+  color: #60a5fa;
+  border: 1px solid rgba(96, 165, 250, 0.3);
+}
+
+/* Today + Selected */
+.custom-calendar .rmdp-day.rmdp-today.rmdp-selected span {
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%) !important;
+  color: white !important;
+  border: none;
+}
+
+/* Hide outside days */
+.custom-calendar .rmdp-day-hidden,
+.custom-calendar .rmdp-deactive {
+  visibility: hidden;
+}
+
+/* Disabled days */
+.custom-calendar .rmdp-disabled {
+  color: #4b5563 !important;
+  cursor: not-allowed !important;
+}
+
+.custom-calendar .rmdp-disabled span {
+  color: #4b5563 !important;
+}
+
+/* Remove default shadows and borders */
+.custom-calendar .rmdp-shadow {
+  box-shadow: none !important;
+}
+
+.custom-calendar .rmdp-border {
+  border: none !important;
+}
+
+/* Ensure proper RTL layout */
+.custom-calendar {
+  direction: rtl;
+}
+
+/* Month and year containers in header (hidden but keeping for structure) */
+.custom-calendar .rmdp-header-values {
+  display: none;
+}
+.custom-calendar .rmdp-day-picker {
+  display: block !important;
+}
+.custom-calendar .rmdp-week-day {
+  @apply text-base dark:text-white font-bold mb-2;
+}
+
+.custom-calendar .rmdp-day .sd {
+  @apply text-base!;
+}
+/* Arrow containers */
+.custom-calendar .rmdp-arrow-container {
+  display: none;
+}
+.tiptap p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  direction: rtl;
+  text-align: right;
+  display: block;
+  color: #9ca3af; /* یا var(--color-neutral-400) */
+  pointer-events: none;
+  height: 0;
+}
+.tiptap p.is-editor-empty:first-child {
+  direction: rtl;
+  text-align: right;
+}
+.reply-line-main {
+  position: absolute !important;
+  width: 2px !important;
+  background: #34344e !important;
+  right: 1.25rem !important;
+  top: -13rem !important;
+  height: 30rem !important;
+  z-index: 20 !important;
+}
+
+.reply-line-child {
+  position: absolute !important;
+  width: 2px !important;
+  background: #34344e !important;
+  right: -3.5rem !important;
+  top: 5rem !important;
+  height: 20rem !important;
+  z-index: 10 !important;
+}
+/* .profile-line {
+  @apply relative before:absolute before:top-28 before:right-11 before:w-px before:h-full before:block before:bg-red-500;
+} */
+
+.video-js .vjs-big-play-button {
+  width: 63px !important;
+  height: 63px !important;
+  transform: translateX(-50%) !important;
+  transform: translateY(-50%) !important;
+
+  margin-top: 0 !important;
+
+  background-color: rgba(13, 154, 235, 0.8) !important;
+  border-radius: 99rem !important;
+  border: 3px solid white !important;
+  /* display: grid !important; */
+  place-items: center !important;
+  line-height: 1.75em !important;
+}
+
+.custom-video-container .video-js.vjs-fluid {
+  padding-top: 34.65% !important; /* 16:9 */
+}
+.full-video-container .video-js.vjs-fluid {
+  padding-top: 63.65% !important; /* 16:9 */
+}
+.vjs-poster {
+  border-radius: 24px !important;
+  overflow: hidden;
+  object-fit: cover !important;
+}
+.custom-video-container .vjs-tech,
+.full-video-container .vjs-tech {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  border-radius: 24px !important;
+  /* max-height: 400px !important; */
+}
+.vjs-fluid:not(.vjs-audio-only-mode):not([data-ispip="true"]) {
+  padding-top: 56.25% !important;
+}
+
+.vjs-has-started.vjs-playing .vjs-big-play-button {
+  display: none !important;
+}
+.vjs-has-started .vjs-big-play-button,
+.vjs-has-started.vjs-has-paused {
+  display: grid !important;
+}
+.custom-video-container .vjs-big-play-button:hover,
+.full-video-container .vjs-big-play-button:hover {
+  background: rgb(29, 155, 240) !important;
+  /* transform: scale(1) !important; */
+}
+
+/* .custom-video-container .vjs-big-play-button .vjs-icon-placeholder:before,
+.full-video-container .vjs-big-play-button .vjs-icon-placeholder:before {
+  font-size: 28px !important;
+  line-height: 64px !important;
+} */
+.custom-video-container .vjs-big-play-button.hide-button,
+.full-video-container .vjs-big-play-button.hide-button {
+  display: none !important;
+}
+.vjs-control-bar {
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+}
+
+.vjs-pip-only-progress .vjs-control-bar {
+  background: rgba(255, 255, 255, 0.1) !important;
+  backdrop-filter: blur(10px);
+  height: 6px !important;
+  bottom: 0 !important;
+}
+
+.vjs-pip-only-progress .vjs-progress-control {
+  height: 6px !important;
+}
+
+.vjs-pip-only-progress .vjs-progress-holder {
+  height: 6px !important;
+  background: rgba(255, 255, 255, 0.3) !important;
+}
+
+.vjs-pip-only-progress .vjs-play-progress {
+  background: rgba(255, 255, 255, 0.9) !important;
+}
+
+.vjs-pip-only-progress .vjs-big-play-button {
+  display: none !important;
+}
+
+.vjs-pip-only-progress:hover .vjs-control-bar {
+  height: 8px !important;
+}
