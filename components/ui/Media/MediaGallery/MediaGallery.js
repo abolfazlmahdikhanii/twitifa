@@ -4,8 +4,19 @@ import MediaVideoItem from "../MediaVideoItem/MediaVideoItem";
 
 const MediaGallery = memo(
   ({ medias = [], onRemove, isPreview = false, author = null }) => {
+    const count = medias.length;
+
+    const gridClass =
+      count === 1
+        ? "grid grid-cols-1"
+        : count === 2
+          ? "grid grid-cols-2"
+          : count === 3
+            ? "grid grid-cols-2 sm:grid-cols-3"
+            : "grid grid-cols-2";
+
     return (
-      <div className="grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-2 mt-5 mb-6">
+      <div className={`${gridClass} gap-1.5 sm:gap-2 mt-3 sm:mt-5 mb-4 sm:mb-6`}>
         {medias.map((media, i) =>
           media.mediaType === "image" ? (
             <MediaImageItem
@@ -13,7 +24,7 @@ const MediaGallery = memo(
               img={isPreview ? media : media.url}
               blurUrl={!isPreview ? media.blurDataUrl : null}
               index={i}
-              totalImages={medias.length}
+              totalImages={count}
               onRemove={() => isPreview && onRemove(media.id)}
               isPreview={isPreview}
             />
@@ -26,7 +37,7 @@ const MediaGallery = memo(
               time={!isPreview ? media.time : null}
               size={!isPreview ? media.size : null}
               index={i}
-              totalVideo={medias.length}
+              totalVideo={count}
               onRemove={() => isPreview && onRemove(media.id)}
               isPreview={isPreview}
               author={author}
@@ -37,6 +48,7 @@ const MediaGallery = memo(
     );
   },
 );
+
 MediaGallery.displayName = "MediaGallery";
 
 export default MediaGallery;

@@ -55,19 +55,16 @@ const Notifications = () => {
 
   const displayedData = useMemo(() => {
     if (!allNotifications) return [];
-
     if (activeNotificationTab === "reactions") {
       return allNotifications.filter(
         (n) => n.type === "like" || n.type === "retweet" || n.type === "quote",
       );
     }
-
     if (activeNotificationTab === "mentions") {
       return allNotifications.filter(
         (n) => n.type === "reply" || n.type === "mention",
       );
     }
-
     return allNotifications;
   }, [allNotifications, activeNotificationTab]);
 
@@ -78,13 +75,14 @@ const Notifications = () => {
     );
   }, [allNotifications]);
 
+  const tabClass =
+    "w-full py-4 sm:py-7 text-sm sm:text-base text-neutral-500 dark:text-neutral-400 dark:data-[selected=true]:text-white border-b-4 border-transparent data-[selected=true]:border-[#1111D4] rounded-none data-[selected=true]:font-bold before:hidden";
+
   return (
     <>
       <header>
-        <div className="pt-6 pb-3.5 px-7 flex items-center justify-between">
-          <div>
-            <h2 className="text-xl font-bold">اعلان ها</h2>
-          </div>
+        <div className="pt-4 sm:pt-6 pb-2.5 sm:pb-3.5 px-4 sm:px-7 flex items-center justify-between">
+          <h2 className="text-lg sm:text-xl font-bold">اعلان ها</h2>
           <NotificationHeader
             setSelectedTab={setSelectedTab}
             isAllRead={isAllRead}
@@ -102,36 +100,27 @@ const Notifications = () => {
         <Tabs.ListContainer>
           <Tabs.List
             aria-label="Notification Tabs"
-            className="gap-2 w-full relative rounded-none p-0 border-b border-[#34344E] bg-transparent px-12"
+            className="gap-0 sm:gap-2 w-full relative rounded-none p-0 border-b border-[#34344E] bg-transparent px-2 sm:px-12"
           >
-            <Tabs.Tab
-              id="newest"
-              className="w-full py-7 text-base text-neutral-500 dark:text-neutral-400 dark:data-[selected=true]:text-white border-b-4 border-transparent data-[selected=true]:border-[#1111D4] rounded-none data-[selected=true]:font-bold before:hidden"
-            >
+            <Tabs.Tab id="newest" className={tabClass}>
               همه
             </Tabs.Tab>
-            <Tabs.Tab
-              id="reactions"
-              className="w-full py-7 text-base text-neutral-500 dark:text-neutral-400 dark:data-[selected=true]:text-white border-b-4 border-transparent data-[selected=true]:border-[#1111D4] rounded-none data-[selected=true]:font-bold before:hidden"
-            >
+            <Tabs.Tab id="reactions" className={tabClass}>
               واکنش ها
             </Tabs.Tab>
-            <Tabs.Tab
-              id="mentions"
-              className="w-full py-7 text-base text-neutral-500 dark:text-neutral-400 dark:data-[selected=true]:text-white border-b-4 border-transparent data-[selected=true]:border-[#1111D4] rounded-none data-[selected=true]:font-bold before:hidden"
-            >
-              خطاب ها و پاسخ ها
+            <Tabs.Tab id="mentions" className={tabClass}>
+              <span className="hidden sm:inline">خطاب ها و پاسخ ها</span>
+              <span className="sm:hidden">خطاب ها</span>
             </Tabs.Tab>
           </Tabs.List>
         </Tabs.ListContainer>
-        <div className="relative h-[calc(100vh-150px)]">
+
+        <div className="relative h-[calc(100vh-130px)] sm:h-[calc(100vh-150px)]">
           {!isFetching ? (
             <Virtuoso
               data={displayedData}
               endReached={() => {
-                if (hasNextPage && !isFetchingNextPage) {
-                  fetchNextPage();
-                }
+                if (hasNextPage && !isFetchingNextPage) fetchNextPage();
               }}
               computeItemKey={(index, notification) => notification._id}
               itemContent={(index, notification) => (
@@ -144,15 +133,16 @@ const Notifications = () => {
                       <Loader />
                     </div>
                   ) : null,
-
                 EmptyPlaceholder: () => (
-                  <div className="text-center text-gray-500 py-10">
+                  <div className="text-center text-gray-500 py-10 text-sm sm:text-base">
                     اعلانی یافت نشد
                   </div>
                 ),
               }}
             />
-          ) : <Loader/>}
+          ) : (
+            <Loader />
+          )}
         </div>
       </Tabs>
     </>

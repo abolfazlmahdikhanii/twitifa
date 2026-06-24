@@ -1,5 +1,6 @@
 import CompleteInfoModal from "@/components/auth/CompleteInfoModal";
 import LeftSidebar from "@/components/main/LeftSidebar";
+import MobileNavBar from "@/components/main/MobileNavbar";
 import RightSidebar from "@/components/main/RightSidebar";
 import ActiveAuthorNotify from "@/components/ui/ActiveAuthorNotify/ActiveAuthorNotiy";
 import connectToDB from "@/config/db";
@@ -50,7 +51,7 @@ const MainLayout = async ({ children }) => {
   }).lean();
 
   return (
-    <div className="grid grid-cols-[325px_1fr_400px] gap-x-7 w-10/12 mx-auto h-full relative">
+    <div className="grid grid-cols-1 md:grid-cols-[325px_1fr_400px] md:gap-x-7 md:w-10/12 md:mx-auto h-full relative">
       <RightSidebar
         username={user?.username}
         name={
@@ -68,6 +69,7 @@ const MainLayout = async ({ children }) => {
         <CompleteInfoModal />
       )}
       <ActiveAuthorNotify userId={userId._id} />
+      <MobileNavBar/>
     </div>
   );
 };

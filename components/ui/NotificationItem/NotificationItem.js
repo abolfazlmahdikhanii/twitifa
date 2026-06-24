@@ -4,35 +4,40 @@ import NotificationType from "./NotificationType";
 import NotificationIcon from "./NotificationIcon";
 
 const NotificationItem = ({ notification }) => {
-  if(!notification.actorIds.length) return
+  if (!notification.actorIds.length) return null;
+
   return (
-    <div className="py-4 border-b border-[#34344E]">
-      <div className="flex  gap-3.75  px-7">
-        <div className="mt-1.75">
+    <div className="py-3 sm:py-4 border-b border-[#34344E]">
+      <div className="flex gap-3 sm:gap-3.75 px-4 sm:px-7">
+        {/* Icon */}
+        <div className="mt-1.5 sm:mt-1.75 shrink-0">
           <NotificationIcon type={notification.type} />
         </div>
-        <div className="flex flex-col  gap-3.25">
+
+        {/* Content */}
+        <div className="flex flex-col gap-2.5 sm:gap-3.25 min-w-0 flex-1">
           {/* Avatars */}
-          {(notification.type !== "alert" || notification.type !== "admin") && (
-            <div className="flex -space-x-3">
-              {!!notification.actorIds.length > 0 &&
-                notification.actorIds.map((author, index) => (
-                  <Avatar key={author._id} className="w-12 h-12 ">
-                    <AvatarImage src={author.avatar} alt={author.username} />
-                    <AvatarFallback className="font-bold text-xs">
-                      {author.username?.charAt(0)?.toUpperCase()}
-                    </AvatarFallback>
-                  </Avatar>
-                ))}
+          {notification.type !== "alert" && notification.type !== "admin" && (
+            <div className="flex -space-x-2 sm:-space-x-3">
+              {notification.actorIds.map((author) => (
+                <Avatar key={author._id} className="w-9 h-9 sm:w-12 sm:h-12 shrink-0">
+                  <AvatarImage src={author.avatar} alt={author.username} />
+                  <AvatarFallback className="font-bold text-xs">
+                    {author.username?.charAt(0)?.toUpperCase()}
+                  </AvatarFallback>
+                </Avatar>
+              ))}
             </div>
           )}
 
           {/* Text */}
-          <NotificationType
-            type={notification.type}
-            actorIds={notification.actorIds}
-            message={notification?.message}
-          />
+          <div className="min-w-0">
+            <NotificationType
+              type={notification.type}
+              actorIds={notification.actorIds}
+              message={notification?.message}
+            />
+          </div>
         </div>
       </div>
     </div>

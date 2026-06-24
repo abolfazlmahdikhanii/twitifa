@@ -1,7 +1,6 @@
 import { Button, Dropdown, Label, Tabs } from "@heroui/react";
-import React from "react";
-import FilterTab from "../FilterTab/FilterTab";
 import { CircleSmall, EllipsisVertical } from "lucide-react";
+import FilterTab from "../FilterTab/FilterTab";
 import Icon from "../Icon/Icon";
 
 const NotificationHeader = ({
@@ -10,52 +9,69 @@ const NotificationHeader = ({
   isAllRead,
 }) => {
   return (
-    <div className="flex items-center gap-x-2">
+    <div className="flex items-center gap-x-1.5 sm:gap-x-2">
       <Tabs
         className="w-full max-w-lg text-center"
         onSelectionChange={(key) => setSelectedTab(key)}
       >
         <Tabs.ListContainer>
           <FilterTab>
-            <Tabs.Tab id={"read"} className="before:hidden">
-              <Icon name="inbox" className="w-5 h-5" />
-
+            <Tabs.Tab id="read" className="before:hidden">
+              <Icon name="inbox" className="w-4 h-4 sm:w-5 sm:h-5" />
               <Tabs.Indicator className="bg-accent shadow-none" />
             </Tabs.Tab>
-            <Tabs.Tab id={"all"} className="before:hidden">
-              <CircleSmall size={20} fill="currentColor" />
-
+            <Tabs.Tab id="all" className="before:hidden">
+              <CircleSmall
+                size={18}
+                fill="currentColor"
+                className="sm:hidden"
+              />
+              <CircleSmall
+                size={20}
+                fill="currentColor"
+                className="hidden sm:block"
+              />
               <Tabs.Indicator className="bg-accent shadow-none" />
             </Tabs.Tab>
-            <Tabs.Tab id={"unread"} className="before:hidden">
-              <Icon name="inbox-mail" className="w-5 h-5" />
-
+            <Tabs.Tab id="unread" className="before:hidden">
+              <Icon name="inbox-mail" className="w-4 h-4 sm:w-5 sm:h-5" />
               <Tabs.Indicator className="bg-accent shadow-none" />
             </Tabs.Tab>
           </FilterTab>
         </Tabs.ListContainer>
       </Tabs>
-      <Dropdown key={"normal"}>
-        <Button variant="ghost" className={"[&>svg]:size-5 "} isIconOnly>
+
+      <Dropdown key="normal">
+        <Button
+          variant="ghost"
+          className="[&>svg]:size-4 sm:[&>svg]:size-5"
+          isIconOnly
+        >
           <EllipsisVertical />
         </Button>
-
         <Dropdown.Popover
-          className="border-none shadow-none bg-[#1A1A31] rounded-[24px] w-82"
+          className="border-none shadow-none bg-[#1A1A31] rounded-[24px] w-70 sm:w-82"
           placement="bottom left"
         >
           <Dropdown.Menu>
             <Dropdown.Item
-              id={`read-notifications`}
+              id="read-notifications"
               textValue="read notifications"
               onAction={() => readAllNotification()}
               isDisabled={isAllRead}
             >
-              <Icon name="mark-all-read" className="size-5" />
-
-              <Label className="text-[15px]">
-                علامت زدن همه به عنوان خوانده شده
-              </Label>
+              <div className="flex items-center gap-x-2">
+                <Icon
+                  name="mark-all-read"
+                  className="size-4 sm:size-5 shrink-0"
+                />
+                <Label className="hidden sm:block text-[15px] whitespace-nowrap">
+                  علامت زدن همه به عنوان خوانده شده
+                </Label>
+                <Label className=" sm:hidden text-[13px] whitespace-nowrap">
+                  علامت زدن همه 
+                </Label>
+              </div>
             </Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown.Popover>

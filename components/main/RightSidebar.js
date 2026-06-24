@@ -13,7 +13,7 @@ const RightSidebar = ({ username, name, avatar, notificationCount }) => {
   const { user } = useAuth();
 
   return (
-    <header className="py-2 px-2  pb-7">
+    <header className="py-2 px-2  pb-7 hidden md:block">
       <div className="flex flex-col justify-between h-full gap-5">
         <div className="flex flex-col gap-y-4.5">
           <div className="flex items-center gap-2.5 py-3.5 ">
@@ -26,7 +26,7 @@ const RightSidebar = ({ username, name, avatar, notificationCount }) => {
                 <Icon name="home" size={26} />
                 خانه
               </Link>
-              <Link href={"#"} className="menu-item">
+              <Link href={"/explorer"} className="menu-item">
                 <Icon name="search" size={26} />
                 کاوش
               </Link>

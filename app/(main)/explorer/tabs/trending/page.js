@@ -1,10 +1,9 @@
-import PageHeader from "@/components/ui/PageHeader/PageHeader";
 import TrendItem from "@/components/ui/TrendItem/TrendItem";
 import connectToDB from "@/config/db";
 import hashtagModel from "@/models/hashtag";
 import { ScrollShadow } from "@heroui/react";
 
-const TrendPage = async () => {
+const TrendingPage = async () => {
   await connectToDB();
   const hashtags = await hashtagModel
     .find({ count: { $gt: 0 } }, "-__v -createdAt -updatedAt")
@@ -12,9 +11,7 @@ const TrendPage = async () => {
     .lean();
   return (
     <div>
-      <PageHeader title="موضوعات داغ" />
-
-      <ScrollShadow className="mt-4">
+      <ScrollShadow className="mt-1.5">
         {hashtags.map((trend) => (
           <TrendItem isTrendPage key={trend._id} {...trend} />
         ))}
@@ -22,4 +19,4 @@ const TrendPage = async () => {
     </div>
   );
 };
-export default TrendPage;
+export default TrendingPage;

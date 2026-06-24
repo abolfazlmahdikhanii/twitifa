@@ -38,7 +38,7 @@ const LeftSidebar = () => {
 
   return (
     <ScrollShadow
-      className="py-6.5  px-2"
+      className="py-6.5  px-2 hidden md:block"
       hideScrollBar={true}
       visibility="none"
     >

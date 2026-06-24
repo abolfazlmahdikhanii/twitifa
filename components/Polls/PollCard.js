@@ -3,11 +3,7 @@ import { formatTimeLeft, getPercent } from "@/utils/post";
 import { Dot } from "lucide-react";
 import { useState } from "react";
 import Icon from "../ui/Icon/Icon";
-const options = [
-  { label: "Tailwind CSS", value: "tailwind", percent: 68, selected: true },
-  { label: "Bootstrap", value: "bootstrap", percent: 22, selected: false },
-  { label: "Material UI", value: "material", percent: 10, selected: false },
-];
+
 const PollCard = ({
   options,
   duration,
@@ -20,64 +16,81 @@ const PollCard = ({
   const [selectedVote, setSelectedVote] = useState(votedOption?._id ?? null);
 
   return (
-    <div className="py-3.5">
-      <div>
-        <section className="pb-4.5 space-y-4.5 ">
-          {options.map((option, index) => (
+    <div className="py-2.5 sm:py-3.5 w-full">
+      {/* Options */}
+      <section className="pb-3 sm:pb-4.5 space-y-3 sm:space-y-4.5">
+        {options.map((option) => {
+          const isSelected =
+            selectedVote === option._id || votedOption?._id === option._id;
+          const percent = getPercent(option.votes, totalVote);
+
+          return (
             <div className="relative" key={option._id}>
               <div
-                className={`poll-item h-full relative overflow-hidden ${selectedVote === option._id || votedOption?._id === option._id ? "bg-[#16162D]/35" : "bg-[#1D1D34]/55"}`}
+                className={`poll-item h-full relative overflow-hidden ${
+                  isSelected ? "bg-[#16162D]/35" : "bg-[#1D1D34]/55"
+                }`}
               >
-                {/* {option.label} */}
-                {/* Progress bar fill */}
+                {/* Progress bar */}
                 <div
-                  className="absolute top-0 right-0 h-full rounded-r-xl transition-all duration-700 "
+                  className="absolute top-0 right-0 h-full rounded-r-xl transition-all duration-700"
                   style={{
-                    width: `${getPercent(option.votes, totalVote)}%`,
+                    width: `${percent}%`,
                     background:
-                      selectedVote === option._id ||
-                      votedOption?._id === option._id ||
-                      Math.max(option.votes)
+                      isSelected || Math.max(option.votes)
                         ? "#272464"
                         : "#313146",
                   }}
                 />
-                <div className="flex items-center justify-between relative z-10 h-full mt-0.5">
-                  <div className="flex items-center gap-x-2">
+
+                {/* Content */}
+                <div className="flex items-center justify-between relative z-10 h-full mt-0.5 gap-x-2">
+                  <div className="flex items-center gap-x-1.5 sm:gap-x-2 min-w-0">
                     <p
-                      className={`text-base  ${selectedVote === option._id || votedOption?._id === option._id || Math.max(option.votes) ? "font-bold text-white" : "font-medium text-[#94a3b8]"}`}
+                      className={`text-sm sm:text-base truncate ${
+                        isSelected || Math.max(option.votes)
+                          ? "font-bold text-white"
+                          : "font-medium text-[#94a3b8]"
+                      }`}
                     >
                       {option.optionText}
                     </p>
-                    {selectedVote === option._id ||
-                    votedOption?._id === option._id ? (
-                      <Icon name="check-circle" className="size-5 text-[#94a3b8]" />
-                    ) : null}
+                    {isSelected && (
+                      <Icon
+                        name="check-circle"
+                        className="size-4 sm:size-5 text-[#94a3b8] shrink-0"
+                      />
+                    )}
                   </div>
-                  <div>
-                    <p
-                      className={`text-sm  ${selectedVote === option._id || votedOption?._id === option._id || Math.max(option.votes) ? "font-bold text-white" : "font-medium text-[#94a3b8]"}`}
-                    >
-                      {getPercent(option.votes, totalVote)}%
-                    </p>
-                  </div>
+                  <p
+                    className={`text-xs sm:text-sm shrink-0 ${
+                      isSelected || Math.max(option.votes)
+                        ? "font-bold text-white"
+                        : "font-medium text-[#94a3b8]"
+                    }`}
+                  >
+                    {percent}%
+                  </p>
                 </div>
               </div>
             </div>
-          ))}
-        </section>
-        <section className="pt-3 flex items-center justify-start gap-1 text-[#64748b] text-sm ">
-          <span className="bg-[#1e1e3a] px-3 py-1.5 rounded-xl text-xs">
-            {totalVote} رای
-          </span>
-          <Dot size={24} />
-          <div className="flex items-center gap-1.5">
-            <Icon name="clock" size={19} />
+          );
+        })}
+      </section>
 
-            <span>{duration && formatTimeLeft(duration)}</span>
-          </div>
-        </section>
-      </div>
+      {/* Footer */}
+      <section className="pt-2 sm:pt-3 flex items-center gap-0.5 sm:gap-1 text-[#64748b]">
+        <span className="bg-[#1e1e3a] px-2 sm:px-3 py-1 sm:py-1.5 rounded-xl text-xs">
+          {totalVote} رای
+        </span>
+        <Dot size={20} />
+        <div className="flex items-center gap-1 sm:gap-1.5">
+          <Icon name="clock" className="w-3.5 h-3.5 sm:w-4.75 sm:h-4.75" />
+          <span className="text-xs sm:text-sm">
+            {duration && formatTimeLeft(duration)}
+          </span>
+        </div>
+      </section>
     </div>
   );
 };

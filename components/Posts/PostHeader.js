@@ -49,6 +49,7 @@ const PostHeader = ({
   const [isMore, setIsMore] = useState(false);
   const btnRef = useRef(null);
   const contentRef = useRef(null);
+
   useEffect(() => {
     const el = contentRef.current;
     if (!el) return;
@@ -65,6 +66,7 @@ const PostHeader = ({
 
     return () => resizeObserver.disconnect();
   }, [textContent]);
+
   const displayUser =
     (post.isReposted && post.retweetedFrom) || post.isQuoteRepost
       ? post.retweetedFrom.author
@@ -76,6 +78,7 @@ const PostHeader = ({
 
   const isPostOwner = user?.username === post.author.username || post.isOwner;
   const username = displayUser?.username;
+
   const handleDropdownAction = useCallback(
     async (key) => {
       switch (key) {
@@ -110,11 +113,22 @@ const PostHeader = ({
     ],
   );
 
+  // آواتار: روی موبایل کوچکتر — pr-12 sm:pr-16
+  const avatarOffset = selfReply
+    ? "pr-20 sm:pr-28"
+    : "pr-12 sm:pr-16";
+
+  const repostOffset = selfReply
+    ? "pr-20 sm:pr-28"   // ردیف بازنشر زیر آواتار
+    : "pr-14 sm:pr-18";
+
+  const threadLine = selfReply ? "top-11" : "top-16 sm:top-20";
+
   return (
-    <div className=" flex items-center gap-x-4.5 w-full">
-      <div className="w-full">
+    <div className="flex items-center gap-x-3 sm:gap-x-4.5 w-full">
+      <div className="w-full min-w-0">
         <div className="flex items-center justify-between w-full mt-2">
-          <div className="">
+          <div className="min-w-0 flex-1">
             {post.isReposted && post.retweetedFrom && !post.isQuoteRepost && (
               <RepostHeader
                 author={displayUser}
@@ -126,19 +140,21 @@ const PostHeader = ({
             {/* pin */}
             {post.isUserPage && pin && (
               <div
-                className={`flex items-center gap-x-1.5 text-muted text-sm ${selfReply ? "pr-28" : "pr-16"} font-bold ${replyHeader ? "mb-3" : "mb-0.5"}`}
+                className={`flex items-center gap-x-1.5 text-muted text-xs sm:text-sm ${avatarOffset} font-bold ${replyHeader ? "mb-3" : "mb-0.5"}`}
               >
-                <Icon name="pin" className="size-4 shrink-0 fill-muted" />
+                <Icon name="pin" className="size-3.5 sm:size-4 shrink-0 fill-muted" />
                 <p>سنجاق شد</p>
               </div>
             )}
+
             {/* reply header */}
             {isShowReplyHeader && replyHeader && (
-              <div className="flex items-center gap-x-2 text-muted text-sm pr-16 mb-0.5 font-bold ">
-                <Icon name="reply-header" className="size-4 shrink-0 fill-muted" />
-                <p>{replyHeader}</p>
+              <div className={`flex items-center gap-x-2 text-muted text-xs sm:text-sm ${avatarOffset} mb-0.5 font-bold`}>
+                <Icon name="reply-header" className="size-3.5 sm:size-4 shrink-0 fill-muted" />
+                <p className="truncate">{replyHeader}</p>
               </div>
             )}
+
             {/* Author Info */}
             {!isPostDetail ? (
               <AuthorInfo
@@ -156,84 +172,77 @@ const PostHeader = ({
             ) : (
               <AuthorPostInfo {...post.author} />
             )}
+
             {post.isReply && !selfReply && repliedUser && (
               <RepliedUsers repliedUser={repliedUser} selfReply={selfReply} />
             )}
           </div>
+
           {/* dropdown */}
           {!isQuote && !isReplyModal && (
-            <div ref={btnRef} className="mr-2">
+            <div ref={btnRef} className="mr-1 sm:mr-2 shrink-0">
               {isPostOwner ? (
                 <Dropdown key={dialog || showChangeReply ? "active" : "normal"}>
-                   <Button variant="ghost" isIconOnly>
-                     <Icon name="more-horizontal" className="size-4.5" />
-                   </Button>
-                   <Dropdown.Popover className="border-none shadow-none bg-[#1A1A31] rounded-[24px] w-60">
-                     <Dropdown.Menu dir="rtl" onAction={handleDropdownAction}>
-                       <Dropdown.Item
-                         id={`delete-post`}
+                  <Button variant="ghost" isIconOnly>
+                    <Icon name="more-horizontal" className="size-4 sm:size-4.5" />
+                  </Button>
+                  <Dropdown.Popover className="border-none shadow-none bg-[#1A1A31] rounded-[24px] w-54 sm:w-60">
+                    <Dropdown.Menu dir="rtl" onAction={handleDropdownAction}>
+                      <Dropdown.Item
+                        id="delete-post"
                         textValue="Delete post"
                         variant="danger"
                       >
-                        <Icon name="delete-fill" className="size-5 shrink-0 text-danger" />
-
-                        <Label>حذف پست</Label>
+                        <Icon name="delete-fill" className="size-4.5 sm:size-5 shrink-0 text-danger" />
+                        <Label className="whitespace-nowrap text-xs sm:text-sm">حذف پست</Label>
                       </Dropdown.Item>
                       <Dropdown.Item id="edit-post" textValue="edit post">
-                        <Icon name="edit" className="size-5 shrink-0 text-muted" />
-
-                        <Label>ویرایش</Label>
+                        <Icon name="edit" className="size-4.5 sm:size-5 shrink-0 text-muted" />
+                        <Label className="whitespace-nowrap text-xs sm:text-sm">ویرایش</Label>
                       </Dropdown.Item>
-                      <Dropdown.Item
-                        id="change-replies"
-                        textValue="Change reply"
-                      >
-                        <Icon name="reply-permission" className="size-4.5 shrink-0 text-muted" />
-
-                        <Label>تغییر افراد پاسخ دهنده</Label>
+                      <Dropdown.Item id="change-replies" textValue="Change reply">
+                        <Icon name="reply-permission" className="size-4 sm:size-4.5 shrink-0 text-muted" />
+                        <Label className="whitespace-nowrap text-xs sm:text-sm">تغییر افراد پاسخ دهنده</Label>
                       </Dropdown.Item>
                       <Dropdown.Item id="pin-post" textValue="pin post">
-                        <Icon name="pin" className="size-4.5 shrink-0 text-muted" />
-
-                        <Label>{!pin ? "سنجاق کردن" : "برداشتن سنجاق"}</Label>
+                        <Icon name="pin" className="size-4 sm:size-4.5 shrink-0 text-muted" />
+                        <Label className="whitespace-nowrap text-xs sm:text-sm">{!pin ? "سنجاق کردن" : "برداشتن سنجاق"}</Label>
                       </Dropdown.Item>
                     </Dropdown.Menu>
                   </Dropdown.Popover>
                 </Dropdown>
               ) : (
                 <Dropdown>
-                   <Button variant="ghost" isIconOnly>
-                     <Icon name="more-horizontal" className="size-6" />
-                   </Button>
-                   <Dropdown.Popover className="border-none shadow-none bg-[#1A1A31] rounded-[24px] w-60">
-                     <Dropdown.Menu dir="rtl" onAction={handleDropdownAction}>
-                       <Dropdown.Item
-                         id="follow-user"
+                  <Button variant="ghost" isIconOnly>
+                    <Icon name="more-horizontal" className="size-5 sm:size-6" />
+                  </Button>
+                  <Dropdown.Popover className="border-none shadow-none bg-[#1A1A31] rounded-[24px] w-52 sm:w-60">
+                    <Dropdown.Menu dir="rtl" onAction={handleDropdownAction}>
+                      <Dropdown.Item
+                        id="follow-user"
                         textValue="follow"
                         isDisabled={followLoading}
                       >
                         {!follow?.isFollow ? (
-                          <Icon name="follow" className="size-5 shrink-0 text-muted" />
+                          <Icon name="follow" className="size-4.5 sm:size-5 shrink-0 text-muted" />
                         ) : (
-                          <Icon name="unfollow" className="size-5 shrink-0 text-muted" />
+                          <Icon name="unfollow" className="size-4.5 sm:size-5 shrink-0 text-muted" />
                         )}
-                        <Label>
+                        <Label className="whitespace-nowrap text-xs sm:text-sm">
                           {follow?.isFollow ? "لغو" : ""} دنبال کردن{" "}
-                          <span dir="ltr">@{post.author?.username}</span>
+                          <span dir="ltr" className="text-sm">@{post.author?.username}</span>
                         </Label>
                       </Dropdown.Item>
                       <Dropdown.Item id="block-user" textValue="block">
-                        <Icon name="block" className="size-4.75 shrink-0 text-muted" />
-
-                        <Label>
+                        <Icon name="block" className="size-4.5 sm:size-4.75 shrink-0 text-muted" />
+                        <Label className="whitespace-nowrap text-xs sm:text-sm">
                           مسدود سازی{" "}
-                          <span dir="ltr">@{post.author?.username}</span>
+                          <span dir="ltr" className="text-sm">@{post.author?.username}</span>
                         </Label>
                       </Dropdown.Item>
                       <Dropdown.Item id="report-post" textValue="report post">
-                        <Icon name="report" className="size-5 shrink-0 text-muted" />
-
-                        <Label>گزارش تخلف در محتوا</Label>
+                        <Icon name="report" className="size-4.5 sm:size-5 shrink-0 text-muted" />
+                        <Label className="whitespace-nowrap text-xs sm:text-sm">گزارش تخلف در محتوا</Label>
                       </Dropdown.Item>
                     </Dropdown.Menu>
                   </Dropdown.Popover>
@@ -242,17 +251,18 @@ const PostHeader = ({
             </div>
           )}
         </div>
-        {/* content */}
-        {/* text */}
 
+        {/* thread line */}
         {post.isReply && !post.lastReply && (
           <div
-            className={`w-0.5 h-full bg-[#34344E] grow absolute ${selfReply ? "top-11" : "top-20"} right-15 bottom-0 last-of-type:hidden`}
+            className={`w-0.5 h-full bg-[#34344E] grow absolute ${threadLine} right-12 sm:right-15 bottom-0 last-of-type:hidden`}
           ></div>
         )}
-        <div className={`mt-1.5 ${selfReply ? "pr-28" : "pr-16"} relative`}>
+
+        {/* content */}
+        <div className={`mt-1.5 ${avatarOffset} relative`}>
           <div
-            className={`text-neutral-200 text-lg leading-loose pl-6.5 pr-3.5 ${!isMore ? "line-clamp-4" : ""}`}
+            className={`text-neutral-200 text-[15px] sm:text-lg leading-loose pl-4 sm:pl-6.5 pr-2 sm:pr-3.5 ${!isMore ? "line-clamp-4" : ""}`}
             ref={contentRef}
             suppressHydrationWarning
             dangerouslySetInnerHTML={{
@@ -268,11 +278,11 @@ const PostHeader = ({
           {!isMore && hasMore && (
             <Button
               variant="tertiary"
-              className={"mt-3.5 px-5 mr-2 "}
+              className="mt-3 sm:mt-3.5 px-4 sm:px-5 mr-1 sm:mr-2"
               onClick={() => setIsMore(true)}
             >
               نمایش بیشتر{" "}
-              <Icon name="more-horizontal" className="size-6" />
+              <Icon name="more-horizontal" className="size-5 sm:size-6" />
             </Button>
           )}
         </div>
@@ -285,11 +295,10 @@ export default PostHeader;
 
 const RepostHeader = ({ author, retweetedFrom, authorName }) => {
   return (
-    <div className="flex items-center gap-x-2 text-muted text-sm pr-18 mb-0.5">
-      <Icon name="repost" className="size-4.5" />
+    <div className="flex items-center gap-x-1.5 sm:gap-x-2 text-muted text-xs sm:text-sm pr-14 sm:pr-18 mb-0.5">
+      <Icon name="repost" className="size-4 sm:size-4.5 shrink-0" />
       <HoverProfile userInfo={author}>
-        <p className="cursor-pointer">
-          {" "}
+        <p className="cursor-pointer truncate">
           {retweetedFrom.author.username === author.username
             ? "شما "
             : authorName}

@@ -138,7 +138,7 @@ const SearchResultPage = ({ initialResult, searchQuery }) => {
           </Tabs.List>
         </Tabs.ListContainer>
 
-        <div className="relative h-[calc(100vh-90px)]">
+        <div className="relative h-[calc(100vh-150px)]">
           {isPending && !isFetchingNextPage ? (
             <div className="flex justify-center py-10">
               <Loader />

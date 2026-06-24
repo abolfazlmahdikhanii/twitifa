@@ -1,4 +1,5 @@
 import connectToDB from "@/config/db";
+import usersModel from "@/models/users";
 import { verifyToken } from "@/utils/auth";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";

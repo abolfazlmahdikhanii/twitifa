@@ -26,12 +26,12 @@ const PostFooter = ({
   const { user } = useAuth();
 
   return (
-    <div className={`w-full grid grid-cols-5 pr-2 gap-x-5`}>
+    <div className="w-full grid grid-cols-5 pr-1 sm:pr-2 gap-x-3 sm:gap-x-5">
       <div className=" ">
         <div className=" flex items-center  text-muted group w-fit cursor-pointer transition-all duration-300">
           <Button
             variant="ghost"
-            className={`[&>svg]:size-5 text-muted group-hover:text-[#f91880] group-hover:bg-[#f91880]/20 transition-all duration-300 `}
+            className={`sm:[&>svg]:size-5 [&>svg]:size-4.5  text-muted group-hover:text-[#f91880] group-hover:bg-[#f91880]/20 transition-all duration-300 `}
             isIconOnly
             onPress={() =>
               postLikeHandler(
@@ -49,7 +49,7 @@ const PostFooter = ({
             )}
           </Button>
           <span
-            className={` text-sm group-hover:text-[#f91880] transition-all duration-300 ${likes.isLiked ? "text-[#f91880]" : "text-muted"}`}
+            className={` text-xs sm:text-sm mt-0.75 -mr-px sm:mr-0 sm:mt-0 group-hover:text-[#f91880] transition-all duration-300 ${likes.isLiked ? "text-[#f91880]" : "text-muted"}`}
           >
             {likes?.likeCount ?? 0}
           </span>
@@ -60,7 +60,7 @@ const PostFooter = ({
           <Button
             variant="ghost"
             className={
-              "[&>svg]:size-5 text-muted group-hover:text-[#1d9bf0] group-hover:bg-[#1d9bf0]/20 transition-all duration-300"
+              " sm:[&>svg]:size-5 [&>svg]:size-4.5 text-muted group-hover:text-[#1d9bf0] group-hover:bg-[#1d9bf0]/20 transition-all duration-300"
             }
             isIconOnly
             onPress={() => {
@@ -70,7 +70,7 @@ const PostFooter = ({
           >
             <Icon name="reply" />
           </Button>
-          <span className=" text-sm group-hover:text-[#1d9bf0] transition-all duration-300">
+          <span className="text-xs sm:text-sm mt-0.75 -mr-px sm:mr-0 sm:mt-0 group-hover:text-[#1d9bf0] transition-all duration-300">
             {replyCount ?? 0}
           </span>
         </div>
@@ -80,14 +80,17 @@ const PostFooter = ({
           <div className=" flex items-center  text-muted group w-fit cursor-pointer transition-all duration-300">
             <Button
               variant="ghost"
-              className={`[&>svg]:size-5 text-muted group-hover:text-[#00ba7b] group-hover:bg-[#00ba7b]/20 transition-all duration-300 
+              className={`sm:[&>svg]:size-5 [&>svg]:size-4.5 text-muted group-hover:text-[#00ba7b] group-hover:bg-[#00ba7b]/20 transition-all duration-300 
                `}
               isIconOnly
             >
-              <Icon name="repost" className={`${reposts.isUserReposted ? "text-[#00ba7b]" : "text-current"}`} />
+              <Icon
+                name="repost"
+                className={`${reposts.isUserReposted ? "text-[#00ba7b]" : "text-current"}`}
+              />
             </Button>
             <span
-              className={` text-sm group-hover:text-[#00ba7b] transition-all duration-300 ${reposts.isUserReposted ? "text-[#00ba7b]" : "text-muted"}`}
+              className={` text-xs sm:text-sm mt-0.75 -mr-px sm:mr-0 sm:mt-0 group-hover:text-[#00ba7b] transition-all duration-300 ${reposts.isUserReposted ? "text-[#00ba7b]" : "text-muted"}`}
             >
               {reposts.repostCount ?? 0}
             </span>
@@ -131,7 +134,7 @@ const PostFooter = ({
           <Button
             variant="ghost"
             className={
-              "[&>svg]:size-5 text-muted group-hover:text-[#1d9bf0] group-hover:bg-[#1d9bf0]/20 transition-all duration-300"
+              "sm:[&>svg]:size-5 [&>svg]:size-4.5 text-muted group-hover:text-[#1d9bf0] group-hover:bg-[#1d9bf0]/20 transition-all duration-300"
             }
             isIconOnly
             onClick={() => {
@@ -140,7 +143,7 @@ const PostFooter = ({
           >
             <Icon name="views" />
           </Button>
-          <span className=" text-sm group-hover:text-[#1d9bf0] transition-all duration-300 mt-1">
+          <span className=" text-xs sm:text-sm mt-1.25 -mr-px sm:mr-0 sm:mt-1 group-hover:text-[#1d9bf0] transition-all duration-300 ">
             {views ? formatPostViewNumber(views) : 0}
           </span>
         </div>
@@ -150,7 +153,7 @@ const PostFooter = ({
           <Button
             variant="ghost"
             className={
-              "[&>svg]:size-5 text-muted group-hover:text-[#1d9bf0] group-hover:bg-[#1d9bf0]/20 transition-all duration-300"
+              "sm:[&>svg]:size-5 [&>svg]:size-4.25 text-muted group-hover:text-[#1d9bf0] group-hover:bg-[#1d9bf0]/20 transition-all duration-300"
             }
             isIconOnly
           >
@@ -163,4 +166,3 @@ const PostFooter = ({
 };
 
 export default PostFooter;
-

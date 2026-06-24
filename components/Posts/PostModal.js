@@ -5,10 +5,10 @@ import PostBox from "../main/PostBox";
 const PostModal = ({ isOpen, setIsOpen, children }) => {
  
   return (
-    <Modal>
+    <Modal >
       <Modal.Backdrop variant="blur" isOpen={isOpen} onOpenChange={setIsOpen}>
-        <Modal.Container>
-          <Modal.Dialog className="sm:max-w-2xl bg-[#1E1E2E] shadow-none">
+        <Modal.Container  size="full" >
+          <Modal.Dialog className="w-full sm:max-w-2xl bg-[#1E1E2E] shadow-none" >
             <Modal.CloseTrigger />
 
             <Modal.Body className="pt-5 ">{children}</Modal.Body>

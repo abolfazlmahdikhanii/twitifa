@@ -5,12 +5,13 @@ import { Virtuoso } from "react-virtuoso";
 import PostCard from "../Posts/PostCard";
 import Loader from "../ui/Loader/Loader";
 
-const PostQuotePage = ({ initialPosts, postId, username }) => {
+const ExplorerClient = ({ initialPosts }) => {
   const [isMounted, setIsMounted] = useState(false);
-  const activeTab = "quotes";
 
   useEffect(() => {
-    const time = setTimeout(() => setIsMounted(true), 0);
+    const time = setTimeout(() => {
+      setIsMounted(true);
+    }, 0);
     return () => clearTimeout(time);
   }, []);
 
@@ -22,10 +23,10 @@ const PostQuotePage = ({ initialPosts, postId, username }) => {
     isFetchingNextPage,
     isFetching,
   } = useInfiniteQuery({
-    queryKey: ["quote-page", postId, activeTab],
+    queryKey: ["explorer-for-you"],
     queryFn: async ({ pageParam = null }) => {
       const res = await fetch(
-        `/api/posts/${postId}/quotes?cursor=${pageParam ?? ""}`,
+        `/api/explorer/for-you?cursor=${pageParam ?? ""}`,
       );
       if (!res.ok) throw new Error("Network error");
       return res.json();
@@ -56,22 +57,22 @@ const PostQuotePage = ({ initialPosts, postId, username }) => {
     isFetching && !isFetchingNextPage && !showLoader;
 
   return (
-    <div className="flex flex-col h-full">
-      <div className="flex-1 min-h-0 relative">
+    <div className="flex flex-col ">
+      <div className="flex-1 min-h-0 relative ">
         {showLoader ? (
-          <div className="h-full flex items-center justify-center py-10">
+          <div className="h-full ">
             <Loader />
           </div>
         ) : (
           <>
             {showBackgroundRefetch && (
-              <div className="absolute top-2 left-0 right-0 z-10 flex justify-center">
+              <div className="absolute top-2 left-0 right-0  z-10">
                 <Loader />
               </div>
             )}
 
             <Virtuoso
-              key={activeTab}
+              style={{ height: "100%" }}
               data={allPosts}
               endReached={() => {
                 if (hasNextPage && !isFetchingNextPage) fetchNextPage();
@@ -86,7 +87,7 @@ const PostQuotePage = ({ initialPosts, postId, username }) => {
                     </div>
                   ) : null,
                 EmptyPlaceholder: () => (
-                  <div className="text-center text-gray-500 py-8 sm:py-10 text-sm sm:text-base">
+                  <div className="text-center text-gray-500 py-10">
                     پستی یافت نشد
                   </div>
                 ),
@@ -99,4 +100,4 @@ const PostQuotePage = ({ initialPosts, postId, username }) => {
   );
 };
 
-export default PostQuotePage;
+export default ExplorerClient;

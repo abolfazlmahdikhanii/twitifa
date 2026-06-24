@@ -1,18 +1,17 @@
-import HashtagPage from "@/components/HashtagPage/HashtagPage";
+import ExplorerClient from "@/components/Explorer/ExplorerClient";
+
 import connectToDB from "@/config/db";
-import hashtagModel from "@/models/hashtag";
-import postsModel from "@/models/posts";
+
 import usersModel from "@/models/users";
-import { getHashtagPosts } from "@/services/hashtagServce";
+import { getExplorer } from "@/services/explorerService";
 import { verifyToken } from "@/utils/auth";
+
 import { cookies } from "next/headers";
 
-const HashtagsPage = async ({ params }) => {
+const ExplorerPage = async () => {
   await connectToDB();
-  const { hashtagName: encodeName } = await params;
   const token = (await cookies()).get("token");
 
-  const hashtagName = decodeURIComponent(encodeName);
   // check user is login
   let currentUser = null;
   if (token && token.value) {
@@ -25,15 +24,13 @@ const HashtagsPage = async ({ params }) => {
       )
       .lean();
   }
-  const posts = await getHashtagPosts(hashtagName, currentUser);
+  const posts = await getExplorer(currentUser);
+
   return (
     <div className="grid grid-cols-1 h-full">
-      <HashtagPage
-        initialPosts={JSON.parse(JSON.stringify(posts))}
-        hashtagName={hashtagName}
-      />
+      <ExplorerClient initialPosts={JSON.parse(JSON.stringify(posts))} />
     </div>
   );
 };
 
-export default HashtagsPage;
+export default ExplorerPage;

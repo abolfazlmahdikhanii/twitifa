@@ -85,7 +85,7 @@ const PostCard = ({
   return (
     <>
       <Card
-        className={`bg-transparent px-8 ${!isReplyModal ? "transition-all duration-200 hover:bg-[#121225]" : ""}  ${!isReply ? "pb-4.5  pt-3.5  border-b" : `pb-11.5 ${isFirstReply ? "pt-3.5" : "-mt-6"} `} ${isReply && lastReply && !isReplyModal ? "border-b" : ""}  rounded-none`}
+        className={`bg-transparent px-2 sm:px-4 md:px-8 ${!isReplyModal ? "transition-all duration-200 hover:bg-[#121225]" : ""} ${!isReply ? "pb-4.5 pt-3.5 border-b" : `pb-11.5 ${isFirstReply ? "pt-3.5" : "-mt-6"}`} ${isReply && lastReply && !isReplyModal ? "border-b" : ""} rounded-none`}
         ref={postRef}
         onClick={() => {
           trackClick();
@@ -112,7 +112,7 @@ const PostCard = ({
             isPostDetail={isPostDetail}
           />
         </CardHeader>
-        <CardContent className=" pr-18 ">
+        <CardContent className="pr-12 sm:pr-18">
           <PostContent
             {...postData}
             poll={
@@ -122,7 +122,7 @@ const PostCard = ({
           />
         </CardContent>
         {post.isQuoteRepost && (
-          <div className="pr-18 pl-4">
+          <div className="pr-12 sm:pr-18 pl-2 sm:pl-4">
             <QuoteCard
               post={post}
               content={() => post.retweetedFrom?.textContent}
@@ -137,7 +137,7 @@ const PostCard = ({
         )}
         {!isReplyModal ? (
           <CardFooter
-            className={`${selfReply ? "pr-28" : "pr-16"} ${isPostDetail ? "mt-2.5" : "mt-8"} `}
+            className={`${selfReply ? "pr-20 sm:pr-28" : "pr-12 sm:pr-16"} ${isPostDetail ? "mt-2.5" : "mt-6 sm:mt-8"}`}
           >
             <PostFooter
               post={postData}

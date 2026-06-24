@@ -45,7 +45,7 @@ const Feed = ({ query, isMounted }) => {
               <Loader />
             </div>
           ) : null,
-        Header: () => <PostBox refetch={query.refetch} />,
+        Header: () => <div className="hidden md:block"><PostBox refetch={query.refetch} /></div>,
       }}
     />
   );
