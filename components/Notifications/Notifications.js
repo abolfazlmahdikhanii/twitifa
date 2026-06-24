@@ -75,9 +75,7 @@ const Notifications = () => {
     );
   }, [allNotifications]);
 
-  const tabClass =
-    "w-full py-4 sm:py-7 text-sm sm:text-base text-neutral-500 dark:text-neutral-400 dark:data-[selected=true]:text-white border-b-4 border-transparent data-[selected=true]:border-[#1111D4] rounded-none data-[selected=true]:font-bold before:hidden";
-
+ 
   return (
     <>
       <header>
@@ -102,13 +100,13 @@ const Notifications = () => {
             aria-label="Notification Tabs"
             className="gap-0 sm:gap-2 w-full relative rounded-none p-0 border-b border-[#34344E] bg-transparent px-2 sm:px-12"
           >
-            <Tabs.Tab id="newest" className={tabClass}>
+            <Tabs.Tab id="newest" className={"tab-box"}>
               همه
             </Tabs.Tab>
-            <Tabs.Tab id="reactions" className={tabClass}>
+            <Tabs.Tab id="reactions" className={"tab-box"}>
               واکنش ها
             </Tabs.Tab>
-            <Tabs.Tab id="mentions" className={tabClass}>
+            <Tabs.Tab id="mentions" className={"tab-box"}>
               <span className="hidden sm:inline">خطاب ها و پاسخ ها</span>
               <span className="sm:hidden">خطاب ها</span>
             </Tabs.Tab>

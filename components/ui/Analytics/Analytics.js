@@ -13,7 +13,7 @@ const Analytics = (props) => {
         isOpen={props.isOpen}
         onOpenChange={props.setIsOpen}
       >
-        <Modal.Container>
+        <Modal.Container className={"p-0"}>
           <Modal.Dialog className="sm:max-w-3xl bg-[#1A1A31] shadow-none">
             {/* Header */}
             <Modal.Header
@@ -31,7 +31,7 @@ const Analytics = (props) => {
             <Modal.Body className="pt-5 p-0  ">
               <div>
                 {/* Top Stats */}
-                <div className="grid grid-cols-4 gap-x-4.5 mb-4.5">
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-x-2.5 gap-y-2.5 sm:gap-y-4.5 sm:gap-x-4.5 mb-4.5">
                   {/* Impressions — highlighted */}
                   <StatsBox title={"Impressions"} count={props.viewCount||0} />
                   {/* Engagements */}

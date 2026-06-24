@@ -8,8 +8,6 @@ const TABS = [
   { id: "reposts", label: "بازنشرها" },
 ];
 
-const TAB_CLASS =
-  "w-full py-7 text-base text-neutral-500 dark:text-neutral-400 dark:data-[selected=true]:text-white border-b-4 border-transparent data-[selected=true]:border-[#1111D4] rounded-none data-[selected=true]:font-bold before:hidden";
 
 const PostActivityTab = ({ username, postId }) => {
       const { replace } = useRouter();
@@ -32,10 +30,10 @@ const PostActivityTab = ({ username, postId }) => {
         <Tabs.ListContainer>
           <Tabs.List
             aria-label="Hashtag Tabs"
-            className="gap-2 w-full relative rounded-none p-0 border-b border-[#34344E] bg-transparent px-12"
+            className="gap-2 w-full relative rounded-none p-0 border-b border-[#34344E] bg-transparent sm:px-12 px-4"
           >
             {TABS.map((tab) => (
-              <Tabs.Tab key={tab.id} id={tab.id} className={TAB_CLASS}>
+              <Tabs.Tab key={tab.id} id={tab.id} className={"tab-box"}>
                 {tab.label}
               </Tabs.Tab>
             ))}

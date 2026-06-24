@@ -71,9 +71,9 @@ const yesterday = new DateObject({
   return (
     <>
       <Modal isOpen={isOpen} >
-        <Modal.Backdrop variant="blur" isDismissable>
-          <Modal.Container>
-            <Modal.Dialog className="sm:max-w-lg bg-[#1E1E2E] border border-[#34344E] p-0">
+        <Modal.Backdrop variant="blur" isDismissable={false} onClick={()=>setIsOpen(false)}>
+          <Modal.Container className={"p-0"}>
+            <Modal.Dialog className="sm:max-w-lg bg-[#1E1E2E]  p-0 rounded-b-none sm:rounded-b-4xl">
               <Modal.Header>
                 <div className=" py-4 border-b border-[#34344E] relative flex items-center justify-between px-6">
                   <Button

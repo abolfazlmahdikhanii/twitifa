@@ -10,7 +10,7 @@ const PageHeader = ({title,noBorder=false}) => {
     <header>
       <div className={`py-4 px-7 ${!noBorder?"border-b border-[#34344E]":""} flex items-center justify-between`}>
         <div>
-          <h2 className="text-xl font-bold">{title}</h2>
+          <h2 className="sm:text-xl text-lg font-bold">{title}</h2>
         </div>
         <div>
           <Button variant="ghost" className="text-base h-10 w-10" onClick={()=>router.back()}>

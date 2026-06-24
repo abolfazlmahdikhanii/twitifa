@@ -1,6 +1,6 @@
 "use client";
 import { useAuth } from "@/context/AuthContext";
-import { Button, Tooltip } from "@heroui/react";
+import { Avatar, Button, Tooltip } from "@heroui/react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useState } from "react";
@@ -90,14 +90,32 @@ const MobileNavBar = ({ username, name, avatar, notificationCount }) => {
                 <p>پیام ها</p>
               </Tooltip.Content>
             </Tooltip>
+
+            
+              <div>
+                <Avatar size="sm">
+                  <Avatar.Image
+                    alt="profile image"
+                    src={
+                      "https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/blue.jpg"
+                    }
+                  />
+                  <Avatar.Fallback className="uppercase">
+                    {username?.charAt(0)}
+                  </Avatar.Fallback>
+                </Avatar>
+              </div>
+            
           </nav>
         </div>
       </header>
       <div className="fixed bottom-24 right-6 z-20">
         <Button
           variant="primary"
-           isIconOnly
-          className={"h-13 w-13 text-lg font-bold rounded-full shadow-lg shadow-blue-500/20 [&>svg]:size-5"}
+          isIconOnly
+          className={
+            "h-13 w-13 text-lg font-bold rounded-full shadow-lg shadow-blue-500/20 [&>svg]:size-5"
+          }
           onPress={() => setIsShowModal(true)}
         >
           <Icon name="edit" size={24} />

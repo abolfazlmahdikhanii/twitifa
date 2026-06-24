@@ -1,3 +1,4 @@
+"use client"
 import { useClickOutside } from "@/hooks/useClickOutside";
 import { Input } from "@heroui/react";
 import { useQuery } from "@tanstack/react-query";

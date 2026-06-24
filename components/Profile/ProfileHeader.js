@@ -38,7 +38,7 @@ const ProfileHeader = ({
       <div className="relative">
         <div className="h-50">
           <Image
-            src={profileBg || "/images/profile-bg.webp"}
+            src={profileBg ? profileBg : "/images/profile-bg.webp"}
             alt="profile-bg"
             fill
             className="object-cover"
@@ -62,13 +62,25 @@ const ProfileHeader = ({
         </div>
         <div className="flex items-center justify-end mt-6 px-5 gap-x-3">
           {isMe ? (
-            <Button
-              variant="outline"
-              className={"h-11.5 px-8 border-1.5 border-[#34344E]"}
-              onPress={() => push("/settings/profile")}
-            >
-              ویرایش نمایه
-            </Button>
+            <>
+              <Button
+                variant="outline"
+                className={
+                  "h-11.5 px-8 border-1.5 border-[#34344E] hidden sm:block"
+                }
+                onPress={() => push("/settings/profile")}
+              >
+                ویرایش نمایه
+              </Button>
+              <Button
+                variant="outline"
+                isIconOnly
+                className={"h-11.5 w-11.5 border-1.5 border-[#34344E] sm:hidden"}
+                onPress={() => push("/settings/profile")}
+              >
+                <Icon name={"edit"} size={24} />
+              </Button>
+            </>
           ) : (
             <BtnFollow username={username} isFollow={isFollow} isUserPage />
           )}
@@ -83,25 +95,25 @@ const ProfileHeader = ({
       </div>
       {/* username */}
       <div className="mx-6 -mt-1.5 space-y-1.25">
-        <h1 className="text-[28px] font-bold">
+        <h1 className="sm:text-[28px] text-xl font-bold">
           {firstName && lastName
             ? `${firstName} ${lastName}`
             : organizationName}
         </h1>
         <p
           dir="auto"
-          className="text-right dark:text-neutral-400 text-neutral-500 text-[17px] en"
+          className="text-right dark:text-neutral-400 text-neutral-500 sm:text-[17px] text-sm en"
         >
           @{username}
         </p>
       </div>
       {/* extra info */}
-      <div className="mt-4 mx-6">
-        {bio && (
-          <div className="mb-6.5 whitespace-pre-wrap">
+      <div className="mt-4 mx-4.75 sm:mx-6">
+        {!bio && (
+          <div className="mb-7.5 whitespace-pre-wrap">
             <span
               dir="auto"
-              className="block min-h-3.5 text-[17px] text-[rgb(225,226,226)] leading-loose max-w-3xl font-light"
+              className="block min-h-3.5 text-sm sm:text-[17px] text-[rgb(225,226,226)] leading-loose max-w-3xl font-light"
             >
               برنامه تلویزیونی بدون توقف شبکه ۳ سیما | بررسی چالشی شبهات روز
               جامعه | از شنبه تا چهارشنبه | حوالی ساعت ۱۸ | لایک و بازنشر به
@@ -110,21 +122,29 @@ const ProfileHeader = ({
           </div>
         )}
         {/* general info */}
-        <div className="flex items-center gap-x-7.5 gap-y-4.5 flex-wrap max-w-2xl">
+        <div className="flex items-center gap-x-4 sm:gap-x-5 md:gap-x-7.5 gap-y-4 sm:gap-y-4.5 flex-wrap max-w-2xl">
           {location && (
             <div className="flex items-center gap-x-1.5 dark:text-neutral-400 text-neutral-500">
-              <Icon name="location-pin" size={18} />
+              <Icon
+                name="location-pin"
+                className={"w-4 h-4 sm:w-4.75 sm:h-4.75"}
+              />
 
-              <span className="text-[16px] leading-7">{location}</span>
+              <span className="text-sm sm:text-[17px] leading-7">
+                {location}
+              </span>
             </div>
           )}
           {website && (
             <div className="flex items-center gap-x-1.5 dark:text-neutral-400 text-neutral-500">
-              <Icon name="url-link" className="-rotate-45"size={18}  />
+              <Icon
+                name="url-link"
+                className="-rotate-45 w-4 h-4 sm:w-4.75 sm:h-4.75"
+              />
 
               <Link
                 href={website}
-                className="text-[17px] leading-7 text-blue-500"
+                className="sm:text-[17px] text-sm leading-7 text-blue-500"
                 target="_blank"
               >
                 {website}
@@ -132,17 +152,20 @@ const ProfileHeader = ({
             </div>
           )}
           <div className="flex items-center gap-x-1.5 dark:text-neutral-400 text-neutral-500">
-              <Icon name="calendar" size={18} />
+            <Icon name="calendar" className={"w-4 h-4 sm:w-4.75 sm:h-4.75"} />
 
-            <span className="text-[16px] leading-3">
+            <span className="sm:text-[16px] text-sm leading-3">
               تاریخ پیوستن: {createdAt && formatDate(createdAt)}
             </span>
           </div>
           {birthDate && (
             <div className="flex items-center gap-x-1.5 dark:text-neutral-400 text-neutral-500">
-              <Icon name="birthday-cake" size={18} />
+              <Icon
+                name="birthday-cake"
+                className={"w-4 h-4 sm:w-4.75 sm:h-4.75"}
+              />
 
-              <span className="text-[16px] leading-3">
+              <span className="sm:text-[16px] text-sm leading-3">
                 {" "}
                 متولد: {formatDate(birthDate)}
               </span>
@@ -150,17 +173,25 @@ const ProfileHeader = ({
           )}
           {occupation && (
             <div className="flex items-center gap-x-1.5 dark:text-neutral-400 text-neutral-500">
-              <Icon name="briefcase" size={18} />
+              <Icon
+                name="briefcase"
+                className={"w-4 h-4 sm:w-4.75 sm:h-4.75"}
+              />
 
-              <span className="text-[16px] leading-6">{occupation}</span>
+              <span className="sm:text-[16px] text-sm leading-6">
+                {occupation}
+              </span>
             </div>
           )}
 
           {nationality && (
             <div className="flex items-center gap-x-1.5 dark:text-neutral-400 text-neutral-500">
-              <Icon name="flag-pole" size={19} />
+              <Icon
+                name="flag-pole"
+                className={"w-4 h-4 sm:w-4.75 sm:h-4.75"}
+              />
 
-              <span className="text-[16px] leading-6">
+              <span className="sm:text-[16px] text-sm leading-6">
                 {nationality}{" "}
                 <span className="text-sm ">
                   {countryFlagEmoji.get(nationality)?.emoji}
@@ -171,13 +202,13 @@ const ProfileHeader = ({
         </div>
         {/* follower info */}
         <div className="mt-11 flex items-center gap-x-8.5 pr-2">
-          <p className="font-semibold text-[17px] ">
+          <p className="font-semibold text-sm sm:text-[17px] ">
             {followingCount ?? 0}{" "}
             <span className="dark:text-neutral-400 text-neutral-500 mr-px">
               دنبال شده{" "}
             </span>
           </p>
-          <p className="font-semibold text-[17px]">
+          <p className="font-semibold text-sm sm:text-[17px]">
             {followerCount ?? 0}{" "}
             <span className="dark:text-neutral-400 text-neutral-500 mr-px">
               دنبال کننده{" "}
@@ -191,7 +222,7 @@ const ProfileHeader = ({
             {sharedFollowers?.length > 0 ? (
               <SharedFollower sharedFollower={sharedFollowers} />
             ) : (
-              <p className="font-medium text-sm text-muted leading-[1.6] pr-3">
+              <p className="font-medium text-xs sm:text-sm text-muted leading-[1.6] pr-3">
                 دنبال کننده مشترکی بین شما و این حساب وجود ندارد
               </p>
             )}

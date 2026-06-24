@@ -6,14 +6,14 @@ import { useMemo } from "react";
 import { Virtuoso } from "react-virtuoso";
 import PostCard from "../Posts/PostCard";
 import FollowCard from "../ui/FollowCard/FollowCard";
+import Icon from "../ui/Icon/Icon";
 import Loader from "../ui/Loader/Loader";
 import SearchBox from "../ui/SearchBox/SearchBox";
-import Icon from "../ui/Icon/Icon";
 
 const SearchResultPage = ({ initialResult, searchQuery }) => {
   const searchParams = useSearchParams();
   const router = useRouter();
-  
+
   const activeSearchTab = searchParams.get("type") || "top";
 
   const { data, isPending, fetchNextPage, hasNextPage, isFetchingNextPage } =
@@ -89,8 +89,8 @@ const SearchResultPage = ({ initialResult, searchQuery }) => {
 
   return (
     <>
-      <header className="flex items-center gap-x-4  mb-3.25 mt-3.5 pr-6 pl-3">
-        <SearchBox isSearchPage query={searchQuery}/>
+      <header className="flex items-center sm:gap-x-4 gap-x-1  mb-3.25 mt-3.5 pr-4 pl-2 sm:pr-6 sm:pl-3">
+        <SearchBox isSearchPage query={searchQuery} />
         <Button
           variant="ghost"
           className="text-base h-10 w-10"
@@ -109,30 +109,18 @@ const SearchResultPage = ({ initialResult, searchQuery }) => {
         <Tabs.ListContainer>
           <Tabs.List
             aria-label="Search Tabs"
-            className="gap-2 w-full relative rounded-none p-0 border-b border-[#34344E] bg-transparent px-12"
+            className="gap-2 w-full relative rounded-none p-0 border-b border-[#34344E] bg-transparent sm:px-12 px-5"
           >
-            <Tabs.Tab
-              id="top"
-              className="w-full py-7 text-base text-neutral-500 dark:text-neutral-400 dark:data-[selected=true]:text-white border-b-4 border-transparent data-[selected=true]:border-[#1111D4] rounded-none data-[selected=true]:font-bold before:hidden"
-            >
+            <Tabs.Tab id="top" className="tab-box">
               بهترین‌ها
             </Tabs.Tab>
-            <Tabs.Tab
-              id="latest"
-              className="w-full py-7 text-base text-neutral-500 dark:text-neutral-400 dark:data-[selected=true]:text-white border-b-4 border-transparent data-[selected=true]:border-[#1111D4] rounded-none data-[selected=true]:font-bold before:hidden"
-            >
+            <Tabs.Tab id="latest" className="tab-box">
               تازه‌ترین‌ها
             </Tabs.Tab>
-            <Tabs.Tab
-              id="users"
-              className="w-full py-7 text-base text-neutral-500 dark:text-neutral-400 dark:data-[selected=true]:text-white border-b-4 border-transparent data-[selected=true]:border-[#1111D4] rounded-none data-[selected=true]:font-bold before:hidden"
-            >
+            <Tabs.Tab id="users" className="tab-box">
               کاربران
             </Tabs.Tab>
-            <Tabs.Tab
-              id="media"
-              className="w-full py-7 text-base text-neutral-500 dark:text-neutral-400 dark:data-[selected=true]:text-white border-b-4 border-transparent data-[selected=true]:border-[#1111D4] rounded-none data-[selected=true]:font-bold before:hidden"
-            >
+            <Tabs.Tab id="media" className="tab-box">
               رسانه
             </Tabs.Tab>
           </Tabs.List>

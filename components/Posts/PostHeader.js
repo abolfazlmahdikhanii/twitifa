@@ -255,7 +255,7 @@ const PostHeader = ({
         {/* thread line */}
         {post.isReply && !post.lastReply && (
           <div
-            className={`w-0.5 h-full bg-[#34344E] grow absolute ${threadLine} right-12 sm:right-15 bottom-0 last-of-type:hidden`}
+            className={`w-0.5 h-full bg-[#34344E] grow absolute ${threadLine} right-7 sm:right-15 bottom-0 last-of-type:hidden`}
           ></div>
         )}
 

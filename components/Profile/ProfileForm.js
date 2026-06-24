@@ -11,7 +11,7 @@ const ProfileForm = (props) => {
       {props.type === "personal" ? (
         <>
           {/* name */}
-          <div className="flex flex-col gap-3 w-full">
+          <div className="flex flex-col gap-3 w-full col-span-2 sm:col-span-1">
             <Label
               htmlFor="input-type-name"
               className="dark:text-neutral-400 text-neutral-500"
@@ -34,7 +34,7 @@ const ProfileForm = (props) => {
             </div>
           </div>
           {/* last-name */}
-          <div className="flex flex-col gap-3 w-full">
+          <div className="flex flex-col gap-3 w-full col-span-2 sm:col-span-1">
             <Label
               htmlFor="input-type-lastname"
               className="dark:text-neutral-400 text-neutral-500"
@@ -105,7 +105,7 @@ const ProfileForm = (props) => {
         </div>
       </div>
       {/* location */}
-      <div className="flex flex-col gap-3 w-full">
+      <div className="flex flex-col gap-3 w-full col-span-2 sm:col-span-1">
         <Label
           htmlFor="input-type-location"
           className="dark:text-neutral-400 text-neutral-500"
@@ -135,7 +135,7 @@ const ProfileForm = (props) => {
         selectedNation={props.selectedNation}
       />
       {/* birthday */}
-      <div className="flex flex-col gap-3 w-full">
+      <div className="flex flex-col gap-3 w-full col-span-2 sm:col-span-1">
         <Label
           htmlFor="input-type-birthday"
           className="dark:text-neutral-400 text-neutral-500"
@@ -144,7 +144,7 @@ const ProfileForm = (props) => {
         </Label>
 
         <div
-          className="relative cursor-pointer"
+          className="relative cursor-pointer col-span-2 sm:col-span-1"
           onClick={() => props.setIsOpenDatePicker(true)}
         >
           <Input
@@ -179,7 +179,7 @@ const ProfileForm = (props) => {
 
       {/* job */}
       <div
-        className={`flex flex-col gap-3 w-full ${props.type === "personal" ? "col-span-2" : ""}`}
+        className={`flex flex-col gap-3 col-span-2 sm:col-span-1 w-full ${props.type === "personal" ? "col-span-2" : ""}`}
       >
         <Label
           htmlFor="input-type-job"

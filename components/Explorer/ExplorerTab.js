@@ -8,7 +8,6 @@ const ExplorerTab = () => {
   const { replace } = useRouter();
   const pathname = usePathname();
 
- 
   let activeTab = "for-you";
 
   if (pathname.startsWith("/explorer/tabs/")) {
@@ -26,7 +25,7 @@ const ExplorerTab = () => {
 
   return (
     <Tabs
-      className="w-full pt-5"
+      className="w-full pt-1 sm:pt-5"
       orientation="horizontal"
       selectedKey={activeTab}
       onSelectionChange={handleTabChange}
@@ -34,19 +33,13 @@ const ExplorerTab = () => {
       <Tabs.ListContainer>
         <Tabs.List
           aria-label="Explorer tabs"
-          className="gap-2 w-full relative rounded-none p-0 border-b border-[#34344E] bg-transparent px-12"
+          className="gap-2 w-full relative rounded-none p-0 border-b border-[#34344E] bg-transparent sm:px-12 px-4"
         >
-          <Tabs.Tab
-            id="for-you"
-            className="w-full py-6 text-base text-neutral-500 dark:text-neutral-400 dark:data-[selected=true]:text-white border-b-4 border-transparent data-[selected=true]:border-[#1111D4] rounded-none data-[selected=true]:font-bold before:w-0"
-          >
+          <Tabs.Tab id="for-you" className={"tab-box"}>
             برای شما
             <Tabs.Indicator className="bg-transparent rounded-none shadow-none transition-all duration-200 w-auto " />
           </Tabs.Tab>
-          <Tabs.Tab
-            id="trending"
-            className="w-full py-6 text-base text-neutral-500 dark:text-neutral-400 dark:data-[selected=true]:text-white border-b-4 border-transparent data-[selected=true]:border-[#1111D4] rounded-none data-[selected=true]:font-bold before:w-0"
-          >
+          <Tabs.Tab id="trending" className={"tab-box"}>
             موضوعات داغ
             <Tabs.Indicator className="bg-transparent rounded-none shadow-none transition-all duration-200  outline-0" />
           </Tabs.Tab>

@@ -64,7 +64,7 @@ const NotificationType = ({ actorIds = [], message = "", type }) => {
 
   return (
     <>
-      <p className="text-[16.5px] leading-[1.6] text-white pr-1.5">
+      <p className="sm:text-[16.5px] text-sm leading-[1.6] text-white pr-1.5">
         {renderActor()}
       </p>
     </>

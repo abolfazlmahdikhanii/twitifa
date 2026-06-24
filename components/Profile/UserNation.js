@@ -11,7 +11,7 @@ const UserNation = ({ setSelectedNation, setHasChange, selectedNation }) => {
   const { contains } = useFilter({ sensitivity: "base" });
   return (
     <Autocomplete
-      className="w-full text-right h-full flex flex-col gap-3 "
+      className="w-full text-right h-full flex flex-col gap-3 col-span-2 sm:col-span-1 "
       placeholder="گزینه را انتخاب کنید"
       dir="rtl"
       selectionMode="single"

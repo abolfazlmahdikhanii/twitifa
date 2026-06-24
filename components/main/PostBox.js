@@ -21,7 +21,7 @@ import StarterKit from "@tiptap/starter-kit";
 import PollForm from "../Polls/PollForm";
 
 import { useAuth } from "@/context/AuthContext";
-import Icon from '../ui/Icon/Icon';
+import Icon from "../ui/Icon/Icon";
 import MediaGallery from "../ui/Media/MediaGallery/MediaGallery";
 const MediaGalleryMemo = React.memo(MediaGallery);
 
@@ -116,7 +116,7 @@ const PostBox = ({
 
     editorProps: {
       attributes: {
-        class: ` ${!isEdit ? "min-h-12" : "min-h-26 "} ${isModal ? "text-white" : ""} pr-1 pt-0.5 bg-transparent focus:outline-none text-lg leading-[1.8] outline-none`,
+        class: `text-sm sm:text-lg ${!isEdit ? "min-h-12" : "min-h-26 "} ${isModal ? "text-white" : ""} pr-1 pt-0.5 bg-transparent focus:outline-none text-lg leading-[1.8] outline-none`,
         dir: "auto",
       },
     },
@@ -489,9 +489,16 @@ const PostBox = ({
       document.body.style.pointerEvents = "auto";
     }, 2000);
   };
+  const mediaButtonClass =
+    "text-[#6366F1] mt-2 sm:mt-3 [&>svg]:w-5 [&>svg]:h-5 sm:[&>svg]:w-6.5 sm:[&>svg]:h-6.5 px-3 sm:px-5.5 py-3 sm:py-5.5";
+
   return (
     <div
-      className={`${!isModal ? "border-b border-neutral-200 dark:border-[#374151] px-9 py-5.5" : "px-3"} ${isReply ? "px-11 " : ""} `}
+      className={`${
+        !isModal
+          ? "border-b border-neutral-200 dark:border-[#374151] px-1 sm:px-9 py-4 sm:py-5.5"
+          : "px-1 sm:px-3"
+      } ${isReply ? "px-1 sm:px-11" : ""}`}
     >
       <div className=" flex items-center gap-x-2.5 ">
         <div className="self-start relative">
@@ -509,13 +516,13 @@ const PostBox = ({
           </Avatar>
         </div>
         <div
-          className={`${!isModal ? "border-b border-neutral-200 dark:border-[#374151] " : ""} pb-4 flex-1`}
+          className={`${!isModal ? "border-b border-neutral-200 dark:border-[#374151]" : ""} pb-1.5 sm:pb-4 flex-1 min-w-0`}
         >
-          <div className={`${!isEdit || !isReply ? "mb-3" : ""}`}>
+          <div className={`${!isEdit || !isReply ? "mb-2 sm:mb-3" : ""}`}>
             <div
               className={`${!isEdit || !isReply ? "min-h-12" : "min-h-26"} relative`}
             >
-              <EditorContent editor={editor} />
+              <EditorContent editor={editor}  />
             </div>
             {hasPoll && (
               <PollForm
@@ -543,13 +550,17 @@ const PostBox = ({
       {isQuote && children}
 
       <div
-        className={`${!isModal ? "pr-9" : "pr-2 border-t border-neutral-200 dark:border-[#374151] pt-4"} flex items-center justify-between mt-3 `}
+        className={`${
+          !isModal
+            ? "pr-3 sm:pr-9"
+            : "pr-1 sm:pr-2 border-t border-neutral-200 dark:border-[#374151] pt-3 sm:pt-4"
+        } flex items-center justify-between mt-2 sm:mt-3`}
       >
-        <div className="flex items-center gap-x-3.5">
+        <div className="flex items-center gap-x-1 sm:gap-x-3.5">
           <Button
             isIconOnly
             variant="ghost"
-            className="text-[#6366F1] mt-3 [&>svg]:w-6.5 [&>svg]:h-6.5 px-5.5 py-5.5 relative"
+            className={mediaButtonClass}
             onPress={() => {
               handleImageClick();
             }}
@@ -561,7 +572,7 @@ const PostBox = ({
             {isImageLoading ? (
               <Loader2 className=" animate-spin" />
             ) : (
-              <Icon name="image" strokeWidth={2.25}/>
+              <Icon name="image" strokeWidth={2.25} />
             )}
           </Button>
           <input
@@ -575,7 +586,7 @@ const PostBox = ({
           <Button
             isIconOnly
             variant="ghost"
-            className="text-[#6366F1] mt-3 [&>svg]:w-6.5 [&>svg]:h-6.5 px-5.5 py-5.5"
+            className={mediaButtonClass}
             isDisabled={
               hasPoll || mediaType === "image" || mediaUrl.length >= 1
             }
@@ -585,7 +596,7 @@ const PostBox = ({
             {isVideoLoading ? (
               <Loader2 className=" animate-spin" />
             ) : (
-              <Icon name="globe" strokeWidth={2.25}/>
+              <Icon name="globe" strokeWidth={2.25} />
             )}{" "}
           </Button>
           <input
@@ -599,18 +610,14 @@ const PostBox = ({
           <Button
             isIconOnly
             variant="ghost"
-            className="text-[#6366F1] mt-3 [&>svg]:w-6.5 [&>svg]:h-6.5 px-5.5 py-5.5"
+            className={mediaButtonClass}
             isDisabled={hasPoll}
             onPress={() => setHasPoll(true)}
           >
-            <Icon name="checklist"  strokeWidth={2.25}/>
+            <Icon name="checklist" strokeWidth={2.25} />
           </Button>
-          <Button
-            isIconOnly
-            variant="ghost"
-            className="text-[#6366F1] mt-3 [&>svg]:w-6.5 [&>svg]:h-6.5 px-5.5 py-5.5"
-          >
-            <Icon name="emoji-happy" strokeWidth={2.25}/>
+          <Button isIconOnly variant="ghost" className={mediaButtonClass}>
+            <Icon name="emoji-happy" strokeWidth={2.25} />
           </Button>
         </div>
 
@@ -618,7 +625,7 @@ const PostBox = ({
           className={`${isReply ? "flex items-center justify-end w-full" : ""}`}
         >
           <Button
-            className={`px-7 py-3 text-base font-bold `}
+            className="px-6 sm:px-7 py-2 sm:py-3 text-sm sm:text-base font-bold h-9 sm:h-auto"
             size="lg"
             onPress={submitForm}
             isDisabled={isEmpty || isLoading}

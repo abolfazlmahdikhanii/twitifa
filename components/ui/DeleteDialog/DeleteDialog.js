@@ -13,8 +13,8 @@ const DeleteDialog = ({ isOpen, setIsOpen, title, dis, onDelete }) => {
         onOpenChange={setIsOpen}
         variant="blur"
       >
-        <AlertDialog.Container>
-          <AlertDialog.Dialog className="sm:max-w-md bg-[#1E1E2E] ">
+        <AlertDialog.Container className={"p-0"}>
+          <AlertDialog.Dialog className="sm:max-w-md bg-[#1E1E2E] rounded-b-none sm:rounded-b-4xl ">
             <AlertDialog.Header>
               <AlertDialog.Icon status="danger" />
               <AlertDialog.Heading className="text-lg font-semibold mt-0.5 mb-1.5">

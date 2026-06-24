@@ -23,8 +23,8 @@ const ReplyTypeModal = ({
         </Button>
       )}
       <Modal.Backdrop isDismissable={true} variant="blur">
-        <Modal.Container>
-          <Modal.Dialog className="sm:max-w-md bg-[#1E1E2E] border border-[#34344E]">
+        <Modal.Container className={"p-0"}>
+          <Modal.Dialog className="sm:max-w-md bg-[#1E1E2E] rounded-b-none sm:rounded-b-4xl ">
             <Modal.Header>
               <Modal.Heading className="text-lg font-semibold">
                 چه کسانی میتوانند پاسخ دهند؟

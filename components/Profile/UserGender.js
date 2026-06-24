@@ -4,7 +4,7 @@ import Icon from "../ui/Icon/Icon";
 const UserGender = ({ setGender, setHasChange, gender }) => {
   return (
     <Select
-      className="w-full text-right h-full flex flex-col gap-3 "
+      className="w-full text-right h-full flex flex-col gap-3 col-span-2 sm:col-span-1 "
       placeholder="گزینه را انتخاب کنید"
       dir="rtl"
       onChange={(value) => {

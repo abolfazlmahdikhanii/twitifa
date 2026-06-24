@@ -98,6 +98,9 @@ body {
     transform: none !important;
   }
 }
+.tab-box{
+  @apply w-full py-6 text-sm before:hidden sm:text-base whitespace-nowrap  text-neutral-500 dark:text-neutral-400 dark:data-[selected=true]:text-white border-b-4 border-transparent data-[selected=true]:border-[#1111D4] rounded-none data-[selected=true]:font-bold
+}
 /* Custom styles for Persian Date Picker */
 /* Persian Date Picker with react-multi-date-picker */
 

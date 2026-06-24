@@ -27,7 +27,7 @@ const HashtagsPage = async ({ params }) => {
   }
   const posts = await getHashtagPosts(hashtagName, currentUser);
   return (
-    <div className="grid grid-cols-1 h-full">
+    <div className="grid grid-cols-1 h-[calc(100vh-120px)]">
       <HashtagPage
         initialPosts={JSON.parse(JSON.stringify(posts))}
         hashtagName={hashtagName}
