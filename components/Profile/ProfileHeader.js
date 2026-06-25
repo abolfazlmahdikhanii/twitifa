@@ -38,9 +38,10 @@ const ProfileHeader = ({
       <div className="relative">
         <div className="h-50">
           <Image
-            src={profileBg ? profileBg : "/images/profile-bg.webp"}
+            src={profileBg || "/images/profile-bg.webp"}
             alt="profile-bg"
             fill
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 80vw, 60vw"
             className="object-cover"
           />
         </div>
@@ -75,7 +76,9 @@ const ProfileHeader = ({
               <Button
                 variant="outline"
                 isIconOnly
-                className={"h-11.5 w-11.5 border-1.5 border-[#34344E] sm:hidden"}
+                className={
+                  "h-11.5 w-11.5 border-1.5 border-[#34344E] sm:hidden"
+                }
                 onPress={() => push("/settings/profile")}
               >
                 <Icon name={"edit"} size={24} />

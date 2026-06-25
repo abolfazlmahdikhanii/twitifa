@@ -1,8 +1,11 @@
+"use client";
+import useResponsiveHeight from "@/hooks/useResponsiveHeight";
 import MediaImageItem from "../Media/MediaImageItem/MediaImageItem";
 import MediaVideoItem from "../Media/MediaVideoItem/MediaVideoItem";
 
 const MediaGrid = ({ row }) => {
   const isNormal = row.type === "normal";
+  const height = useResponsiveHeight(row.height);
 
   const gridClass = isNormal
     ? "grid grid-cols-3"
@@ -10,12 +13,11 @@ const MediaGrid = ({ row }) => {
 
   return (
     <div
-      className={`${gridClass} gap-[2px] sm:gap-[3px]`}
-      style={{ height: `${Math.round(row.height * 0.65)}px` }}
+      className={`${gridClass} gap-0.5 sm:gap-0.75`}
+      style={{ height: `${height}px` }}
     >
       {row.items.map((item, idx) => {
-        if (!item)
-          return <div key={`empty-${idx}`} className="bg-gray-800" />;
+        if (!item) return <div key={`empty-${idx}`} className="bg-gray-800" />;
 
         let spanClass = "";
         if (row.type === "left-large" && idx === 0) spanClass = "row-span-2";
