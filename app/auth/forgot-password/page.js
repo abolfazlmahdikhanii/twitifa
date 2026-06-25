@@ -3,7 +3,7 @@ import ForgotPasswordWrapper from "@/components/auth/ForgotPasswordWrapper";
 
 const ForgotPage = () => {
   return (
-    <div>
+    <div className="w-[80%] md:w-auto">
       <ForgotPasswordWrapper />
     </div>
   );

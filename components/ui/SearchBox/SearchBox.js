@@ -57,7 +57,7 @@ const SearchBox = ({ isSearchPage = false, query }) => {
   return (
     <div className="relative flex-1 w-full" ref={searchRef}>
       <div className="relative">
-        <Icon name="search" className="input-icon--search w-[22px] h-[22px]" />
+        <Icon name="search" className="input-icon--search w-5.5 h-5.5" />
 
         <Input
           placeholder="جستجو در تویتیفای"

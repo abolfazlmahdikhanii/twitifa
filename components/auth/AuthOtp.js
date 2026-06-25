@@ -15,7 +15,7 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
 const slotClass =
-  "bg-[#27273A] border border-[#34344E] size-12.5 md:size-13.25 rounded-2xl";
+  "bg-[#27273A] border border-[#34344E] size-10 sm:size-12.5 md:size-13.25 rounded-xl sm:rounded-2xl";
 
 const maskEmail = (email = "") => {
   const [user, domain] = email.split("@");
@@ -42,7 +42,6 @@ const AuthOtp = ({ isReset = false }) => {
 
   const verifyCode = async (code) => {
     if (loading) return;
-
     if (code.length < 4) {
       const errorMsg = "لطفاً کد ۴ رقمی را به‌صورت کامل وارد کنید";
       setError(errorMsg);
@@ -63,12 +62,10 @@ const AuthOtp = ({ isReset = false }) => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email: tempEmail, code }),
       });
-
       const data = await res.json();
 
       if (res.ok) {
         toast.success(isReset ? data.message : "ثبت نام با موفقیت انجام شد");
-
         if (isReset) {
           replace("/auth/reset-password");
           closeOtpHandler();
@@ -81,9 +78,7 @@ const AuthOtp = ({ isReset = false }) => {
       } else {
         if (res.status === 429) {
           toast.error(data.message || "کد وارد شده صحیح نیست");
-          setTimeout(() => {
-            closeOtpHandler();
-          }, 800);
+          setTimeout(() => closeOtpHandler(), 800);
         } else {
           toast.error(data.message || "کد وارد شده صحیح نیست");
           setError(data.message || "کد وارد شده صحیح نیست");
@@ -106,16 +101,13 @@ const AuthOtp = ({ isReset = false }) => {
   const handleResend = async () => {
     setError("");
     setResendLoading(true);
-
     try {
       const res = await fetch("/api/auth/resend-code", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email: tempEmail }),
       });
-
       const data = await res.json();
-
       if (res.ok) {
         setCooldown(180);
         setOtp("");
@@ -139,23 +131,24 @@ const AuthOtp = ({ isReset = false }) => {
   };
 
   return (
-    <div className="w-full mt-14 md:mt-0 md:w-120 rounded-2xl border border-[#34344E] bg-[#1e1e2e] overflow-hidden shadow-md">
-      <Card variant="transparent" className="p-0 pt-8.5 rounded-none">
-        <CardHeader className="flex flex-col items-center justify-center gap-y-2.5 mb-5">
-          <div className="flex flex-col gap-1.5 text-center">
-            <p className="text-2xl font-extrabold tracking-tight text-[#e7e9ea] sm:text-[26px]">
+    <div className="w-[80%] mt-8 sm:mt-14 md:mt-0 md:w-120 rounded-xl sm:rounded-2xl border border-[#34344E] bg-[#1e1e2e] overflow-hidden shadow-md">
+      <Card variant="transparent" className="p-0 pt-6 sm:pt-8.5 rounded-none">
+        <CardHeader className="flex flex-col items-center justify-center gap-y-2 sm:gap-y-2.5 mb-3 sm:mb-5">
+          <div className="flex flex-col gap-1 sm:gap-1.5 text-center px-2">
+            <p className="text-xl sm:text-2xl font-extrabold tracking-tight text-[#e7e9ea] sm:text-[26px]">
               کد تایید برات فرستادیم
             </p>
-            <p className="text-sm leading-relaxed text-[#71767b] mt-2">
+            <p className="text-xs sm:text-sm leading-relaxed text-[#71767b] mt-1 sm:mt-2">
               کد ۴ رقمی که برای{" "}
               <span className="text-[#e7e9ea]">{maskEmail(tempEmail)}</span>{" "}
               فرستادیم رو وارد کن.
             </p>
           </div>
         </CardHeader>
-        <CardContent className="md:px-8 px-6">
+
+        <CardContent className="px-4 sm:px-6 md:px-8">
           <form
-            className="w-full flex flex-col gap-4 md:gap-5.5 items-center justify-center"
+            className="w-full flex flex-col gap-3 sm:gap-4 md:gap-5.5 items-center justify-center"
             onSubmit={handleSubmit}
           >
             <InputOTP
@@ -164,16 +157,15 @@ const AuthOtp = ({ isReset = false }) => {
                 setOtp(value);
                 if (error) setError("");
               }}
-              // FIX: Call the correct verification function based on isReset
               onComplete={() => verifyCode(otp)}
               maxLength={4}
               pattern={REGEXP_ONLY_DIGITS}
               isInvalid={!!error}
               isDisabled={loading}
               autoFocus
-              className="mt-3.5"
+              className="mt-2 sm:mt-3.5"
             >
-              <InputOTP.Group className="gap-4">
+              <InputOTP.Group className="gap-2.5 sm:gap-4">
                 <InputOTP.Slot index={3} className={slotClass} />
                 <InputOTP.Slot index={2} className={slotClass} />
                 <InputOTP.Slot index={1} className={slotClass} />
@@ -187,19 +179,20 @@ const AuthOtp = ({ isReset = false }) => {
               size="lg"
               fullWidth
               isDisabled={otp.length < 4 || loading || !!error}
-              className="py-3.5 w-full h-11.5 md:h-13 font-bold mt-6.5 mb-3"
+              className="py-3 sm:py-3.5 w-full h-10 sm:h-11.5 md:h-13 font-bold mt-4 sm:mt-6.5 mb-2 sm:mb-3"
             >
               {loading ? (
-                <Spinner size="sm" className="text-black" />
+                <Spinner size="sm" color="currentColor" />
               ) : (
                 "تایید کد"
               )}
             </Button>
           </form>
         </CardContent>
-        <CardFooter className="bg-[#151525] p-4 w-full rounded-none flex items-center justify-center">
+
+        <CardFooter className="bg-[#151525] p-3 sm:p-4 w-full rounded-none flex items-center justify-center">
           {cooldown > 0 ? (
-            <p className="text-sm text-[#71767b]">
+            <p className="text-xs sm:text-sm text-[#71767b]">
               ارسال مجدد کد:{" "}
               <span className="font-semibold text-[#e7e9ea]" dir="ltr">
                 {formatTime(cooldown)}
@@ -211,11 +204,9 @@ const AuthOtp = ({ isReset = false }) => {
               variant="ghost"
               onPress={handleResend}
               isDisabled={resendLoading}
-              className="text-sm text-[#1d9bf0] transition-colors hover:underline disabled:opacity-50"
+              className="text-xs sm:text-sm text-[#1d9bf0] transition-colors hover:underline disabled:opacity-50"
             >
-              {resendLoading
-                ? "در حال ارسال..."
-                : "کد رو نگرفتید؟ دوباره بفرست"}
+              {resendLoading ? "در حال ارسال..." : "کد رو نگرفتید؟ دوباره بفرست"}
             </Button>
           )}
         </CardFooter>

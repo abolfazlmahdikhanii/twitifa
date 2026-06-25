@@ -1,16 +1,27 @@
 "use client";
 import { useAuth } from "@/context/AuthContext";
-import { Avatar, Button, Tooltip } from "@heroui/react";
+import { Avatar, Button, Popover, Tooltip } from "@heroui/react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useState } from "react";
+import Dialog from "../ui/Dialog/Dialog";
 import Icon from "../ui/Icon/Icon";
 const PostModal = dynamic(() => import("../Posts/PostModal"), { ssr: false });
 const PostBox = dynamic(() => import("./PostBox"), { ssr: false });
 
 const MobileNavBar = ({ username, name, avatar, notificationCount }) => {
-  const { user } = useAuth();
+  const { user, logoutHandler } = useAuth();
+
   const [isShowModal, setIsShowModal] = useState(false);
+  const [isShowLogoutModal, setIsShowLogoutModal] = useState(false);
+  const [isClickProfile,setIsClickProfile]=useState(false)
+
+  const handleClick=()=>{
+    setIsClickProfile(true) 
+    setTimeout(() => {
+      setIsClickProfile(false)  
+    }, 600);
+  }
   return (
     <div className="block md:hidden">
       <header className=" px-2  py-3  fixed bottom-0 left-0 right-0 bg-[#141428]/60 backdrop-blur-sm border-t rounded-t-xl z-20">
@@ -91,21 +102,53 @@ const MobileNavBar = ({ username, name, avatar, notificationCount }) => {
               </Tooltip.Content>
             </Tooltip>
 
-            
-              <div>
-                <Avatar size="sm">
-                  <Avatar.Image
-                    alt="profile image"
-                    src={
-                      "https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/blue.jpg"
-                    }
-                  />
-                  <Avatar.Fallback className="uppercase">
-                    {username?.charAt(0)}
-                  </Avatar.Fallback>
-                </Avatar>
-              </div>
-            
+            <Popover key={isShowLogoutModal||isClickProfile ? "active" : "normal"}>
+              <Popover.Trigger>
+                <div className="flex items-center menu-item select-none gap-x-0.5 w-full min-w-0">
+                  {/* Avatar */}
+                  <div className="shrink-0">
+                    <Avatar size="sm">
+                      <Avatar.Image
+                        alt="profile image"
+                        src={
+                          "https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/blue.jpg"
+                        }
+                      />
+                      <Avatar.Fallback className="uppercase">
+                        {username?.charAt(0)}
+                      </Avatar.Fallback>
+                    </Avatar>
+                  </div>
+                </div>
+              </Popover.Trigger>
+
+              <Popover.Content className="w-56 sm:w-68 bg-[#1A1A31] shadow-none">
+                <Popover.Dialog dir="rtl">
+                  <Link
+                    href={`/${user?.username}`}
+                    className="user-popup__item mb-2 text-sm sm:text-base"
+                  >
+                    <Icon
+                      name="user-circle"
+                      size={20}
+                      className="sm:size-6 shrink-0"
+                    />
+                    ویرایش پروفایل
+                  </Link>
+                  <div
+                    className="user-popup__item text-red-500 text-sm sm:text-base"
+                    onClick={() => setIsShowLogoutModal(true)}
+                  >
+                    <Icon
+                      name="logout"
+                      size={18}
+                      className="sm:size-5.5 shrink-0"
+                    />
+                    خروج از حساب کاربری
+                  </div>
+                </Popover.Dialog>
+              </Popover.Content>
+            </Popover>
           </nav>
         </div>
       </header>
@@ -130,6 +173,16 @@ const MobileNavBar = ({ username, name, avatar, notificationCount }) => {
           </PostModal>
         )}
       </div>
+      {isShowLogoutModal && (
+        <Dialog
+          isOpen={isShowLogoutModal}
+          setIsOpen={setIsShowLogoutModal}
+          title={"خروج از حساب"}
+          dis={"آیا مطمئن هستید که می‌خواهید از حساب کاربری خود خارج شوید؟"}
+          onSubmit={logoutHandler}
+          btnText="خروج"
+        />
+      )}
     </div>
   );
 };

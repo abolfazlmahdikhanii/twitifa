@@ -4,18 +4,21 @@ import { Avatar } from "@heroui/react";
 import Image from "next/image";
 import BtnFollow from "../BtnFollow/BtnFollow";
 
-const AuthorPostInfo = ({  username,
+const AuthorPostInfo = ({
+  username,
   firstName,
   lastName,
   organizationName,
   avatar,
   bio,
-  accountType,}) => {
+  accountType,
+}) => {
   const authorName =
     accountType === "legal" ? organizationName : `${firstName} ${lastName}`;
+
   return (
-    <div className=" py-2.5 w-full ">
-      <div className="flex  justify-between w-full items-center ">
+    <div className="py-2 sm:py-2.5 w-full">
+      <div className="flex justify-between w-full items-center gap-x-2">
         <HoverProfile
           userInfo={{
             username,
@@ -27,34 +30,42 @@ const AuthorPostInfo = ({  username,
             accountType,
           }}
         >
-          <div className="flex items-center cursor-pointer  relative">
-            <Link className="" href={`#`}>
-              <div className="flex items-center gap-4.5">
-                <div className="self-start  ">
-                  <Avatar className="size-14 relative z-1">
+          <div className="flex items-center cursor-pointer relative min-w-0">
+            <Link href="#" className="min-w-0">
+              <div className="flex items-center gap-3 sm:gap-4.5 min-w-0">
+                {/* Avatar */}
+                <div className="shrink-0">
+                  <Avatar className="size-11 sm:size-14">
                     <Avatar.Image
-                      alt="Blue"
-                      src="https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/blue.jpg"
+                      alt={username}
+                      src={
+                        avatar ||
+                        "https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/blue.jpg"
+                      }
                     />
                     <Avatar.Fallback className="uppercase">
                       {username?.charAt(0)}
                     </Avatar.Fallback>
                   </Avatar>
                 </div>
-                <div className="">
-                  <div className="flex items-center ">
-                    <p className="text-lg font-bold truncate">{authorName}</p>
+
+                {/* Name + username */}
+                <div className="min-w-0">
+                  <div className="flex items-center gap-x-1 min-w-0">
+                    <p className="text-sm sm:text-lg font-bold truncate max-w-30 sm:max-w-55">
+                      {authorName}
+                    </p>
                     <Image
                       alt="verified-business"
-                      width={96}
-                      height={96}
-                      src={"/images/verified-business.png"}
-                      className="object-cover size-5 shrink-0 mr-1.25 -mt-1.5"
+                      width={20}
+                      height={20}
+                      src="/images/verified-business.png"
+                      className="object-cover size-4 sm:size-5 shrink-0 -mt-1"
                       priority
                     />
                   </div>
                   <span
-                    className="dark:text-neutral-400 text-neutral-500   text-[15px] inline-block mt-1.25"
+                    className="dark:text-neutral-400 text-neutral-500 text-xs sm:text-[15px] block mt-1 truncate max-w-25 sm:max-w-45"
                     dir="auto"
                   >
                     @{username}
@@ -64,9 +75,11 @@ const AuthorPostInfo = ({  username,
             </Link>
           </div>
         </HoverProfile>
-        <BtnFollow username={username} />
+
+        <div className="shrink-0">
+          <BtnFollow username={username} />
+        </div>
       </div>
- 
     </div>
   );
 };

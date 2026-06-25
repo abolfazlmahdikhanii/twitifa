@@ -7,9 +7,11 @@ const ResetPage = async () => {
   if (!token?.value) {
     redirect("/auth/forgot-password");
   }
-  return <div>
-    <ResetPassword/>
-  </div>;
+  return (
+    <div className="w-[80%] md:w-auto">
+      <ResetPassword />
+    </div>
+  );
 };
 
 export default ResetPage;

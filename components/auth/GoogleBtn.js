@@ -1,8 +1,6 @@
 "use client";
 import { Button } from "@heroui/react";
-import { useGoogleLogin, useGoogleOneTapLogin } from "@react-oauth/google";
-import { jwtDecode } from "jwt-decode";
-
+import { useGoogleLogin } from "@react-oauth/google";
 import React from "react";
 import { toast } from "sonner";
 
@@ -11,20 +9,13 @@ const GoogleBtn = ({ isLogin }) => {
     onSuccess: async (credentialResponse) => {
       const token = credentialResponse.access_token;
       try {
-        // Fetch user info from Google's API
-        const response = await fetch(
-          "https://www.googleapis.com/oauth2/v3/userinfo",
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+        const response = await fetch("https://www.googleapis.com/oauth2/v3/userinfo", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
 
         const userData = await response.json();
+        if (!userData) throw Error();
 
-        // userInfo contains: sub, name, email, picture, etc.
-        if (!userData) throw Error;
         const userInfo = {
           googleId: userData.sub,
           avatar: userData.picture,
@@ -32,55 +23,34 @@ const GoogleBtn = ({ isLogin }) => {
           username: userData.email.split("@")[0],
           provider: "google",
         };
-        // signin or signup
-        const signRes = isLogin
-          ? await fetch(`/api/auth/signin`, {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify(userInfo),
-            })
-          : await fetch(`/api/auth/signup`, {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify(userInfo),
-            });
+
+        const endpoint = isLogin ? "/api/auth/signin" : "/api/auth/signup";
+        const signRes = await fetch(endpoint, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(userInfo),
+        });
 
         if (signRes.ok) {
-          isLogin
-            ? toast.success("ورود با موفقیت انجام شد")
-            : toast.success("ثبت نام با موفقیت انجام شد");
+          toast.success(isLogin ? "ورود با موفقیت انجام شد" : "ثبت نام با موفقیت انجام شد");
         } else {
-          throw Error;
+          throw Error();
         }
       } catch (error) {
-        console.error("Error fetching user info:", error);
-        isLogin
-          ? toast.error("ورود با مشکل مواجه شد")
-          : toast.error("ثبت نام با مشکل مواجه شد");
+        toast.error(isLogin ? "ورود با مشکل مواجه شد" : "ثبت نام با مشکل مواجه شد");
       }
     },
     onError: () => {
-      console.log("Login Failed");
       toast.error("مشکل در دریافت اطلاعات مجدد امتحان کنید");
     },
   });
+
   return (
     <Button
-      //   variant="primary"
       onClick={() => login()}
-      className="w-full flex items-center justify-center gap-3 rounded-4xl dark:bg-white px-4 md:py-3 font-medium text-[#0F172A] dark:hover:bg-white/80  md:h-12.5 [&>svg]:w-6.5 [&>svg]:h-6.5 py-2 h-11 transition-all duration-200"
+      className="w-full flex items-center justify-center gap-2 sm:gap-3 rounded-4xl dark:bg-white px-3 sm:px-4 py-2 sm:py-3 h-9 sm:h-11 md:h-12.5 font-medium text-sm sm:text-base text-[#0F172A] dark:hover:bg-white/80 [&>svg]:w-5 [&>svg]:h-5 sm:[&>svg]:w-6.5 sm:[&>svg]:h-6.5 transition-all duration-200"
     >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 48 48"
-        width="26"
-        height="26"
-        // style="opacity:1;"
-      >
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="24" height="24">
         <path
           fill="#FFC107"
           d="M43.611 20.083H42V20H24v8h11.303c-1.649 4.657-6.08 8-11.303 8c-6.627 0-12-5.373-12-12s5.373-12 12-12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4C12.955 4 4 12.955 4 24s8.955 20 20 20s20-8.955 20-20c0-1.341-.138-2.65-.389-3.917"

@@ -2,11 +2,10 @@
 import { useAuth } from "@/context/AuthContext";
 import userSignupSchema from "@/validators/signup";
 import { Button, Input, Label, Spinner } from "@heroui/react";
-import { Eye, EyeOff, Lock, Mail, User, UserPlus } from "lucide-react";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 import z from "zod";
+import Icon from "../ui/Icon/Icon";
 import AuthWrapper from "./AuthWrapper";
 
 const Register = ({ setActiveTab }) => {
@@ -19,8 +18,6 @@ const Register = ({ setActiveTab }) => {
   const [email, setEmail] = useState("");
 
   const [isRegisterLoading, setIsRegisterLoading] = useState(false);
-
- 
 
   const registerHandler = async (e) => {
     e.preventDefault();
@@ -57,7 +54,6 @@ const Register = ({ setActiveTab }) => {
         body: JSON.stringify(userInfo),
       });
       if (signRes.ok) {
-       
         clearInput();
         showOtpHandler(email);
         setFetchingHandler();
@@ -80,13 +76,16 @@ const Register = ({ setActiveTab }) => {
     setRegisterPassword("");
     setUsername("");
   };
+  const inputClass =
+    "bg-[#27273A] border border-[#34344E] h-10 sm:h-11.5 md:h-12.5 rounded-[24px] w-full text-sm sm:text-base";
   return (
     <AuthWrapper onSubmit={registerHandler} changeTab={(e) => setActiveTab(e)}>
       <div className="flex  flex-col gap-4 md:gap-5.5">
-        <div className="flex flex-col gap-2.5 w-full">
-          <Label htmlFor="input-type-username">نام کاربری</Label>
+        <div className="flex flex-col gap-2 sm:gap-2.5 w-full">
+          <Label htmlFor="input-type-username" className="text-xs sm:text-sm">نام کاربری</Label>
           <div className="relative">
-            <User
+            <Icon
+              name={"simple-user"}
               size={20}
               className="absolute top-1/2 -translate-y-1/2 right-3 text-gray-400 pointer-events-none"
             />
@@ -94,16 +93,17 @@ const Register = ({ setActiveTab }) => {
               id="input-type-username"
               placeholder="نام کاربری خود را وارد کنید"
               type="text"
-              className="bg-[#27273A] border border-[#34344E] h-11.5 md:h-12 rounded-[24px] pr-10 pl-3 w-full"
+              className={`${inputClass} pr-10 pl-3 `}
               value={username}
               onChange={(e) => setUsername(e.target.value.trim())}
             />
           </div>
         </div>
-        <div className="flex flex-col gap-2.5 w-full">
-          <Label htmlFor="input-type-email-reg">ایمیل</Label>
+        <div className="flex flex-col gap-2 sm:gap-2.5 w-full">
+          <Label htmlFor="input-type-email-reg" className="text-xs sm:text-sm">ایمیل</Label>
           <div className="relative">
-            <Mail
+            <Icon
+              name="email"
               size={20}
               className="absolute top-1/2 -translate-y-1/2 right-3 text-gray-400 pointer-events-none"
             />
@@ -111,16 +111,17 @@ const Register = ({ setActiveTab }) => {
               id="input-type-email-reg"
               placeholder="jane@example.com"
               type="email"
-              className="bg-[#27273A] border border-[#34344E] h-11.5 md:h-12 rounded-[24px] pr-10 pl-3 w-full"
+              className={`${inputClass} pr-10 pl-3 `}
               value={email}
               onChange={(e) => setEmail(e.target.value.trim())}
             />
           </div>
         </div>
-        <div className="flex flex-col gap-2.5 w-full">
-          <Label htmlFor="input-type-password-reg">رمز عبور</Label>
+        <div className="flex flex-col gap-2 sm:gap-2.5 w-full">
+          <Label htmlFor="input-type-password-reg" className="text-xs sm:text-sm">رمز عبور</Label>
           <div className="relative">
-            <Lock
+            <Icon
+              name="password"
               size={20}
               className="absolute top-1/2 -translate-y-1/2 right-3 text-gray-400 pointer-events-none"
             />
@@ -128,16 +129,21 @@ const Register = ({ setActiveTab }) => {
               id="input-type-password-reg"
               placeholder="••••••••"
               type={isShowRegisterPass ? "text" : "password"}
-              className="bg-[#27273A] border border-[#34344E] h-11.5 md:h-12 rounded-[24px] pr-10 pl-11 w-full"
+              className={`${inputClass} pr-10 pl-11`}
               value={registerPassword}
               onChange={(e) => setRegisterPassword(e.target.value.trim())}
             />
             <Button
               className="absolute top-1/2 -translate-y-1/2 left-1 text-gray-400 "
               variant="ghost"
+              isIconOnly
               onClick={() => setIsShowRegisterPass((prev) => !prev)}
             >
-              {isShowRegisterPass ? <Eye /> : <EyeOff />}
+              {isShowRegisterPass ? (
+                <Icon name={"eye"} size={18} className={"size-4"}/>
+              ) : (
+                <Icon name={"eye-off"} size={18}className={"size-4"} />
+              )}
             </Button>
           </div>
         </div>
@@ -146,7 +152,7 @@ const Register = ({ setActiveTab }) => {
         <Button
           type="submit"
           variant="primary"
-          className={" py-3.5 w-full h-11.5 md:h-13 font-bold "}
+          className={" py-3.5 w-full h-11.5 md:h-13 font-bold text-sm sm:text-base "}
           size="lg"
           isDisabled={
             isRegisterLoading ||
@@ -159,7 +165,11 @@ const Register = ({ setActiveTab }) => {
             <>
               {" "}
               ثبت نام
-              <UserPlus className="mr-0.5" />
+              <Icon
+                name="add-user"
+                size={20}
+                className="mr-0.5 size-4 sm:size-5"
+              />
             </>
           ) : (
             <Spinner color="current" />

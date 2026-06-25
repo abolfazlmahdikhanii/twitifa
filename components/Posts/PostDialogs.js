@@ -5,7 +5,7 @@ import { useState } from "react";
 import PostBox from "../main/PostBox";
 import ReplyTypeModal from "../main/ReplyTypeModal";
 import Analytics from "../ui/Analytics/Analytics";
-import DeleteDialog from "../ui/DeleteDialog/DeleteDialog";
+import Dialog from "../ui/Dialog/Dialog";
 import QuoteCard from "../ui/QuoteCard/QuoteCard";
 import PostModal from "./PostModal";
 
@@ -147,14 +147,15 @@ const DeletePost = ({
   if (!isOpen) return null;
 
   return (
-    <DeleteDialog
+    <Dialog
       isOpen={isOpen}
       setIsOpen={setIsOpen}
       title={"حذف پست"}
       dis={
         "این عمل قابل بازگشت نیست و از پروفایل شما، تایم‌لاین تمام حساب‌هایی که شما را دنبال می‌کنند و همچنین از نتایج جستجو حذف خواهد شد."
       }
-      onDelete={removePost}
+      onSubmit={removePost}
+      btnText="حذف"
     />
   );
 };

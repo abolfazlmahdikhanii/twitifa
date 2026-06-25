@@ -6,36 +6,35 @@ import AuthOtp from "./AuthOtp";
 
 const AuthPage = () => {
   const { isShowOtp } = useAuth();
+
   return (
     <>
-      <div>
-        {!isShowOtp ? (
-          <>
-            <div>
-              <h2 className="text-4xl lg:text-5xl font-black leading-[1.4] tracking-tight mb-3">
-                دنیای خود را <br />
-                <span className="inline-block bg-clip-text text-transparent bg-linear-to-l from-blue-400 to-indigo-500  ">
-                  گسترش دهید
-                </span>
-              </h2>
-              <p className="text-lg dark:text-neutral-400 text-neutral-500 max-w-md leading-loose">
-                به جمع هزاران کاربر بپیوندید. اینجا مکانی برای دیده شدن، شنیده
-                شدن و ارتباط با دوستان واقعی است.
-              </p>
-            </div>
-
-            <AuthCards />
-          </>
-        ) : null}
-      </div>
       {!isShowOtp ? (
         <>
-          <div className="py-6 md:py-0">
+          {/* Hero text + cards */}
+          <div className="text-center md:text-right hidden lg:block">
+            <h2 className="text-2xl sm:text-4xl lg:text-5xl font-black leading-[1.4] tracking-tight mb-2 sm:mb-3">
+              دنیای خود را <br />
+              <span className="inline-block bg-clip-text text-transparent bg-linear-to-l from-blue-400 to-indigo-500">
+                گسترش دهید
+              </span>
+            </h2>
+            <p className="text-sm sm:text-lg dark:text-neutral-400 text-neutral-500 max-w-md leading-loose mx-auto md:mx-0">
+              به جمع هزاران کاربر بپیوندید. اینجا مکانی برای دیده شدن، شنیده
+              شدن و ارتباط با دوستان واقعی است.
+            </p>
+            <AuthCards />
+          </div>
+
+          {/* Auth form */}
+          <div className="py-4 sm:py-6 md:py-0 w-[70%] lg:w-[unset]">
             <AuthForm />
           </div>
         </>
       ) : (
-        <AuthOtp />
+        <div className="w-full flex justify-center px-4 sm:px-0">
+          <AuthOtp />
+        </div>
       )}
     </>
   );

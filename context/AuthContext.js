@@ -61,11 +61,11 @@ export const AuthProvider = ({ children, initialUser }) => {
   }, []);
   const logoutHandler = useCallback(async () => {
     try {
-      const res = await fetch("/api/auth/signout");
+      const res = await fetch("/api/auth/signout",{method:"POST"});
       if (res.ok) {
         toast.success("با موفقیت خارج شدید");
         refetch();
-        router.replace("/");
+        router.replace("/auth");
       }
     } catch {
       toast.error("خطا در خروج از حساب");

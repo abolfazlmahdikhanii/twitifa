@@ -9,12 +9,13 @@ import {
   Input,
   Spinner,
 } from "@heroui/react";
-import { ArrowLeft, Eye, EyeOff, KeyRound, Lock } from "lucide-react";
+import { ArrowLeft, KeyRound } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 import z from "zod";
+import Icon from "../ui/Icon/Icon";
 
 const ResetPassword = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -79,14 +80,14 @@ const ResetPassword = () => {
   };
 
   return (
-    <div className="w-full mt-14 md:mt-0 md:w-120 rounded-2xl border border-[#34344E] bg-[#1e1e2e] overflow-hidden shadow-md">
+    <div className="w-full mt-8 sm:mt-14 md:mt-0 md:w-120 rounded-xl sm:rounded-2xl border border-[#34344E] bg-[#1e1e2e] overflow-hidden shadow-md">
       <Card variant="transparent" className="p-0 pt-8.5 rounded-none">
         <CardHeader className="flex flex-col items-center justify-center gap-y-2.5 mb-5">
           <div className="mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-[#7b6ffd]/15 ring-1 ring-[#7b6ffd]/20">
-            <KeyRound className="h-7 w-7 text-[#a89bff]" strokeWidth={1.75} />
+            <Icon name="key" className="h-7 w-7 text-[#a89bff]" strokeWidth={1.75} />
           </div>
           <div className="flex flex-col gap-1.5">
-            <h1 className="text-center font-[Syne] text-xl font-bold text-white">
+            <h1 className="text-center text-xl font-bold text-white">
               تنظیم رمز عبور جدید
             </h1>
             <p className="mt-2 text-center text-sm leading-6 text-white/45 px-2">
@@ -96,13 +97,14 @@ const ResetPassword = () => {
           </div>
         </CardHeader>
 
-        <CardContent className="md:px-8 px-6">
+        <CardContent className="md:px-8 px-4 sm:px-6">
           <form
             className="w-full flex flex-col gap-5 items-center justify-center"
             onSubmit={handleSubmit}
           >
             <div className="relative w-full">
-              <Lock
+              <Icon
+                name={"password"}
                 size={20}
                 className="absolute top-1/2 -translate-y-1/2 right-3 text-gray-400 pointer-events-none"
               />
@@ -117,14 +119,20 @@ const ResetPassword = () => {
               <Button
                 className="absolute top-1/2 -translate-y-1/2 left-1 text-gray-400 "
                 variant="ghost"
+                isIconOnly
                 onClick={() => setShowPassword((prev) => !prev)}
               >
-                {showPassword ? <Eye /> : <EyeOff />}
+                {showPassword ? (
+                  <Icon name="eye" size={18} className={"size-4"} />
+                ) : (
+                  <Icon name={"eye-off"} className={"size-4"} size={18} />
+                )}
               </Button>
             </div>
 
             <div className="relative w-full">
-              <Lock
+              <Icon
+                name={"password"}
                 size={20}
                 className="absolute top-1/2 -translate-y-1/2 right-3 text-gray-400 pointer-events-none"
               />
@@ -139,9 +147,14 @@ const ResetPassword = () => {
               <Button
                 className="absolute top-1/2 -translate-y-1/2 left-1 text-gray-400 "
                 variant="ghost"
+                isIconOnly
                 onClick={() => setShowConfirmPassword((prev) => !prev)}
               >
-                {showConfirmPassword ? <Eye /> : <EyeOff />}
+                {showConfirmPassword ? (
+                  <Icon name="eye" size={18} className={"size-4"} />
+                ) : (
+                  <Icon name={"eye-off"} className={"size-4"} size={18} />
+                )}
               </Button>
             </div>
 

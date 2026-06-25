@@ -3,18 +3,19 @@ import MediaVideoItem from "../Media/MediaVideoItem/MediaVideoItem";
 
 const MediaGrid = ({ row }) => {
   const isNormal = row.type === "normal";
-  console.log(row);
+
   const gridClass = isNormal
     ? "grid grid-cols-3"
     : "grid grid-cols-3 grid-rows-2";
 
   return (
     <div
-      className={`${gridClass} gap-[3px]`}
-      style={{ height: `${row.height}px` }}
+      className={`${gridClass} gap-[2px] sm:gap-[3px]`}
+      style={{ height: `${Math.round(row.height * 0.65)}px` }}
     >
       {row.items.map((item, idx) => {
-        if (!item) return <div key={`empty-${idx}`} className="bg-gray-800" />;
+        if (!item)
+          return <div key={`empty-${idx}`} className="bg-gray-800" />;
 
         let spanClass = "";
         if (row.type === "left-large" && idx === 0) spanClass = "row-span-2";
@@ -23,10 +24,8 @@ const MediaGrid = ({ row }) => {
         return (
           <div
             key={item._id}
-            className={`relative ${spanClass} overflow-hidden`}
-            style={{
-              height: "100%",
-            }}
+            className={`relative ${spanClass} overflow-hidden rounded-sm sm:rounded-none`}
+            style={{ height: "100%" }}
           >
             {item.media.mediaType === "image" ? (
               <MediaImageItem

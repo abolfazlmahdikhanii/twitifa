@@ -50,7 +50,7 @@ const MainLayout = async ({ children }) => {
     .lean();
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-[325px_1fr_400px] md:gap-x-7 md:w-10/12 md:mx-auto h-full relative overflow-hidden">
+    <div className="grid grid-cols-1 md:grid-cols-[320px_1fr] lg:grid-cols-[220px_1fr_320px] xl:grid-cols-[280px_1fr_340px] 2xl:grid-cols-[325px_1fr_400px] md:gap-x-5 lg:gap-x-7 2xl:w-10/12 2xl:mx-auto h-full relative overflow-hidden">
       <RightSidebar
         username={user?.username}
         name={

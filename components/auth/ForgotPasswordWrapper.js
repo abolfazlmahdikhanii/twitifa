@@ -5,7 +5,7 @@ import ForgetPassword from "./ForgotPassword";
 
 const ForgotPasswordWrapper = () => {
   const { isShowOtp } = useAuth();
-  return <div>{!isShowOtp ? <ForgetPassword /> : <AuthOtp isReset={true} />}</div>;
+  return <>{!isShowOtp ? <ForgetPassword /> : <AuthOtp isReset={true} />}</>;
 };
 
 export default ForgotPasswordWrapper;

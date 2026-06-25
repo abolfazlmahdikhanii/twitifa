@@ -242,7 +242,7 @@ const ProfileSettingPage = () => {
 
   return (
     <div>
-      <PageHeader />
+      <PageHeader title={"ویرایش نمایه"}/>
       <ScrollShadow className="max-h-[79vh]" hideScrollBar>
         <main className="w-[88%] mx-auto">
           <ProfileMedia
@@ -315,7 +315,7 @@ const ProfileSettingPage = () => {
             <Icon name="save" className={"mr-1"} size={30} />
           )}
         </Button>
-        {!hasChange && (
+        {hasChange && (
           <Button
             size="lg"
             className="w-12 h-12  sm:hidden flex items-center justify-center"

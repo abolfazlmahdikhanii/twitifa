@@ -21,8 +21,8 @@ const AuthLayout = async ({ children }) => {
   }
   if (initialUser) redirect("/feed");
   return (
-    <div className="flex items-center justify-center h-screen  gap-x-20 px-4 lg:px-0">
-      <div className="relative z-10 hidden md:block">
+    <div className="flex items-center justify-center h-screen overflow-hidden  lg:gap-x-20 sm:px-4 lg:px-0">
+      <div className="relative z-10 ">
         {/* circle */}
         <div className="bg-[rgba(17,17,212,.2)] w-64 h-64 rounded-full blur-3xl absolute top-4.5 right-12.5"></div>
         <div className="bg-[rgba(147,51,234,.2)] w-64 h-64 rounded-full blur-3xl absolute -bottom-20 left-4"></div>

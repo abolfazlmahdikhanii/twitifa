@@ -13,13 +13,13 @@ const FollowCard = ({
   avatar,
   bio,
   accountType,
-  
 }) => {
   const authorName =
     accountType === "legal" ? organizationName : `${firstName} ${lastName}`;
+
   return (
-    <div className=" py-2.5 ">
-      <div className="flex  justify-between">
+    <div className="py-2 sm:py-2.5">
+      <div className="flex justify-between items-center gap-x-2">
         <HoverProfile
           userInfo={{
             username,
@@ -31,34 +31,42 @@ const FollowCard = ({
             accountType,
           }}
         >
-          <div className="flex items-center cursor-pointer  relative">
-            <Link className="" href={`/${username}`}>
-              <div className="flex items-center gap-2.5">
-                <div className="self-start  ">
-                  <Avatar className="size-14 relative z-1">
+          <div className="flex items-center cursor-pointer relative min-w-0">
+            <Link href={`/${username}`} className="min-w-0">
+              <div className="flex items-center gap-2 sm:gap-2.5 min-w-0">
+                {/* Avatar */}
+                <div className="shrink-0">
+                  <Avatar className="size-11 sm:size-14">
                     <Avatar.Image
                       alt={`${username} avatar image`}
-                      src={avatar||"https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/blue.jpg"}
+                      src={
+                        avatar ||
+                        "https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/blue.jpg"
+                      }
                     />
                     <Avatar.Fallback className="uppercase">
                       {username?.charAt(0)}
                     </Avatar.Fallback>
                   </Avatar>
                 </div>
-                <div className="">
-                  <div className="flex items-center ">
-                    <p className="text-lg font-bold truncate">{authorName}</p>
+
+                {/* Name + username */}
+                <div className="min-w-0">
+                  <div className="flex items-center gap-x-1 min-w-0">
+                    <p className="text-sm sm:text-lg font-bold truncate max-w-[110px] sm:max-w-[200px]">
+                      {authorName}
+                    </p>
                     <Image
                       alt="verified-business"
-                      width={96}
-                      height={96}
-                      src={"/images/verified-business.png"}
-                      className="object-cover size-5 shrink-0 mr-1.25 -mt-1.5"
+                      width={20}
+                      height={20}
+                      src="/images/verified-business.png"
+                      className="object-cover size-4 sm:size-5 shrink-0 -mt-1"
                       priority
                     />
                   </div>
                   <span
-                    className="dark:text-neutral-400 text-neutral-500   text-[15px] inline-block"
+                    className="dark:text-neutral-400 text-neutral-500 text-xs sm:text-[15px] block truncate max-w-25 sm:max-w-45 text-right"
                     dir="auto"
                   >
                     @{username}
@@ -68,12 +76,15 @@ const FollowCard = ({
             </Link>
           </div>
         </HoverProfile>
-        <BtnFollow username={username}  />
+
+        <div className="shrink-0">
+          <BtnFollow username={username} />
+        </div>
       </div>
+
       {bio && (
-        <p className="text-neutral-200  leading-[1.8] pr-17 line-clamp-2 mt-0.75">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Est
-          perferendis
+        <p className="text-neutral-200 text-sm sm:text-base leading-[1.8] pr-13 sm:pr-17 line-clamp-2 mt-0.5 sm:mt-0.75">
+          {bio}
         </p>
       )}
     </div>

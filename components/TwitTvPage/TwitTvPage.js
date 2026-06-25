@@ -74,9 +74,9 @@ const TwitTvPage = ({ initialMedia }) => {
   return (
     <div className="">
       <header className=" border-b">
-        <div className="pt-6 pb-3.5 px-7 flex items-center justify-between">
+        <div className="pt-6 sm:pb-3.5 pb-2.5 px-7 flex items-center justify-between">
           <div>
-            <h2 className="text-xl font-bold">توییتیوی</h2>
+            <h2 className="sm:text-xl text-lg font-bold">توییتیوی</h2>
           </div>
           <TwitTvHeader setSelectedTab={setSelectedTab} />
         </div>

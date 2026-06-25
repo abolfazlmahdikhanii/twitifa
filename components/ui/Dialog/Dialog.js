@@ -1,9 +1,14 @@
 "use client";
 import { AlertDialog, Button } from "@heroui/react";
-import React from "react";
 
-const DeleteDialog = ({ isOpen, setIsOpen, title, dis, onDelete }) => {
-
+const Dialog = ({
+  isOpen,
+  setIsOpen,
+  title,
+  dis,
+  onSubmit,
+  btnText = "حذف",
+}) => {
   if (!isOpen) return null;
 
   return (
@@ -27,14 +32,15 @@ const DeleteDialog = ({ isOpen, setIsOpen, title, dis, onDelete }) => {
               </p>
             </AlertDialog.Body>
             <AlertDialog.Footer>
-              <Button className={"w-18"} slot="close" variant="danger" onClick={onDelete}>
-                حذف
-              </Button>
               <Button
+                className={"w-18"}
                 slot="close"
-                variant="tertiary"
-        
+                variant="danger"
+                onClick={onSubmit}
               >
+                {btnText}
+              </Button>
+              <Button slot="close" variant="tertiary">
                 انصراف
               </Button>
             </AlertDialog.Footer>
@@ -45,4 +51,4 @@ const DeleteDialog = ({ isOpen, setIsOpen, title, dis, onDelete }) => {
   );
 };
 
-export default DeleteDialog;
+export default Dialog;

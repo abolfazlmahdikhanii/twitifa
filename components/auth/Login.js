@@ -2,11 +2,12 @@
 import { useAuth } from "@/context/AuthContext";
 import userSigninSchema from "@/validators/signin";
 import { Button, Input, Label, Spinner } from "@heroui/react";
-import { Eye, EyeOff, Lock, LogIn, Mail } from "lucide-react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 import z from "zod";
+import Icon from "../ui/Icon/Icon";
 import AuthWrapper from "./AuthWrapper";
 
 const Login = ({ setActiveTab }) => {
@@ -16,6 +17,7 @@ const Login = ({ setActiveTab }) => {
   const [loginPassword, setLoginPassword] = useState("");
   const [isLoginLoading, setIsLoginLoading] = useState(false);
   const { replace } = useRouter();
+
   const loginHandler = async (e) => {
     e.preventDefault();
     try {
@@ -24,29 +26,23 @@ const Login = ({ setActiveTab }) => {
         return;
       }
       setIsLoginLoading(true);
-      const userInfo = {
-        password: loginPassword,
-        identifier,
-      };
+      const userInfo = { password: loginPassword, identifier };
 
       const isValid = userSigninSchema.safeParse(userInfo);
       if (!isValid.success) {
         const zodError = z.flattenError(isValid.error);
-
         Object.entries(zodError.fieldErrors).forEach(([field, messages]) => {
-          messages.forEach((message) => {
-            toast.error(message);
-          });
+          messages.forEach((message) => toast.error(message));
         });
         return;
       }
-      const signRes = await fetch(`/api/auth/signin`, {
+
+      const signRes = await fetch("/api/auth/signin", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(userInfo),
       });
+
       if (signRes.ok) {
         toast.success("ورود با موفقیت انجام شد");
         clearInput();
@@ -58,72 +54,102 @@ const Login = ({ setActiveTab }) => {
         throw new Error(errorData.message || "خطا در ورود");
       }
     } catch (error) {
-      console.log(error);
       toast.error(error.message || "خطا در ورود");
-      setIsLoginLoading(false);
     } finally {
       setIsLoginLoading(false);
     }
   };
+
   const clearInput = () => {
     setIdentifier("");
-
     setLoginPassword("");
   };
+
+  const inputClass =
+    "bg-[#27273A] border border-[#34344E] h-10 sm:h-11.5 md:h-12.5 rounded-[24px] w-full text-sm sm:text-base";
+
+  const iconClass =
+    "absolute top-1/2 -translate-y-1/2 right-3 text-gray-400 pointer-events-none";
+
   return (
     <AuthWrapper
       isLogin
       onSubmit={loginHandler}
       changeTab={(e) => setActiveTab(e)}
     >
-      <div className="flex  flex-col gap-5.5">
-        <div className="flex flex-col gap-2.5 w-full">
-          <Label htmlFor="input-type-identifier">ایمیل یا نام کاربری</Label>
+      <div className="flex flex-col gap-4 sm:gap-5.5">
+        {/* identifier */}
+        <div className="flex flex-col gap-2 sm:gap-2.5 w-full">
+          <Label
+            htmlFor="input-type-identifier"
+            className="text-xs sm:text-base"
+          >
+            ایمیل یا نام کاربری
+          </Label>
           <div className="relative">
-            <Mail
-              size={20}
-              className="absolute top-1/2 -translate-y-1/2 right-3 text-gray-400 pointer-events-none"
-            />
+            <Icon name="email" size={20} className={`${iconClass} sm:size-5`} />
+
             <Input
               id="input-type-identifier"
               placeholder="jane@example.com"
               type="text"
-              className="bg-[#27273A] border border-[#34344E] h-11.5 md:h-12 rounded-[24px] pr-10 pl-3 w-full"
+              className={`${inputClass} pr-9 sm:pr-10 pl-3`}
               value={identifier}
               onChange={(e) => setIdentifier(e.target.value.trim())}
             />
           </div>
         </div>
-        <div className="flex flex-col gap-2.5 w-full">
-          <Label htmlFor="input-type-password">رمز عبور</Label>
+
+        {/* password */}
+        <div className="flex flex-col gap-2 sm:gap-2.5 w-full">
+          <div className="flex items-center justify-between">
+            <Label
+              htmlFor="input-type-password"
+              className="text-xs sm:text-base"
+            >
+              رمز عبور
+            </Label>
+
+            <Link href={"/auth/forgot-password"} className="sm:text-xs text-[10px] text-blue-500">
+              رمز عبور را فراموش کردید؟
+            </Link>
+          </div>
           <div className="relative">
-            <Lock
-              size={20}
-              className="absolute top-1/2 -translate-y-1/2 right-3 text-gray-400 pointer-events-none"
+            <Icon
+              name="password"
+              size={18}
+              className={`${iconClass} sm:size-5`}
             />
             <Input
               id="input-type-password"
               placeholder="••••••••"
               type={isShowLoginPass ? "text" : "password"}
-              className="bg-[#27273A] border border-[#34344E] h-11.5 md:h-12 rounded-[24px] pr-10 pl-11 w-full"
+              className={`${inputClass} pr-9 sm:pr-10 pl-10 sm:pl-11`}
               value={loginPassword}
               onChange={(e) => setLoginPassword(e.target.value.trim())}
             />
             <Button
               className="absolute top-1/2 -translate-y-1/2 left-1 text-gray-400 "
               variant="ghost"
+              isIconOnly
               onClick={() => setIsShowLoginPass((prev) => !prev)}
             >
-              {isShowLoginPass ? <Eye /> : <EyeOff />}
+              {isShowLoginPass ? (
+                <Icon name={"eye"} size={18}  className={"size-4"}/>
+              ) : (
+                <Icon name={"eye-off"} size={18}  className={"size-4"}/>
+              )}
             </Button>
           </div>
         </div>
       </div>
-      <div className="pt-2 md:pt-3 w-full">
+
+      {/* submit */}
+      <div className="pt-1.5 sm:pt-2 md:pt-3 w-full">
         <Button
           type="submit"
           variant="primary"
-          className={" py-3.5 w-full h-11.5 md:h-13 font-bold "}
+          className="py-3 sm:py-3.5 w-full h-10 sm:h-11.5 md:h-13 font-bold text-sm sm:text-base"
           size="lg"
           isDisabled={
             isLoginLoading || !identifier.trim() || !loginPassword.trim()
@@ -131,8 +157,8 @@ const Login = ({ setActiveTab }) => {
         >
           {!isLoginLoading ? (
             <>
-              {" "}
-              ورود به حساب <LogIn className="mr-0.5" />{" "}
+              ورود به حساب
+              <Icon name={"login"} className="mr-0.5 size-4 sm:size-5" />
             </>
           ) : (
             <Spinner color="current" />
