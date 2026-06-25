@@ -53,7 +53,7 @@ const FollowCard = ({
                 {/* Name + username */}
                 <div className="min-w-0">
                   <div className="flex items-center gap-x-1 min-w-0">
-                    <p className="text-sm sm:text-lg font-bold truncate max-w-[110px] sm:max-w-[200px]">
+                    <p className="text-sm sm:text-lg font-bold truncate max-w-27.5 sm:max-w-50">
                       {authorName}
                     </p>
                     <Image
