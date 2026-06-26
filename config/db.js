@@ -7,7 +7,16 @@ const connectToDB = async () => {
     return;
   }
   try {
-    await mongoose.connect("mongodb://127.0.0.1:27017/twitifa");
+    const mongoUri = process.env.Twitifa_MONGODB_URI;
+
+    if (!mongoUri) {
+      throw new Error("DATABASE_URL is not defined in environment variables");
+    }
+
+    await mongoose.connect(mongoUri, {
+      dbName: "twitifa", // Your database name
+    });
+
     console.log("Database Connected Successfully:)");
   } catch (error) {
     console.log("Database Connection Failed!");
