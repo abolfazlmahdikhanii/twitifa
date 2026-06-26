@@ -113,13 +113,12 @@ const PostHeader = ({
     ],
   );
 
-  // آواتار: روی موبایل کوچکتر — pr-12 sm:pr-16
   const avatarOffset = selfReply
     ? "pr-20 sm:pr-28"
     : "pr-12 sm:pr-16";
 
   const repostOffset = selfReply
-    ? "pr-20 sm:pr-28"   // ردیف بازنشر زیر آواتار
+    ? "pr-20 sm:pr-28"  
     : "pr-14 sm:pr-18";
 
   const threadLine = selfReply ? "top-11" : "top-16 sm:top-20";
@@ -128,7 +127,7 @@ const PostHeader = ({
     <div className="flex items-center gap-x-3 sm:gap-x-4.5 w-full">
       <div className="w-full min-w-0">
         <div className="flex items-center justify-between w-full mt-2">
-          <div className="min-w-0 flex-1">
+          <div className="min-w-0">
             {post.isReposted && post.retweetedFrom && !post.isQuoteRepost && (
               <RepostHeader
                 author={displayUser}

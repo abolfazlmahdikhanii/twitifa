@@ -1,5 +1,8 @@
 import connectToDB from "@/config/db";
+import localFont from "next/font/local";
 import { Vazirmatn } from "next/font/google";
+
+
 import { Toaster } from "sonner";
 import "./globals.css";
 import Providers from "./providers";
@@ -8,12 +11,20 @@ const vazir = Vazirmatn({
   // weight: ["400", "500", "600", "700", "800", "900"],
   subsets: ["arabic", "latin"],
   display: "swap",
-});
 
+});
+// const vazir = localFont({
+//   src: "./fonts/Vazirmatn-FD-Regular.woff2", 
+//   display: "swap",
+// });
 export const metadata = {
   title: "twitifa",
   siteName: "Twitifa",
-  metadataBase: new URL(process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000'),
+  metadataBase: new URL(
+    process.env.VERCEL_URL
+      ? `https://${process.env.VERCEL_URL}`
+      : "http://localhost:3000",
+  ),
   openGraph: {
     siteName: "Twitifa",
     images: [
@@ -34,7 +45,7 @@ export default async function RootLayout({ children }) {
 
   return (
     <html lang="fa" dir="rtl" className={`dark ${vazir.className}`}>
-      <body className="bg-zinc-50 dark:bg-body ">
+      <body className="bg-zinc-50 dark:bg-body tabular-nums features-['ss03']">
         <Toaster
           richColors
           position="bottom-center"

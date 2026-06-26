@@ -12,7 +12,7 @@
 @theme {
   --color-body: #101022;
 }
-html {
+* {
   font-feature-settings: "ss01";
 }
 body {
