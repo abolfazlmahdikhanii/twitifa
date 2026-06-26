@@ -27,7 +27,6 @@
     "date-fns": "^4.1.0",
     "date-fns-jalali": "^4.1.0-0",
     "dompurify": "^3.3.1",
-    "formidable": "^3.5.4",
     "framer-motion": "^12.23.26",
     "imagekit": "^6.0.0",
     "isomorphic-dompurify": "^3.0.0",

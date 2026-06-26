@@ -34,6 +34,8 @@ const useUserContent = (username, currentPage = "", initialData = {}) => {
   };
 
   const postsQuery = useInfiniteQuery(createQueryConfig("posts", "user-posts"));
+  const mediaQuery = useInfiniteQuery(createQueryConfig("media", "user-media"));
+
   const repliesQuery = useInfiniteQuery(
     createQueryConfig("replies", "user-replies"),
   );
@@ -49,6 +51,7 @@ const useUserContent = (username, currentPage = "", initialData = {}) => {
     repliesQuery,
     repostsQuery,
     reactionsQuery,
+    mediaQuery
   };
 };
 
