@@ -1,6 +1,7 @@
 import connectToDB from "@/config/db";
 import postsModel from "@/models/posts";
 import usersModel from "@/models/users";
+import { getCurrentUser } from "@/services/authService";
 import { getUserReply } from "@/services/userReplyService";
 import { verifyToken } from "@/utils/auth";
 import { getAuthorName, getReplyHeader } from "@/utils/post";
@@ -24,18 +25,8 @@ export const GET = async (req, { params }) => {
     }
 
     // check user is login
-    let currentUser = null;
-    if (token && token.value) {
-      const validToken = verifyToken(token?.value);
-      if (validToken) {
-        currentUser = await usersModel
-          .findOne(
-            { email: validToken.email },
-            " -provider -password -emailVerified -updatedAt",
-          )
-          .lean();
-      }
-    }
+      const currentUser =await getCurrentUser()
+    
     const repliesRes = await getUserReply(userInfo, currentUser, cursor, limit);
 
     return Response.json(

@@ -3,6 +3,7 @@ import ExplorerClient from "@/components/Explorer/ExplorerClient";
 import connectToDB from "@/config/db";
 
 import usersModel from "@/models/users";
+import { getCurrentUser } from "@/services/authService";
 import { getExplorer } from "@/services/explorerService";
 import { verifyToken } from "@/utils/auth";
 
@@ -10,20 +11,8 @@ import { cookies } from "next/headers";
 
 const ForYouPage = async () => {
   await connectToDB();
-  const token = (await cookies()).get("token");
-
-  // check user is login
-  let currentUser = null;
-  if (token && token.value) {
-    const validToken = verifyToken(token?.value);
-    if (!validToken) currentUser = null;
-    currentUser = await usersModel
-      .findOne(
-        { email: validToken.email },
-        " -provider -password -emailVerified -updatedAt",
-      )
-      .lean();
-  }
+   const currentUser =await getCurrentUser()
+ 
   const posts = await getExplorer(currentUser);
 
   return (

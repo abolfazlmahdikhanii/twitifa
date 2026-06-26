@@ -3,6 +3,7 @@ import postLikesModel from "@/models/postLikes";
 import postsModel from "@/models/posts";
 import postViews from "@/models/postViews";
 import usersModel from "@/models/users";
+import { getCurrentUser } from "@/services/authService";
 import { verifyToken } from "@/utils/auth";
 import { isValidObjectId } from "mongoose";
 import { cookies } from "next/headers";
@@ -14,19 +15,8 @@ export const GET = async (req, { params }) => {
     const { postId } = await params; 
 
     // check user is login
-    let currentUser = null;
-    if (token && token.value) {
-      const validToken = verifyToken(token?.value);
-      
-      if (validToken) {
-        currentUser = await usersModel
-          .findOne(
-            { email: validToken.email },
-            "-provider -password -emailVerified -updatedAt",
-          )
-          .lean();
-      }
-    }
+     const currentUser =await getCurrentUser()
+   
 
     // validate postId
     if (!isValidObjectId(postId)) {

@@ -1,5 +1,6 @@
 import connectToDB from "@/config/db";
 import usersModel from "@/models/users";
+import { getCurrentUser } from "@/services/authService";
 import { getExplorer } from "@/services/explorerService";
 import { verifyToken } from "@/utils/auth";
 import { cookies } from "next/headers";
@@ -14,20 +15,8 @@ export const GET = async (req) => {
     const limit = searchParams.get("limit");
 
     // check user is login
-    let currentUser = null;
-    if (token && token.value) {
-      const validToken = verifyToken(token?.value);
-      if (!validToken) currentUser = null;
-
-      if (validToken) {
-        currentUser = await usersModel
-          .findOne(
-            { email: validToken.email },
-            "-provider -password -emailVerified -updatedAt",
-          )
-          .lean();
-      }
-    }
+     const currentUser =await getCurrentUser()
+   
 
     const result = await getExplorer(currentUser, cursor, limit);
 

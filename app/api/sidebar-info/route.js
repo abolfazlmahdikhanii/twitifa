@@ -14,7 +14,7 @@ export const GET = async (req) => {
     // check user is login
     let currentUser = null;
     let followingIds = [];
-    console.log(token);
+    
     if (token?.value) {
       const validToken = verifyToken(token?.value);
       if (!validToken?.email) currentUser = null;

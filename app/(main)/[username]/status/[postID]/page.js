@@ -3,6 +3,7 @@ import PageHeader from "@/components/ui/PageHeader/PageHeader";
 import connectToDB from "@/config/db";
 import postsModel from "@/models/posts";
 import usersModel from "@/models/users";
+import { getCurrentUser } from "@/services/authService";
 import { getPostInfo } from "@/services/postInfoService";
 import { verifyToken } from "@/utils/auth";
 import { getAuthorName, getReplyHeader, stripHtml } from "@/utils/post";
@@ -19,20 +20,8 @@ const page = async ({ params }) => {
 
   await connectToDB();
 
-  const token = (await cookies()).get("token");
-  let currentUser = null;
 
-  if (token && token.value) {
-    const validToken = verifyToken(token.value);
-    if (validToken) {
-      currentUser = await usersModel
-        .findOne(
-          { email: validToken.email },
-          "-provider -password -emailVerified -updatedAt",
-        )
-        .lean();
-    }
-  }
+  const currentUser =await getCurrentUser()
 
   const post = await postsModel
     .findOne({ isDeleted: false, _id: postID })

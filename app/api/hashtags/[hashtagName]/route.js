@@ -1,6 +1,7 @@
 import hashtagModel from "@/models/hashtag";
 import postsModel from "@/models/posts";
 import usersModel from "@/models/users";
+import { getCurrentUser } from "@/services/authService";
 import { getHashtagPosts } from "@/services/hashtagServce";
 import { verifyToken } from "@/utils/auth";
 import { cookies } from "next/headers";
@@ -16,17 +17,8 @@ export const GET = async (req, { params }) => {
     const cursor = searchParams.get("cursor");
     const limit = searchParams.get("limit");
 
-    let currentUser = null;
-    if (token && token.value) {
-      const validToken = verifyToken(token?.value);
-      if (!validToken) currentUser = null;
-      currentUser = await usersModel
-        .findOne(
-          { email: validToken.email },
-          " -provider -password -emailVerified -updatedAt",
-        )
-        .lean();
-    }
+    const currentUser =await getCurrentUser()
+  
     const posts = await getHashtagPosts(hashtagName, currentUser, cursor, limit);
 
     return Response.json(

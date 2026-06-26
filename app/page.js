@@ -1,12 +1,13 @@
 
-import Image from "next/image";
+import { getCurrentUser } from "@/services/authService";
+import { redirect } from "next/navigation";
 
-export default function Home() {
-  return (
-    <div className="flex min-h-screen items-center justify-center ">
-      <main className="flex min-h-screen w-full">
-  
-      </main>
-    </div>
-  );
+export default async function Home() {
+  const user = await getCurrentUser();
+
+  if (user) {
+    redirect("/feed");
+  } else {
+    redirect("/auth");
+  }
 }

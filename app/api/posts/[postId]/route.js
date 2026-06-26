@@ -3,6 +3,7 @@ import hashtagModel from "@/models/hashtag";
 import notifyModel from "@/models/notifications";
 import postsModel from "@/models/posts";
 import usersModel from "@/models/users";
+import { getCurrentUser } from "@/services/authService";
 import { getPostInfo } from "@/services/postInfoService";
 import { verifyToken } from "@/utils/auth";
 import { isValidObjectId } from "mongoose";
@@ -227,20 +228,8 @@ export const GET = async (req, { params }) => {
     const sort = searchParams.get("sort");
 
     // check user is login
-    let currentUser = null;
-    if (token && token.value) {
-      const validToken = verifyToken(token?.value);
-      if (!validToken) currentUser = null;
-
-      if (validToken) {
-        currentUser = await usersModel
-          .findOne(
-            { email: validToken.email },
-            "-provider -password -emailVerified -updatedAt",
-          )
-          .lean();
-      }
-    }
+     const currentUser =await getCurrentUser()
+   
 
     // validate postId
     if (!isValidObjectId(postId)) {

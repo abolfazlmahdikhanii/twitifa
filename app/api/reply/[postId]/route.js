@@ -3,6 +3,7 @@ import notifyModel from "@/models/notifications";
 import postLikesModel from "@/models/postLikes";
 import postsModel from "@/models/posts";
 import usersModel from "@/models/users";
+import { getCurrentUser } from "@/services/authService";
 import { verifyToken } from "@/utils/auth";
 import { getReplyHeader } from "@/utils/post";
 import { isValidObjectId } from "mongoose";
@@ -147,17 +148,8 @@ export const GET = async (req, { params }) => {
     const token = (await cookies()).get("token");
     const { postId } = await params;
     // check user is login
-    let currentUser = null;
-    if (token && token.value) {
-      const validToken = verifyToken(token?.value);
-      if (!validToken) currentUser = null;
-      currentUser = await usersModel
-        .findOne(
-          { email: validToken.email },
-          " -provider -password -emailVerified -updatedAt",
-        )
-        .lean();
-    }
+     const currentUser =await getCurrentUser()
+   
     const replyCount = await postsModel.countDocuments({
       replyToPost: postId,
       retweetedFrom: null,

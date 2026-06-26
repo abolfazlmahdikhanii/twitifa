@@ -2,6 +2,7 @@ import connectToDB from "@/config/db";
 import postLikesModel from "@/models/postLikes";
 import postsModel from "@/models/posts";
 import usersModel from "@/models/users";
+import { getCurrentUser } from "@/services/authService";
 import { getUserLikedPosts } from "@/services/userReactionsService";
 import { verifyToken } from "@/utils/auth";
 import { cookies } from "next/headers";
@@ -23,17 +24,8 @@ export const GET = async (req, { params }) => {
       );
     }
     // check user is login
-    let currentUser = null;
-    if (token && token.value) {
-      const validToken = verifyToken(token?.value);
-      if (!validToken) currentUser = null;
-      currentUser = await usersModel
-        .findOne(
-          { email: validToken.email },
-          " -provider -password -emailVerified -updatedAt",
-        )
-        .lean();
-    }
+    const currentUser =await getCurrentUser()
+  
 
     const posts = await getUserLikedPosts(userInfo, currentUser, cursor, limit);
 

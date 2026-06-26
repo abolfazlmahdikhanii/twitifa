@@ -3,32 +3,18 @@ import ProfileTab from "@/components/Profile/ProfileTab";
 import connectToDB from "@/config/db";
 import followModel from "@/models/follows";
 import usersModel from "@/models/users";
-import { verifyToken } from "@/utils/auth";
+import { getCurrentUser } from "@/services/authService";
 import { getAuthorName } from "@/utils/post";
 import { ScrollShadow } from "@heroui/react";
-import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 
 const UserLayout = async ({ children, params }) => {
   await connectToDB();
-  const token = (await cookies()).get("token");
+
   const { username } = await params;
 
-  let currentUser = null;
-  // check exist token
-  if (token && token.value) {
-    // validate user
-    const validToken = verifyToken(token?.value);
-    if (!validToken) {
-      currentUser = null;
-    }
-    currentUser = await usersModel
-      .findOne(
-        { email: validToken.email },
-        " -provider -password -emailVerified -updatedAt",
-      )
-      .lean();
-  }
+    const currentUser =await getCurrentUser()
+  
 
   // get user info by username
   const user = await usersModel
