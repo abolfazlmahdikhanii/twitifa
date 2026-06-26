@@ -13,8 +13,7 @@ const UserLayout = async ({ children, params }) => {
 
   const { username } = await params;
 
-    const currentUser =await getCurrentUser()
-  
+  const currentUser = await getCurrentUser();
 
   // get user info by username
   const user = await usersModel
@@ -99,7 +98,10 @@ export async function generateMetadata({ params }) {
     )
     .lean();
 
-  const name = `${getAuthorName(user)}(${user.username})/Twitifa`;
+  const authorName = getAuthorName(user);
+  const name = authorName
+    ? `${authorName} (${user.username}) / Twitify`
+    : `${user.username} / Twitify`;
 
   return {
     title: name,
