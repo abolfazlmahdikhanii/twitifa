@@ -2,17 +2,14 @@ import ExplorerClient from "@/components/Explorer/ExplorerClient";
 
 import connectToDB from "@/config/db";
 
-import usersModel from "@/models/users";
 import { getCurrentUser } from "@/services/authService";
 import { getExplorer } from "@/services/explorerService";
-import { verifyToken } from "@/utils/auth";
-
-import { cookies } from "next/headers";
+export const dynamic = "force-dynamic";
 
 const ForYouPage = async () => {
   await connectToDB();
-   const currentUser =await getCurrentUser()
- 
+  const currentUser = await getCurrentUser();
+
   const posts = await getExplorer(currentUser);
 
   return (

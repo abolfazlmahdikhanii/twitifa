@@ -2,7 +2,7 @@ import HashtagPage from "@/components/HashtagPage/HashtagPage";
 import connectToDB from "@/config/db";
 import { getCurrentUser } from "@/services/authService";
 import { getHashtagPosts } from "@/services/hashtagServce";
-
+export const dynamic = "force-dynamic";
 const HashtagsPage = async ({ params }) => {
   await connectToDB();
   const { hashtagName: encodeName } = await params;

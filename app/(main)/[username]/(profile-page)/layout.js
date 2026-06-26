@@ -7,7 +7,7 @@ import { getCurrentUser } from "@/services/authService";
 import { getAuthorName } from "@/utils/post";
 import { ScrollShadow } from "@heroui/react";
 import { notFound } from "next/navigation";
-
+export const dynamic = "force-dynamic";
 const UserLayout = async ({ children, params }) => {
   await connectToDB();
 

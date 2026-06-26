@@ -4,7 +4,7 @@ import usersModel from "@/models/users";
 import { getCurrentUser } from "@/services/authService";
 import { getUserRePosts } from "@/services/userRepostsService";
 import { notFound } from "next/navigation";
-
+export const dynamic = "force-dynamic";
 const RepostsPage = async ({ params }) => {
   await connectToDB();
 

@@ -2,15 +2,12 @@ import PostInfoPage from "@/components/PostInfoPage/PostInfoPage";
 import PageHeader from "@/components/ui/PageHeader/PageHeader";
 import connectToDB from "@/config/db";
 import postsModel from "@/models/posts";
-import usersModel from "@/models/users";
 import { getCurrentUser } from "@/services/authService";
 import { getPostInfo } from "@/services/postInfoService";
-import { verifyToken } from "@/utils/auth";
 import { getAuthorName, getReplyHeader, stripHtml } from "@/utils/post";
 import { isValidObjectId } from "mongoose";
-import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
-
+export const dynamic = "force-dynamic";
 const page = async ({ params }) => {
   const { postID } = await params;
 
@@ -20,8 +17,7 @@ const page = async ({ params }) => {
 
   await connectToDB();
 
-
-  const currentUser =await getCurrentUser()
+  const currentUser = await getCurrentUser();
 
   const post = await postsModel
     .findOne({ isDeleted: false, _id: postID })
@@ -125,9 +121,6 @@ const page = async ({ params }) => {
 };
 
 export default page;
-
-
-
 
 export async function generateMetadata({ params }) {
   const { postID } = await params;

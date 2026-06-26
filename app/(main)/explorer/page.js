@@ -1,10 +1,8 @@
 import ExplorerClient from "@/components/Explorer/ExplorerClient";
-
 import connectToDB from "@/config/db";
-
 import { getCurrentUser } from "@/services/authService";
 import { getExplorer } from "@/services/explorerService";
-
+export const dynamic = "force-dynamic";
 const ExplorerPage = async () => {
   await connectToDB();
   const currentUser = await getCurrentUser();

@@ -4,7 +4,7 @@ import usersModel from "@/models/users";
 import { getCurrentUser } from "@/services/authService";
 import { getUserLikedPosts } from "@/services/userReactionsService";
 import { notFound } from "next/navigation";
-
+export const dynamic = "force-dynamic";
 const ReactionPage = async ({ params }) => {
   await connectToDB();
 

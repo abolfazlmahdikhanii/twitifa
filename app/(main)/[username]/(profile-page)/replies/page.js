@@ -3,11 +3,12 @@ import connectToDB from "@/config/db";
 import usersModel from "@/models/users";
 import { getCurrentUser } from "@/services/authService";
 import { getUserReply } from "@/services/userReplyService";
-import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
+export const dynamic = "force-dynamic";
+
 const RepliesPage = async ({ params }) => {
   await connectToDB();
-  
+
   const { username } = await params;
 
   // get user info

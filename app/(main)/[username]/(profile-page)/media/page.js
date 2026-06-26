@@ -5,7 +5,7 @@ import { getCurrentUser } from "@/services/authService";
 import { getMedia } from "@/services/twittvService";
 import { getUserMedia } from "@/services/userMediaService";
 import { notFound } from "next/navigation";
-
+export const dynamic = "force-dynamic";
 const UserMediaPage = async ({ params }) => {
   await connectToDB();
 
