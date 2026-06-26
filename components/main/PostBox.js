@@ -162,7 +162,7 @@ const PostBox = ({
     setMediaUrl([]); 
     setMediaType(null);
     setPostId(null);
-    onClose && onClose();
+    onClose && onClose()
   };
   const changeMediaFile = useCallback(async (e, isVideo = false) => {
     const files = Array.from(e.target.files);
