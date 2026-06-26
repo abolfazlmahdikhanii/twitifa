@@ -26,7 +26,6 @@ const ProfileMedia = ({
             className="object-cover w-full h-full"
             width={640}
             height={400}
-            
           />
         </div>
         <Button
@@ -49,8 +48,8 @@ const ProfileMedia = ({
 
       {/* Avatar Section */}
       <div className="relative">
-        <div className="absolute -top-6 -translate-y-1/2 sm:right-16 right-7sm: flex flex-row-reverse items-center">
-          <Avatar className="sm:w-36  w-24 h-24  sm:h-36  ">
+        <div className="absolute -top-6 -translate-y-1/2 sm:right-14 right-7sm: flex flex-row-reverse items-center">
+          <Avatar className="sm:w-31  w-24 h-24  sm:h-31  rounded-full">
             <Avatar.Image
               alt="Profile"
               src={
