@@ -160,7 +160,7 @@ const PostBox = ({
     setPollData(null);
     setHasPoll(false);
     setMediaUrl([]); 
-    setMediaType(null);
+    setMediaType(null)
     setPostId(null);
     onClose && onClose()
   };
