@@ -304,7 +304,7 @@ const ProfileSettingPage = () => {
       <div className="flex justify-end py-4 mt-4 sm:border-t sm:border-t-[#34344E] sm:px-13 fixed bottom-20 left-5 sm:static">
         <Button
           size="lg"
-          className="h-13 py-3 text-lg font-bold px-10 hidden sm:block"
+          className="h-13 py-3 text-lg font-bold px-10 hidden sm:flex"
           isDisabled={!hasChange || isLoading}
           onClick={updateProfileHandler}
         >
