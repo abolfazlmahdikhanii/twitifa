@@ -13,6 +13,7 @@ const vazir = Vazirmatn({
 export const metadata = {
   title: "twitifa",
   siteName: "Twitifa",
+  metadataBase: new URL(process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000'),
   openGraph: {
     siteName: "Twitifa",
     images: [
