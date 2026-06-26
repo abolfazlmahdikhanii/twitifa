@@ -5,7 +5,7 @@ import postsModel from "@/models/posts";
 import usersModel from "@/models/users";
 import { getPostInfo } from "@/services/postInfoService";
 import { verifyToken } from "@/utils/auth";
-import { getAuthorName, getReplyHeader } from "@/utils/post";
+import { getAuthorName, getReplyHeader, stripHtml } from "@/utils/post";
 import { isValidObjectId } from "mongoose";
 import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
@@ -136,3 +136,35 @@ const page = async ({ params }) => {
 };
 
 export default page;
+
+
+
+
+export async function generateMetadata({ params }) {
+  const { postID } = await params;
+
+  if (!isValidObjectId(postID)) {
+    return { title: "Post Not Found" };
+  }
+
+  await connectToDB();
+
+  const post = await postsModel
+    .findOne({ isDeleted: false, _id: postID })
+    .populate(
+      "author",
+      "_id username email accountType organizationName firstName lastName",
+    );
+
+  if (!post) {
+    return { title: "Post Not Found" };
+  }
+
+  const cleanText = stripHtml(post.textContent);
+  const title = `${getAuthorName(post.author)} on Twitify: ${cleanText}`;
+
+  return {
+    title,
+    openGraph: { title },
+  };
+}

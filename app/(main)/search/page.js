@@ -37,3 +37,11 @@ const SearchPage = async ({ searchParams }) => {
 };
 
 export default SearchPage;
+export async function generateMetadata({ searchParams }) {
+   const searchUrl = await searchParams;
+  const search = searchUrl.q ? decodeURIComponent(searchUrl.q) : "";
+
+  return{
+    title:`${search}-Search/Twitifa`
+  }
+}

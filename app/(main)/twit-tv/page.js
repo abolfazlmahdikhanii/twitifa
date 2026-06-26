@@ -4,7 +4,9 @@ import usersModel from "@/models/users";
 import { getMedia } from "@/services/twittvService";
 import { verifyToken } from "@/utils/auth";
 import { cookies } from "next/headers";
-
+export const metadata={
+  title:"Twit-Tv/Twitifa"
+}
 const TwitTv = async () => {
   await connectToDB();
   const token = (await cookies()).get("token");

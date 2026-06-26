@@ -245,3 +245,7 @@ export const formatPostViewNumber=(view)=>{
     notation:"compact"
   }).format(view)
 }
+
+export const stripHtml=(html)=> {
+  return html?.replace(/<[^>]*>/g, "").trim() ?? "";
+}

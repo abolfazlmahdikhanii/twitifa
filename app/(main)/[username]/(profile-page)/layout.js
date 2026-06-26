@@ -4,9 +4,10 @@ import connectToDB from "@/config/db";
 import followModel from "@/models/follows";
 import usersModel from "@/models/users";
 import { verifyToken } from "@/utils/auth";
+import { getAuthorName } from "@/utils/post";
 import { ScrollShadow } from "@heroui/react";
 import { cookies } from "next/headers";
-import { notFound, redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 
 const UserLayout = async ({ children, params }) => {
   await connectToDB();
@@ -101,3 +102,31 @@ const UserLayout = async ({ children, params }) => {
 };
 
 export default UserLayout;
+
+export async function generateMetadata({ params }) {
+  await connectToDB();
+  const { username } = await params;
+  const user = await usersModel
+    .findOne(
+      { username },
+      " -provider -password -emailVerified -updatedAt -avatarId -profileBgId -googleId",
+    )
+    .lean();
+
+  const name = `${getAuthorName(user)}(${user.username})/Twitifa`;
+
+  return {
+    title: name,
+    url: `/${user.username}`,
+    openGraph: {
+      title: name,
+      images: [
+        {
+          url: "/images/ogimage.png",
+          width: 500,
+          height: 300,
+        },
+      ],
+    },
+  };
+}

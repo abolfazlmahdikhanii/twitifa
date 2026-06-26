@@ -11,6 +11,8 @@ import { Avatar } from "@heroui/react";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
+
+
 const MainLayout = async ({ children }) => {
   await connectToDB();
   // validate token

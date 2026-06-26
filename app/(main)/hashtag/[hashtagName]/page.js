@@ -1,7 +1,5 @@
 import HashtagPage from "@/components/HashtagPage/HashtagPage";
 import connectToDB from "@/config/db";
-import hashtagModel from "@/models/hashtag";
-import postsModel from "@/models/posts";
 import usersModel from "@/models/users";
 import { getHashtagPosts } from "@/services/hashtagServce";
 import { verifyToken } from "@/utils/auth";
@@ -37,3 +35,11 @@ const HashtagsPage = async ({ params }) => {
 };
 
 export default HashtagsPage;
+
+export async function generateMetadata({ params }) {
+  const { hashtagName: encodeName } = await params;
+
+  return{
+    title:`${decodeURIComponent(encodeName)}/Twitifa`
+  }
+}

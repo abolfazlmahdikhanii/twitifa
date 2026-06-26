@@ -7,7 +7,9 @@ import { getFeed } from "@/services/feedService";
 import { verifyToken } from "@/utils/auth";
 
 import { cookies } from "next/headers";
-
+export const metadata = {
+  title: "Home/Twitifa",
+};
 const HomePage = async () => {
   await connectToDB();
   const token = (await cookies()).get("token");
