@@ -13,7 +13,7 @@
 </div>
 
 ---
-![Home](/screenshot/home.png)
+![Home](/screenshot/home.png](https://github.com/abolfazlmahdikhanii/twitifa/blob/master/public/screenshot/home.png)
 
 ## ✨ Features
 
