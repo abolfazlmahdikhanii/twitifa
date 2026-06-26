@@ -13,7 +13,7 @@
 </div>
 
 ---
-![Home](./screenshot/home.png)
+![Home](/screenshot/home.png)
 
 ## ✨ Features
 
