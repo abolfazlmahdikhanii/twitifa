@@ -1,17 +1,21 @@
 "use client";
 import { Button } from "@heroui/react";
 import { useGoogleLogin } from "@react-oauth/google";
-import React from "react";
+import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 const GoogleBtn = ({ isLogin }) => {
+  const router = useRouter();
   const login = useGoogleLogin({
     onSuccess: async (credentialResponse) => {
       const token = credentialResponse.access_token;
       try {
-        const response = await fetch("https://www.googleapis.com/oauth2/v3/userinfo", {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        const response = await fetch(
+          "https://www.googleapis.com/oauth2/v3/userinfo",
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          },
+        );
 
         const userData = await response.json();
         if (!userData) throw Error();
@@ -32,12 +36,17 @@ const GoogleBtn = ({ isLogin }) => {
         });
 
         if (signRes.ok) {
-          toast.success(isLogin ? "ورود با موفقیت انجام شد" : "ثبت نام با موفقیت انجام شد");
+          toast.success(
+            isLogin ? "ورود با موفقیت انجام شد" : "ثبت نام با موفقیت انجام شد",
+          );
+          router.replace("/feed");
         } else {
           throw Error();
         }
       } catch (error) {
-        toast.error(isLogin ? "ورود با مشکل مواجه شد" : "ثبت نام با مشکل مواجه شد");
+        toast.error(
+          isLogin ? "ورود با مشکل مواجه شد" : "ثبت نام با مشکل مواجه شد",
+        );
       }
     },
     onError: () => {
@@ -50,7 +59,12 @@ const GoogleBtn = ({ isLogin }) => {
       onClick={() => login()}
       className="w-full flex items-center justify-center gap-2 sm:gap-3 rounded-4xl dark:bg-white px-3 sm:px-4 py-2 sm:py-3 h-9 sm:h-11 md:h-12.5 font-medium text-sm sm:text-base text-[#0F172A] dark:hover:bg-white/80 [&>svg]:w-5 [&>svg]:h-5 sm:[&>svg]:w-6.5 sm:[&>svg]:h-6.5 transition-all duration-200"
     >
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="24" height="24">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 48 48"
+        width="24"
+        height="24"
+      >
         <path
           fill="#FFC107"
           d="M43.611 20.083H42V20H24v8h11.303c-1.649 4.657-6.08 8-11.303 8c-6.627 0-12-5.373-12-12s5.373-12 12-12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4C12.955 4 4 12.955 4 24s8.955 20 20 20s20-8.955 20-20c0-1.341-.138-2.65-.389-3.917"

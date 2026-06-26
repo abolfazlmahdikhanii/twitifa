@@ -20,14 +20,14 @@ const AuthPage = () => {
               </span>
             </h2>
             <p className="text-sm sm:text-lg dark:text-neutral-400 text-neutral-500 max-w-md leading-loose mx-auto md:mx-0">
-              به جمع هزاران کاربر بپیوندید. اینجا مکانی برای دیده شدن، شنیده
-              شدن و ارتباط با دوستان واقعی است.
+              به جمع هزاران کاربر بپیوندید. اینجا مکانی برای دیده شدن، شنیده شدن
+              و ارتباط با دوستان واقعی است.
             </p>
             <AuthCards />
           </div>
 
           {/* Auth form */}
-          <div className="py-4 sm:py-6 md:py-0 w-[70%] lg:w-[unset]">
+          <div className="py-4 sm:py-6 md:py-0 w-[90%] lg:w-[unset]">
             <AuthForm />
           </div>
         </>

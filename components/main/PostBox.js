@@ -159,7 +159,7 @@ const PostBox = ({
     editor?.commands.clearContent();
     setPollData(null);
     setHasPoll(false);
-    setMediaUrl("");
+    setMediaUrl([]); 
     setMediaType(null);
     setPostId(null);
     onClose && onClose();
@@ -368,23 +368,27 @@ const PostBox = ({
     e.preventDefault();
     const text = getText();
     const content = getContent();
+
     if (pollData || hasPoll) {
       toast.error(
         "نظرسنجی را نمی‌توان ویرایش کرد. برای تغییر نظرسنجی، پست را حذف و مجددا ایجاد کنید",
       );
       return;
     }
-    if (mediaUrl) {
+
+    if (mediaUrl.length > 0) {
       toast.error(
         "پست‌های دارای رسانه را نمی‌توان ویرایش کرد. برای تغییر رسانه، پست را حذف و مجددا ایجاد کنید",
       );
       return;
     }
+
     if (!text.trim()) {
       toast.error("برای ویرایش پست متنی وارد کنید");
       return;
     }
 
+    setIsLoading(true);
     try {
       const newPost = {
         textContent: content,
@@ -398,9 +402,9 @@ const PostBox = ({
         body: JSON.stringify(newPost),
       });
       const postData = await postRes.json();
+
       if (postRes.status === 200) {
-        toast.success(" پست با موفقیت ویرایش شد");
-        // reset form
+        toast.success("پست با موفقیت ویرایش شد");
         onClose && onClose();
         resetForm();
         queryClient.invalidateQueries({ queryKey: ["posts"] });
@@ -413,6 +417,8 @@ const PostBox = ({
       }
     } catch (error) {
       toast.error(error.message || "خطا در ویرایش پست");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -522,7 +528,7 @@ const PostBox = ({
             <div
               className={`${!isEdit || !isReply ? "min-h-12" : "min-h-26"} relative`}
             >
-              <EditorContent editor={editor}  />
+              <EditorContent editor={editor} />
             </div>
             {hasPoll && (
               <PollForm
