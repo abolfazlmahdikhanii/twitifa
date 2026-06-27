@@ -135,6 +135,7 @@ const Login = ({ setActiveTab }) => {
               className="absolute top-1/2 -translate-y-1/2 left-1 text-gray-400 "
               variant="ghost"
               isIconOnly
+              type="button"
               onClick={() => setIsShowLoginPass((prev) => !prev)}
             >
               {isShowLoginPass ? (
@@ -152,9 +153,9 @@ const Login = ({ setActiveTab }) => {
         <Button
           type="submit"
           variant="primary"
-          className="py-3.5 w-full h-11.5 md:h-13 font-bold text-sm sm:text-base"
+          className="py-3.5 w-full h-11.5 md:h-13 font-bold text-sm sm:text-base touch-manipulation"
           size="lg"
-          onPress={loginHandler}
+        
           isDisabled={
             isLoginLoading || !identifier.trim() || !loginPassword.trim()
           }

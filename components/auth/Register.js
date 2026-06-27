@@ -82,7 +82,9 @@ const Register = ({ setActiveTab }) => {
     <AuthWrapper onSubmit={registerHandler} changeTab={(e) => setActiveTab(e)}>
       <div className="flex  flex-col gap-4 md:gap-5.5">
         <div className="flex flex-col gap-2 sm:gap-2.5 w-full">
-          <Label htmlFor="input-type-username" className="text-xs sm:text-sm">نام کاربری</Label>
+          <Label htmlFor="input-type-username" className="text-xs sm:text-sm">
+            نام کاربری
+          </Label>
           <div className="relative">
             <Icon
               name={"simple-user"}
@@ -100,7 +102,9 @@ const Register = ({ setActiveTab }) => {
           </div>
         </div>
         <div className="flex flex-col gap-2 sm:gap-2.5 w-full">
-          <Label htmlFor="input-type-email-reg" className="text-xs sm:text-sm">ایمیل</Label>
+          <Label htmlFor="input-type-email-reg" className="text-xs sm:text-sm">
+            ایمیل
+          </Label>
           <div className="relative">
             <Icon
               name="email"
@@ -118,7 +122,12 @@ const Register = ({ setActiveTab }) => {
           </div>
         </div>
         <div className="flex flex-col gap-2 sm:gap-2.5 w-full">
-          <Label htmlFor="input-type-password-reg" className="text-xs sm:text-sm">رمز عبور</Label>
+          <Label
+            htmlFor="input-type-password-reg"
+            className="text-xs sm:text-sm"
+          >
+            رمز عبور
+          </Label>
           <div className="relative">
             <Icon
               name="password"
@@ -137,12 +146,13 @@ const Register = ({ setActiveTab }) => {
               className="absolute top-1/2 -translate-y-1/2 left-1 text-gray-400 "
               variant="ghost"
               isIconOnly
+              type="button"
               onClick={() => setIsShowRegisterPass((prev) => !prev)}
             >
               {isShowRegisterPass ? (
-                <Icon name={"eye"} size={18} className={"size-4"}/>
+                <Icon name={"eye"} size={18} className={"size-4"} />
               ) : (
-                <Icon name={"eye-off"} size={18}className={"size-4"} />
+                <Icon name={"eye-off"} size={18} className={"size-4"} />
               )}
             </Button>
           </div>
@@ -152,7 +162,9 @@ const Register = ({ setActiveTab }) => {
         <Button
           type="submit"
           variant="primary"
-          className={" py-3.5 w-full h-11.5 md:h-13 font-bold text-sm sm:text-base "}
+          className={
+            " py-3.5 w-full h-11.5 md:h-13 font-bold text-sm sm:text-base touch-manipulation"
+          }
           size="lg"
           isDisabled={
             isRegisterLoading ||
@@ -160,7 +172,7 @@ const Register = ({ setActiveTab }) => {
             !email.trim() ||
             !username.trim()
           }
-          onPress={registerHandler}
+    
         >
           {!isRegisterLoading ? (
             <>

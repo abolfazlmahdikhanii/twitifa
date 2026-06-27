@@ -9,7 +9,7 @@ import {
   Input,
   Spinner,
 } from "@heroui/react";
-import { ArrowLeft, KeyRound } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -84,7 +84,11 @@ const ResetPassword = () => {
       <Card variant="transparent" className="p-0 pt-8.5 rounded-none">
         <CardHeader className="flex flex-col items-center justify-center gap-y-2.5 mb-5">
           <div className="mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-[#7b6ffd]/15 ring-1 ring-[#7b6ffd]/20">
-            <Icon name="key" className="h-7 w-7 text-[#a89bff]" strokeWidth={1.75} />
+            <Icon
+              name="key"
+              className="h-7 w-7 text-[#a89bff]"
+              strokeWidth={1.75}
+            />
           </div>
           <div className="flex flex-col gap-1.5">
             <h1 className="text-center text-xl font-bold text-white">
@@ -119,6 +123,7 @@ const ResetPassword = () => {
               <Button
                 className="absolute top-1/2 -translate-y-1/2 left-1 text-gray-400 "
                 variant="ghost"
+                type="button"
                 isIconOnly
                 onClick={() => setShowPassword((prev) => !prev)}
               >
@@ -147,6 +152,7 @@ const ResetPassword = () => {
               <Button
                 className="absolute top-1/2 -translate-y-1/2 left-1 text-gray-400 "
                 variant="ghost"
+                type="button"
                 isIconOnly
                 onClick={() => setShowConfirmPassword((prev) => !prev)}
               >
