@@ -57,7 +57,7 @@ const GoogleBtn = ({ isLogin }) => {
   return (
     <Button
       onPress={() => login()}
-      className="w-full flex items-center justify-center gap-2 sm:gap-3  rounded-4xl dark:bg-white px-3 sm:px-4 py-2 sm:py-3 h-10 sm:h-11 md:h-12.5 font-medium text-xs sm:text-base text-[#0F172A] dark:hover:bg-white/80 [&>svg]:w-5 [&>svg]:h-5 sm:[&>svg]:w-6.5 sm:[&>svg]:h-6.5 transition-all duration-200"
+      className="w-full flex items-center justify-center gap-2 sm:gap-3  rounded-4xl dark:bg-white px-3 sm:px-4 py-2 sm:py-3 h-10 sm:h-11 md:h-12.5 font-medium text-xs sm:text-base text-[#0F172A] dark:hover:bg-white/80 [&>svg]:w-5 [&>svg]:h-5 sm:[&>svg]:w-6.5 sm:[&>svg]:h-6.5 transition-all duration-200 touch-manipulation"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
