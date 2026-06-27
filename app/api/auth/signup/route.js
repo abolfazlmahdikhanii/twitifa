@@ -122,10 +122,10 @@ export const POST = async (req) => {
       code,
       expiresAt,
       attempts: 0,
-      userData, // <<< اینجا اطلاعات کاربر ذخیره می‌شود تا در verify استفاده شود
+      userData, 
     });
 
-    // ارسال ایمیل
+   
     const newMail = await sendMail({
       to: email,
       subject: "Your OTP Code",
@@ -133,7 +133,7 @@ export const POST = async (req) => {
     });
 
     if (!newMail.success) {
-      console.log(`[DEV] OTP for ${email}: ${code}`); // لاگ در ترمینال
+      console.log(`[DEV] OTP for ${email}: ${code}`);
       return Response.json(
         { message: "سرویس ایمیل موقتاً دچار اختلال است، لطفاً بعداً تلاش کنید" },
         { status: 500 }
@@ -157,7 +157,7 @@ export const POST = async (req) => {
   }
 };
 
-// ==================== Google SSO Handler ====================
+
 const handleGoogleSSO = async (body) => {
   const { email, googleId, username, picture } = body;
 
