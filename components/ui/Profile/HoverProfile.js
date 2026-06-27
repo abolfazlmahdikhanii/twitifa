@@ -1,14 +1,12 @@
 "use client";
-import * as HoverCard from "@radix-ui/react-hover-card";
-import { Avatar, Button } from "@heroui/react";
-import Image from "next/image";
-import React from "react";
-import { Dot } from "lucide-react";
-import { formatTimeCreated, getAuthorName } from "@/utils/post";
-import BtnFollow from "../BtnFollow/BtnFollow";
-import useFollow from "@/hooks/useFollow";
-import Link from "next/link";
 import { useAuth } from "@/context/AuthContext";
+import useFollow from "@/hooks/useFollow";
+import { getAuthorName } from "@/utils/post";
+import { Avatar } from "@heroui/react";
+import * as HoverCard from "@radix-ui/react-hover-card";
+import Image from "next/image";
+import Link from "next/link";
+import BtnFollow from "../BtnFollow/BtnFollow";
 import SharedFollower from "../SharedFollower/SharedFollower";
 
 const HoverProfile = ({ userInfo, children }) => {
@@ -41,10 +39,13 @@ const HoverProfile = ({ userInfo, children }) => {
         >
           {/* Header */}
           <div className="flex items-center gap-x-2 w-full justify-between">
-            <Avatar className="size-14">
+            <Avatar className="sm:size-14 size-11">
               <Avatar.Image
                 alt={`${userInfo?.username} avatar image`}
-                src={userInfo?.avatar||"https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/blue.jpg"}
+                src={
+                  userInfo?.avatar ||
+                  "https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/blue.jpg"
+                }
               />
               <Avatar.Fallback className="uppercase">
                 {userInfo?.username?.charAt(0)}
@@ -57,7 +58,9 @@ const HoverProfile = ({ userInfo, children }) => {
           <div className="mt-4 px-2.5">
             <div className="flex items-center">
               <Link href={`/${userInfo?.username}`}>
-                <p className="text-lg font-bold">{getAuthorName(userInfo)}</p>
+                <p className="sm:text-lg font-bold text-base">
+                  {getAuthorName(userInfo)}
+                </p>
               </Link>
               <Image
                 alt="verified-business"
@@ -70,14 +73,14 @@ const HoverProfile = ({ userInfo, children }) => {
             <div className="flex items-center gap-x-2.75 mt-1">
               <Link href={`/${userInfo?.username}`}>
                 <p
-                  className="text-base dark:text-neutral-400 text-neutral-500 truncate  text-right max-w-37.5"
+                  className="sm:text-base dark:text-neutral-400 text-neutral-500 truncate  text-right max-w-37.5 text-sm"
                   dir="auto"
                 >
                   @{userInfo?.username}
                 </p>
               </Link>
               {follow && follow.isFollowMe && (
-                <p className="px-2 py-0.5 text-sm text-muted bg-body rounded-lg whitespace-nowrap">
+                <p className="px-2 py-0.5 text-xs sm:text-sm text-muted bg-body rounded-lg whitespace-nowrap">
                   شما را دنبال می کند
                 </p>
               )}
@@ -86,7 +89,7 @@ const HoverProfile = ({ userInfo, children }) => {
 
           {/* Bio */}
           {userInfo?.bio && (
-            <p className="mt-3 text-base text-neutral-300 px-2 line-clamp-2 leading-[1.8]">
+            <p className="mt-3 text-sm sm:text-base text-neutral-300 px-2 line-clamp-2 leading-[1.8]">
               {userInfo?.bio}
             </p>
           )}
@@ -94,25 +97,25 @@ const HoverProfile = ({ userInfo, children }) => {
           {/* Stats */}
           <div className="mt-7 flex items-center justify-between px-3 ">
             <div>
-              <span className="font-semibold">
+              <span className="font-semibold  sm:text-base text-sm">
                 {followCount?.followingCount ?? 0}
               </span>
-              <span className="mr-1 text-[15px] text-muted font-semibold">
+              <span className="mr-1 text-xs sm:text-[15px] text-muted font-semibold">
                 دنبال شده
               </span>
             </div>
             <div>
-              <span className="font-semibold">
+              <span className="font-semibold sm:text-base text-sm">
                 {followCount?.followerCount ?? 0}
               </span>
-              <span className="mr-1 text-[15px] text-muted font-semibold">
+              <span className="mr-1 text-xs sm:text-[15px] text-muted font-semibold">
                 دنبال کننده
               </span>
             </div>
           </div>
 
           {/* shared follower */}
-          {user&&user.username !== userInfo.username && (
+          {user && user.username !== userInfo.username && (
             <div className="mt-5 pb-1.5">
               {sharedFollower && sharedFollower.sharedFollower?.length > 0 ? (
                 <SharedFollower
@@ -121,7 +124,7 @@ const HoverProfile = ({ userInfo, children }) => {
                   }
                 />
               ) : (
-                <p className="font-medium text-sm text-muted leading-[1.6] pr-3">
+                <p className="font-medium text-xs sm:text-sm text-muted leading-[1.6] pr-3">
                   دنبال کننده مشترکی بین شما و این حساب وجود ندارد
                 </p>
               )}
