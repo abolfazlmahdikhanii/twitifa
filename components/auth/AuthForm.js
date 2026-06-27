@@ -8,7 +8,7 @@ const AuthForm = () => {
   const [activeTab, setActiveTab] = useState("signin");
 
   const tabClass =
-    "w-full py-4 sm:py-6 text-sm sm:text-base text-neutral-500 dark:text-neutral-400 dark:data-[selected=true]:text-white border-b-2 border-transparent data-[selected=true]:border-[#1111D4] rounded-none data-[selected=true]:font-bold";
+    "w-full py-5.5 sm:py-6 text-sm sm:text-base text-neutral-500 dark:text-neutral-400 dark:data-[selected=true]:text-white border-b-2 border-transparent data-[selected=true]:border-[#1111D4] rounded-none data-[selected=true]:font-bold";
 
   return (
     <div className="w-full mt-8 sm:mt-14 md:mt-0 md:w-120 rounded-xl sm:rounded-2xl border border-[#34344E] bg-[#1e1e2e] overflow-hidden shadow-lg">
