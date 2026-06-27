@@ -73,7 +73,7 @@ const HoverProfile = ({ userInfo, children }) => {
             <div className="flex items-center gap-x-2.75 mt-1">
               <Link href={`/${userInfo?.username}`}>
                 <p
-                  className="sm:text-base dark:text-neutral-400 text-neutral-500 truncate  text-right max-w-37.5 text-sm"
+                  className="sm:text-base dark:text-neutral-400 text-neutral-500 truncate  text-right max-w-37.5 sm:max-w-xs text-sm"
                   dir="auto"
                 >
                   @{userInfo?.username}
