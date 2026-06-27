@@ -37,7 +37,7 @@ const HoverProfile = ({ userInfo, children }) => {
           side="bottom"
           align="start"
           sideOffset={5}
-          className="w-85 bg-[#1A1A31] rounded-[24px] py-6.5 px-4.5 z-50 "
+          className="sm:w-85 bg-[#1A1A31] rounded-[24px] py-6.5 px-4.5 z-50 w-70 "
         >
           {/* Header */}
           <div className="flex items-center gap-x-2 w-full justify-between">
@@ -70,14 +70,14 @@ const HoverProfile = ({ userInfo, children }) => {
             <div className="flex items-center gap-x-2.75 mt-1">
               <Link href={`/${userInfo?.username}`}>
                 <p
-                  className="text-base dark:text-neutral-400 text-neutral-500 truncate  text-right"
+                  className="text-base dark:text-neutral-400 text-neutral-500 truncate  text-right max-w-37.5"
                   dir="auto"
                 >
                   @{userInfo?.username}
                 </p>
               </Link>
               {follow && follow.isFollowMe && (
-                <p className="px-2 py-0.5 text-sm text-muted bg-body rounded-lg">
+                <p className="px-2 py-0.5 text-sm text-muted bg-body rounded-lg whitespace-nowrap">
                   شما را دنبال می کند
                 </p>
               )}
