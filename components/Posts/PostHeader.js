@@ -193,19 +193,19 @@ const PostHeader = ({
                         variant="danger"
                       >
                         <Icon name="delete-fill" className="size-4.5 sm:size-5 shrink-0 text-danger" />
-                        <Label className="whitespace-nowrap text-xs sm:text-sm">حذف پست</Label>
+                        <Label className="whitespace-nowrap text-xs sm:text-sm truncate">حذف پست</Label>
                       </Dropdown.Item>
                       <Dropdown.Item id="edit-post" textValue="edit post">
                         <Icon name="edit" className="size-4.5 sm:size-5 shrink-0 text-muted" />
-                        <Label className="whitespace-nowrap text-xs sm:text-sm">ویرایش</Label>
+                        <Label className="whitespace-nowrap text-xs sm:text-sm truncate">ویرایش</Label>
                       </Dropdown.Item>
                       <Dropdown.Item id="change-replies" textValue="Change reply">
                         <Icon name="reply-permission" className="size-4 sm:size-4.5 shrink-0 text-muted" />
-                        <Label className="whitespace-nowrap text-xs sm:text-sm">تغییر افراد پاسخ دهنده</Label>
+                        <Label className="whitespace-nowrap text-xs sm:text-sm truncate">تغییر افراد پاسخ دهنده</Label>
                       </Dropdown.Item>
                       <Dropdown.Item id="pin-post" textValue="pin post">
                         <Icon name="pin" className="size-4 sm:size-4.5 shrink-0 text-muted" />
-                        <Label className="whitespace-nowrap text-xs sm:text-sm">{!pin ? "سنجاق کردن" : "برداشتن سنجاق"}</Label>
+                        <Label className="whitespace-nowrap text-xs sm:text-sm truncate">{!pin ? "سنجاق کردن" : "برداشتن سنجاق"}</Label>
                       </Dropdown.Item>
                     </Dropdown.Menu>
                   </Dropdown.Popover>
@@ -227,21 +227,21 @@ const PostHeader = ({
                         ) : (
                           <Icon name="unfollow" className="size-4.5 sm:size-5 shrink-0 text-muted" />
                         )}
-                        <Label className="whitespace-nowrap text-xs sm:text-sm">
+                        <Label className="whitespace-nowrap text-xs sm:text-sm truncate ">
                           {follow?.isFollow ? "لغو" : ""} دنبال کردن{" "}
                           <span dir="ltr" className="text-sm">@{post.author?.username}</span>
                         </Label>
                       </Dropdown.Item>
                       <Dropdown.Item id="block-user" textValue="block">
                         <Icon name="block" className="size-4.5 sm:size-4.75 shrink-0 text-muted" />
-                        <Label className="whitespace-nowrap text-xs sm:text-sm">
+                        <Label className="whitespace-nowrap text-xs sm:text-sm truncate">
                           مسدود سازی{" "}
                           <span dir="ltr" className="text-sm">@{post.author?.username}</span>
                         </Label>
                       </Dropdown.Item>
                       <Dropdown.Item id="report-post" textValue="report post">
                         <Icon name="report" className="size-4.5 sm:size-5 shrink-0 text-muted" />
-                        <Label className="whitespace-nowrap text-xs sm:text-sm">گزارش تخلف در محتوا</Label>
+                        <Label className="whitespace-nowrap text-xs sm:text-sm truncate">گزارش تخلف در محتوا</Label>
                       </Dropdown.Item>
                     </Dropdown.Menu>
                   </Dropdown.Popover>
