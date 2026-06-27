@@ -110,7 +110,10 @@ const Login = ({ setActiveTab }) => {
               رمز عبور
             </Label>
 
-            <Link href={"/auth/forgot-password"} className="sm:text-xs text-[10px] text-blue-500">
+            <Link
+              href={"/auth/forgot-password"}
+              className="sm:text-xs text-[10px] text-blue-500"
+            >
               رمز عبور را فراموش کردید؟
             </Link>
           </div>
@@ -135,9 +138,9 @@ const Login = ({ setActiveTab }) => {
               onClick={() => setIsShowLoginPass((prev) => !prev)}
             >
               {isShowLoginPass ? (
-                <Icon name={"eye"} size={18}  className={"size-4"}/>
+                <Icon name={"eye"} size={18} className={"size-4"} />
               ) : (
-                <Icon name={"eye-off"} size={18}  className={"size-4"}/>
+                <Icon name={"eye-off"} size={18} className={"size-4"} />
               )}
             </Button>
           </div>
@@ -149,8 +152,9 @@ const Login = ({ setActiveTab }) => {
         <Button
           type="submit"
           variant="primary"
-          className="py-3 sm:py-3.5 w-full h-10 sm:h-11.5 md:h-13 font-bold text-sm sm:text-base"
+          className="py-3.5 w-full h-11.5 md:h-13 font-bold text-sm sm:text-base"
           size="lg"
+          onPress={loginHandler}
           isDisabled={
             isLoginLoading || !identifier.trim() || !loginPassword.trim()
           }

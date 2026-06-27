@@ -321,7 +321,7 @@ const ProfileSettingPage = () => {
             className="w-12 h-12  sm:hidden flex items-center justify-center"
             isIconOnly
             isDisabled={!hasChange || isLoading}
-            onClick={updateProfileHandler}
+            onPress={updateProfileHandler}
           >
             {isLoading ? (
               <Spinner color="current" />

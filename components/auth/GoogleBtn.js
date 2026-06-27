@@ -56,8 +56,8 @@ const GoogleBtn = ({ isLogin }) => {
 
   return (
     <Button
-      onClick={() => login()}
-      className="w-full flex items-center justify-center gap-2 sm:gap-3 rounded-4xl dark:bg-white px-3 sm:px-4 py-2 sm:py-3 h-9 sm:h-11 md:h-12.5 font-medium text-sm sm:text-base text-[#0F172A] dark:hover:bg-white/80 [&>svg]:w-5 [&>svg]:h-5 sm:[&>svg]:w-6.5 sm:[&>svg]:h-6.5 transition-all duration-200"
+      onPress={() => login()}
+      className="w-full flex items-center justify-center gap-2 sm:gap-3  rounded-4xl dark:bg-white px-3 sm:px-4 py-2 sm:py-3 h-10 sm:h-11 md:h-12.5 font-medium text-xs sm:text-base text-[#0F172A] dark:hover:bg-white/80 [&>svg]:w-5 [&>svg]:h-5 sm:[&>svg]:w-6.5 sm:[&>svg]:h-6.5 transition-all duration-200"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -65,7 +65,7 @@ const GoogleBtn = ({ isLogin }) => {
         width="24"
         height="24"
       >
-        <path
+        <path1
           fill="#FFC107"
           d="M43.611 20.083H42V20H24v8h11.303c-1.649 4.657-6.08 8-11.303 8c-6.627 0-12-5.373-12-12s5.373-12 12-12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4C12.955 4 4 12.955 4 24s8.955 20 20 20s20-8.955 20-20c0-1.341-.138-2.65-.389-3.917"
         />

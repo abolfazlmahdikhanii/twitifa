@@ -160,6 +160,7 @@ const Register = ({ setActiveTab }) => {
             !email.trim() ||
             !username.trim()
           }
+          onPress={registerHandler}
         >
           {!isRegisterLoading ? (
             <>
