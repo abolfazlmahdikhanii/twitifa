@@ -365,7 +365,7 @@ const PostBox = ({
     }
   };
   const updatePost = async (e) => {
-    e.preventDefault();
+    // e?.preventDefault();
     const text = getText();
     const content = getContent();
 
