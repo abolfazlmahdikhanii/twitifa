@@ -49,8 +49,9 @@ export default async function RootLayout({ children }) {
         <Toaster
           richColors
           position="bottom-center"
-          className="w-fit sm:w-full"
+  
           toastOptions={{
+            className:"w-fit sm:w-full",
             style: {
               minHeight: "60px",
               borderRadius: "16px",
