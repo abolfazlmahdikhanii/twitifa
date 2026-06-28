@@ -36,7 +36,7 @@ const Dialog = ({
                 className={"w-18"}
                 slot="close"
                 variant="danger"
-                onClick={onSubmit}
+                onPress={onSubmit}
               >
                 {btnText}
               </Button>
