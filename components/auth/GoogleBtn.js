@@ -1,10 +1,12 @@
 "use client";
+import { useAuth } from "@/context/AuthContext";
 import { Button } from "@heroui/react";
 import { useGoogleLogin } from "@react-oauth/google";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 const GoogleBtn = ({ isLogin }) => {
+  const {refetch}=useAuth()
   const router = useRouter();
   const login = useGoogleLogin({
     onSuccess: async (credentialResponse) => {
@@ -39,6 +41,7 @@ const GoogleBtn = ({ isLogin }) => {
           toast.success(
             isLogin ? "ورود با موفقیت انجام شد" : "ثبت نام با موفقیت انجام شد",
           );
+          refetch()
           router.replace("/feed");
         } else {
           throw Error();
