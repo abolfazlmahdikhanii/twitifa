@@ -6,13 +6,13 @@ import usersModel from "@/models/users";
 import { getCurrentUser } from "@/services/authService";
 import { getAuthorName } from "@/utils/post";
 import { ScrollShadow } from "@heroui/react";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 export const dynamic = "force-dynamic";
 const UserLayout = async ({ children, params }) => {
   await connectToDB();
 
   const { username } = await params;
-
+if(!username) return redirect("/feed")
   const currentUser = await getCurrentUser();
 
   // get user info by username

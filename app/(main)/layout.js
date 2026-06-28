@@ -62,7 +62,16 @@ const MainLayout = async ({ children }) => {
         <CompleteInfoModal />
       )}
       <ActiveAuthorNotify userId={userId._id} />
-      <MobileNavBar />
+      <MobileNavBar
+        username={user?.username}
+        name={
+          user?.firstName && user.lastName
+            ? `${user.firstName} ${user.lastName}`
+            : user?.organizationName
+        }
+        avatar={user?.avatar}
+        notificationCount={notificationsCount}
+      />
     </div>
   );
 };
