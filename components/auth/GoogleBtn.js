@@ -44,6 +44,7 @@ const GoogleBtn = ({ isLogin }) => {
           throw Error();
         }
       } catch (error) {
+   
         toast.error(
           isLogin ? "ورود با مشکل مواجه شد" : "ثبت نام با مشکل مواجه شد",
         );

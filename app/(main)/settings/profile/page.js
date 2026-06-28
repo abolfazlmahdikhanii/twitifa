@@ -161,7 +161,7 @@ const ProfileSettingPage = () => {
   };
 
   const updateProfileHandler = async (e) => {
-    e.preventDefault();
+    // e.preventDefault();
     try {
       setIsLoading(true);
       const userInfo = {
