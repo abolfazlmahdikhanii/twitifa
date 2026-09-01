@@ -86,11 +86,11 @@ const PostFooter = ({
             >
               <Icon
                 name="repost"
-                className={`${reposts.isUserReposted ? "text-[#00ba7b]" : "text-current"}`}
+                className={`${reposts.isUserReposted && reposts.repostCount > 0 ? "text-[#00ba7b]" : "text-current"}`}
               />
             </Button>
             <span
-              className={` text-xs sm:text-sm mt-0.75 -mr-px sm:mr-0 sm:mt-0 group-hover:text-[#00ba7b] transition-all duration-300 ${reposts.isUserReposted ? "text-[#00ba7b]" : "text-muted"}`}
+              className={` text-xs sm:text-sm mt-0.75 -mr-px sm:mr-0 sm:mt-0 group-hover:text-[#00ba7b] transition-all duration-300 ${reposts.isUserReposted && reposts.repostCount > 0 ? "text-[#00ba7b]" : "text-muted"}`}
             >
               {reposts.repostCount ?? 0}
             </span>
