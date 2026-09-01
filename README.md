@@ -92,7 +92,7 @@
 | Nodemailer | Email Service (verification & reset) |
 | Zod v4 | Schema Validation |
 | Sharp | Image Processing |
-| Formidable | Multipart Form Parsing |
+
 
 ### Media & Storage
 | Technology | Purpose |
