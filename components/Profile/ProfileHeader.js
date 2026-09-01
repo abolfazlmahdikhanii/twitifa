@@ -112,15 +112,13 @@ const ProfileHeader = ({
       </div>
       {/* extra info */}
       <div className="mt-4 mx-4.75 sm:mx-6">
-        {!bio && (
+        {bio && (
           <div className="mb-7.5 whitespace-pre-wrap">
             <span
               dir="auto"
               className="block min-h-3.5 text-sm sm:text-[17px] text-[rgb(225,226,226)] leading-loose max-w-3xl font-light"
             >
-              برنامه تلویزیونی بدون توقف شبکه ۳ سیما | بررسی چالشی شبهات روز
-              جامعه | از شنبه تا چهارشنبه | حوالی ساعت ۱۸ | لایک و بازنشر به
-              معنای تایید نیست، صرفا تشکر است
+              {bio}
             </span>
           </div>
         )}
