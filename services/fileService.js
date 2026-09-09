@@ -1,4 +1,5 @@
 const ImageKit = require("@imagekit/nodejs");
+const { toFile } = require("@imagekit/nodejs");
 const fs = require("fs");
 
 const imagekit = new ImageKit({
@@ -37,7 +38,9 @@ const validateFile = (file) => {
   }
 
   if (!ALLOWED_TYPES.includes(file.mimetype)) {
-    throw new Error(`Invalid file type: ${file.mimetype}. Allowed types: ${ALLOWED_TYPES.join(", ")}`);
+    throw new Error(
+      `Invalid file type: ${file.mimetype}. Allowed types: ${ALLOWED_TYPES.join(", ")}`,
+    );
   }
 };
 
@@ -63,9 +66,12 @@ const uploadFile = async (file, folder = "uploads") => {
     const fileBuffer = fs.readFileSync(file.filepath);
     const isVideo = file.mimetype.startsWith("video/");
 
-    const result = await imagekit.upload({
-      file: fileBuffer,
-      fileName: generateFileName(file.originalFilename || (isVideo ? "video" : "image")),
+    const fileName = generateFileName(
+      file.originalFilename || (isVideo ? "video" : "image"),
+    );
+    const result = await imagekit.files.upload({
+      file: await toFile(fileBuffer, fileName),
+      fileName,
       folder: `/${folder}`,
       useUniqueFileName: true,
     });
@@ -91,13 +97,18 @@ const uploadFile = async (file, folder = "uploads") => {
 /**
  * Upload file from buffer (alternative method)
  */
-const uploadFileFromBuffer = async (buffer, originalName, folder = "uploads") => {
+const uploadFileFromBuffer = async (
+  buffer,
+  originalName,
+  folder = "uploads",
+) => {
   try {
     const isVideo = originalName.match(/\.(mp4|webm|mov|avi)$/i);
 
-    const result = await imagekit.upload({
-      file: buffer,
-      fileName: generateFileName(originalName),
+    const fileName = generateFileName(originalName);
+    const result = await imagekit.files.upload({
+      file: await toFile(buffer, fileName),
+      fileName,
       folder: `/${folder}`,
       useUniqueFileName: true,
     });
@@ -119,7 +130,7 @@ const uploadFileFromBuffer = async (buffer, originalName, folder = "uploads") =>
  */
 const deleteFile = async (fileId) => {
   try {
-    await imagekit.deleteFile(fileId);
+    await imagekit.files.delete(fileId);
     return true;
   } catch (error) {
     throw new Error(`Delete failed: ${error.message}`);
