@@ -3,9 +3,11 @@ import PostHeader from "@/components/Posts/PostHeader";
 import Link from "next/link";
 
 const QuoteCard = ({ post, content }) => {
+  const getContent =
+    typeof content === "function" ? content : () => content || "";
   let contentPost = null;
 
-  if (post.retweetedFrom.poll) {
+  if (post.retweetedFrom?.poll) {
     contentPost = (
       <Link
         href={`/${post.author.username}/status/${post.retweetedFrom._id}`}
@@ -15,17 +17,17 @@ const QuoteCard = ({ post, content }) => {
         نمایش نظرسنجی
       </Link>
     );
-  } else if (post.retweetedFrom.media) {
+  } else if (post.retweetedFrom?.media) {
     contentPost = (
       <div className="px-1 sm:px-0">
-        <PostContent media={post.media} />
+        <PostContent media={post.retweetedFrom.media} />
       </div>
     );
   }
 
   return (
     <div className="border pt-1.5 pb-2.5 sm:pb-3 px-3  rounded-xl sm:rounded-2xl border-[#34344E] mb-3 sm:mb-4 w-full overflow-hidden">
-      <PostHeader post={post} textContent={content} isQuote={true} />
+      <PostHeader post={post} textContent={getContent} isQuote={true} />
       {contentPost}
     </div>
   );

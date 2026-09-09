@@ -121,11 +121,13 @@ const PostCard = ({
             isReplyModal={isReplyModal}
           />
         </CardContent>
-        {post.isQuoteRepost && (
+        {post.retweetedFrom?._id && (
           <div className="pr-12 sm:pr-18 pl-2 sm:pl-4">
             <QuoteCard
               post={post}
-              content={() => post.retweetedFrom?.textContent}
+              content={
+                post.retweetedFrom?.textContent 
+              }
             />
           </div>
         )}
