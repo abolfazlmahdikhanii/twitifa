@@ -80,7 +80,11 @@ export const POST = async (req) => {
       );
     }
     return Response.json(
-      { message: "پست با موفقیت ایجاد شد", post },
+      {
+        message: "پست با موفقیت ایجاد شد",
+        post,
+        postId: post._id.toString(),
+      },
       { status: 200 },
     );
   } catch (error) {
