@@ -89,7 +89,7 @@ const MediaVideoItem = memo(
       setIsPlayerReady(false);
       setShouldAutoPlay(false);
     }, [closePip]);
-    
+
     return (
       <div
         className={`relative group ${isGrid ? "h-full" : ""} ${layoutClass}`}
@@ -127,7 +127,10 @@ const MediaVideoItem = memo(
               isIconOnly
               className="absolute top-1/2 left-1/2 -translate-1/2 w-12 h-12 sm:w-17.25 sm:h-17.25 rounded-full ring-1 ring-gray-400 [&>svg]:size-4 sm:[&>svg]:size-6 bg-[rgba(0,0,0,0.2)] backdrop-blur-xl"
               size="lg"
-              onPress={(e) => e?.stopPropagation()}
+              onClick={(event) => {
+                event.stopPropagation();
+                setIsOpen(true);
+              }}
             >
               <Play />
             </Button>
